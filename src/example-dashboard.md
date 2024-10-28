@@ -10,6 +10,8 @@ toc: false
 
 ```js
 const launches = FileAttachment("data/launches.csv").csv({typed: true});
+
+const emissions = FileAttachment("../../res/data/top_20.csv").csv();
 ```
 
 <!-- A shared color scale for consistency, sorted by the number of launches -->
