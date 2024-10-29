@@ -1,9 +1,19 @@
 import pandas as pd
+df = pd.read_csv('./sample_data/owid-co2-data.csv')
+df2022 = df[df['year'] == 2022]
+percorso = 'co2_2022.csv'
 
-emissions = pd.read_csv("co-emissions-per-capita.csv")
+# Salva il DataFrame come CSV
+df2022.to_csv(percorso, index=False)
 
-emissions2022 = emissions[emissions["Year"] == 2022]
+# Controlla i valori mancanti nella colonna 'variabile'
+missing_values = df2022['co2_per_capita'].isnull().sum()
+print(f"Valori mancanti in 'variabile': {missing_values}")
 
-emissions_top_20 = emissions2022.sort_values(by="Annual CO₂ emissions (per capita)", ascending=False)[:20]
+# Rimuovi le righe con valori mancanti nella colonna 'variabile'
+df_cleaned = df2022.dropna(subset=['co2_per_capita'])
 
-emissions_top_20.to_csv("../data/top_20.csv", index=False)
+percorso = 'co2_2022_cleaned.csv'
+
+# Salva il DataFrame come CSV
+df_cleaned.to_csv(percorso, index=False)
