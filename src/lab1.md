@@ -1,23 +1,31 @@
 # CO2 emission per capita
 
 ```js
-const data = FileAttachment("./co2_2022.csv").csv();
+const data = await FileAttachment("./data/co2_2022.csv").csv();
+const trimmed = data.slice(0,20)
+
 ```
 ```js
-display(data);
+//display(data);
 ```
 ```js
 display(  
   Plot.plot({
-  title: "2022 CO2 emission per capita",
-  y: {
-    grid: true,
-    percent: true
-  },
-  marks: [
-    Plot.ruleY([0]),
-    Plot.barY(data, {x: "country", y: "co2_per_capita", sort: {x: "y", reverse: true}})
-  ]
-})
+    marginBottom: 80,
+    title: "2022 CO2 emission per capita",
+    x: {
+      label: "Country",
+      tickRotate: -30
+    },
+    y: {
+      label: "CO₂ emissions (tonnes per person)",
+      grid: true,
+      percent: false
+    },
+    marks: [
+      Plot.ruleY([0]),
+      Plot.barY(trimmed, {x: "Entity", y: "Annual CO₂ emissions (per capita)", sort: {x: "y", reverse: true}})
+    ]
+  })
 );
 ```

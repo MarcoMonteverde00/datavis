@@ -1,19 +1,37 @@
 import pandas as pd
-df = pd.read_csv('./sample_data/owid-co2-data.csv')
-df2022 = df[df['year'] == 2022]
-percorso = 'co2_2022.csv'
+df = pd.read_csv('co-emissions-per-capita.csv')
+colname = 'Annual CO₂ emissions (per capita)'
 
-# Salva il DataFrame come CSV
-df2022.to_csv(percorso, index=False)
+missing_values = df[colname].isnull().sum()
 
-# Controlla i valori mancanti nella colonna 'variabile'
-missing_values = df2022['co2_per_capita'].isnull().sum()
 print(f"Valori mancanti in 'variabile': {missing_values}")
 
-# Rimuovi le righe con valori mancanti nella colonna 'variabile'
-df_cleaned = df2022.dropna(subset=['co2_per_capita'])
 
-percorso = 'co2_2022_cleaned.csv'
+# Rimuovi le righe con valori mancanti nella colonna 'variabile'
+df_cleaned = df.dropna(subset=[colname])
+
+df_useful = df_cleaned[df_cleaned['Year'] >= 2012]
+df_useful = df_useful[df_useful['Year'] <= 2022]
+
+df_mean = df_useful.groupby('Entity')[colname].mean()
+
+df_2022 = df_cleaned[df_cleaned['Year'] == 2022]
+
 
 # Salva il DataFrame come CSV
-df_cleaned.to_csv(percorso, index=False)
+#df2022.to_csv(percorso, index=False)
+
+# Controlla i valori mancanti nella colonna 'variabile'
+
+
+
+
+
+df_sorted_2022 = df_2022.sort_values(by=[colname], ascending=False)
+
+percorso = '../../src/data/co2_2022.csv'
+per2 = '../../src/data/co2_2022_mean.csv'
+
+# Salva il DataFrame come CSV
+df_sorted_2022.to_csv(percorso, index=False)
+df_mean.to_csv(per2, index=False )
