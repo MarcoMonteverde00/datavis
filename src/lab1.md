@@ -77,3 +77,77 @@ display(
   })
 );
 ```
+
+<br /><br /><br />
+
+#  Country Comparison
+
+## Simple Visualization
+
+```js
+const data3 = await FileAttachment("./data/co2_2022_stacked.csv").csv();
+const data3_without_total = data3.slice(0,36)
+
+display(
+  Plot.plot({
+    marginLeft: 90,
+    //color: { scheme: "Dark2", legend: true},
+    x: {label: "Emissions", percent: false},
+    y: {label: "Continent"},
+    color: {legend: true},
+    marks: [
+      Plot.barX(
+        data3_without_total,
+        {   
+          x: "Annual CO₂ emissions (per capita)",
+          fill: "Rank",
+          y: "Continent",
+          channels: {Country: 'Entity'},
+          tip: {
+            format: {
+              x: (d) => `${d.toFixed(4)} tonnes/per`,  
+              fill: false
+            }
+          }
+        }
+      ),
+      Plot.ruleX([0])
+    ]
+  })
+);
+
+```
+```js
+
+display(
+  Plot.plot(
+    {
+      marginLeft: 90,
+      x: {label: "Emissions"},
+      y: {label: "Continent"},
+      color: {legend: true},
+      marks: [
+        Plot.barX(
+          data3,
+          {
+            x: "Annual CO₂ emissions (per capita)",
+            fx: "Rank",
+            fill: "Rank",
+            y: "Continent",
+            channels: {Country: 'Entity'},
+            tip: {
+              format: {
+                x: (d) => `${d.toFixed(4)} tonnes/per`,  
+                fill: false,
+                fx: false
+              }
+            }
+          }
+        )
+      ]
+    }
+  )
+  
+);
+```
+

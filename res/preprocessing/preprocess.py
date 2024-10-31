@@ -1,5 +1,6 @@
 from iso3166 import countries
 import pandas as pd
+import numpy as np
 import pycountry_convert as pc
 
 
@@ -42,13 +43,13 @@ continent_mapping = {
 
 def get_continent(country_name):
     try:
-        print(country_name)
+        #print(country_name)
         country_code = countries.get(country_name).alpha2
         # Map ISO codes to continent
         # Example: 'IT' (Italy) would map to 'EU' in this context
-        print(country_name, " ", country_code)
+        #print(country_name, " ", country_code)
         continent_code = pc.country_alpha2_to_continent_code(country_code)
-        print(country_name, " ", country_code, " ", continent_code)
+        #print(country_name, " ", country_code, " ", continent_code)
         return continent_mapping.get(continent_code, None)
     except KeyError:
         return None
@@ -61,18 +62,26 @@ df_continents = df_mean.dropna(subset=['Continent'])
 
 #df_continents_sorted = df_continents.sort_values(by=['Continent', colname], ascending=False)
 
-df_europe = df_continents[df_continents['Continent'] == 'Europe'].sort_values(by=[colname], ascending=False)
-df_asia = df_continents[df_continents['Continent'] == 'Asia'].sort_values(by=[colname], ascending=False)
-df_africa = df_continents[df_continents['Continent'] == 'Africa'].sort_values(by=[colname], ascending=False)
-df_northamerica = df_continents[df_continents['Continent'] == 'North America'].sort_values(by=[colname], ascending=False)
-df_southamerica = df_continents[df_continents['Continent'] == 'South America'].sort_values(by=[colname], ascending=False)
-df_oceania = df_continents[df_continents['Continent'] == 'Oceania'].sort_values(by=[colname], ascending=False)
-df_antarctica = df_continents[df_continents['Continent'] == 'Antarctica'].sort_values(by=[colname], ascending=False)
+df_stacked = pd.DataFrame()
 
-df_europe_others = df_europe[5:].groupby('Continent')[colname].sum().reset_index()
-df_europe_others['Entity'] = 'Others'
-df_europe_sum = df_europe.groupby('Continent')[colname].sum().reset_index()
-df_europe_sum['Entity'] = 'Total'
-df_europe = pd.concat([df_europe[0:5], df_europe_others, df_europe_sum])
+for continent in ['Europe', 'Asia', 'Africa', 'North America', 'South America', 'Oceania', 'Antarctica']:
+    df_continent = df_continents[df_continents['Continent'] == continent].sort_values(by=[colname], ascending=False)
+    df_others = df_continent[5:].groupby('Continent')[colname].sum().reset_index()
+    df_others['Entity'] = continent + ' Others'
+    df_sum = df_continent.groupby('Continent')[colname].sum().reset_index()
+    df_sum['Entity'] = continent + ' Sum'
+    df_continent = pd.concat([df_continent[0:5], df_others, df_sum])
+    df_stacked = pd.concat([df_stacked, df_continent])
 
-print(df_europe)
+percorso_stacked = '../../src/data/co2_2022_stacked.csv'
+
+tmp1 = df_stacked.to_numpy()
+
+tmp2 = np.concat([tmp1[i::7] for i in range(7)])
+
+df_reordered = pd.DataFrame(tmp2, columns=['Entity','Annual CO₂ emissions (per capita)','Continent'])
+#print(df_reordered)
+df_reordered.insert(3, 'Rank', ["1st"] * 6 + ["2nd"] * 6 + ["3rd"] * 6 + ["4th"] * 6 + ["5th"] * 6 + ["Others"] * 6 + ["Total"] * 6 , True)
+
+df_reordered.to_csv(percorso_stacked, index=False)
+#print(df_stacked)
