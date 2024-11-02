@@ -2,6 +2,8 @@
 toc: false
 ---
 
+
+
 <div class="hero">
   <h1>Data Visualization: CO2 emission per capita (TITLE)</h1>
   <h2>Welcome to your new app! Edit&nbsp;<code style="font-size: 90%;">src/index.md</code> to change this page.</h2>
