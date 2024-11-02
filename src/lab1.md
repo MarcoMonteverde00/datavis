@@ -48,6 +48,19 @@ display(
 ## Top 20 polluters in a decade
 
 ```js
+function colorScale(value, min, max) {
+  const ratio = (value - min) / (max - min);
+  const r = 255; 
+  const g = Math.floor(255 * (1-ratio)); 
+  const b = 0;
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
+
+const values = data.map(d => +d["Annual CO₂ emissions (per capita)"]);
+const min = Math.min(...values);
+const max = Math.max(...values);
+
 display(  
   Plot.plot({
     marginBottom: 80,
@@ -112,6 +125,7 @@ display(
         }
       ),
       Plot.ruleX([0])
+
     ]
   })
 );
