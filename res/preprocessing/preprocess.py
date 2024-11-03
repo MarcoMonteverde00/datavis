@@ -85,3 +85,30 @@ df_reordered.insert(3, 'Rank', ["1st"] * 6 + ["2nd"] * 6 + ["3rd"] * 6 + ["4th"]
 
 df_reordered.to_csv(percorso_stacked, index=False)
 #print(df_stacked)
+
+df2 = pd.read_csv('co2-fossil-plus-land-use.csv')
+
+df2_noNA = df2.dropna()
+df2_noWorld = df2_noNA[df2_noNA['Entity']!= 'World']
+df2_useful = df2_noWorld[df2_noWorld['Year'] >= 2012]
+df2_useful = df2_noWorld[df2_noWorld['Year'] <= 2022]
+
+df2_useful= df2_useful.groupby('Entity').agg(Total=('Annual CO2 emissions including land-use change', 'mean'), Land_Use=('Annual CO2 emissions from land-use change', 'mean'),Fossils=('Annual CO2 emissions','mean')).reset_index()
+df2_useful = df2_useful.sort_values(by=['Total'], ascending=False)
+df2_useful = df2_useful[0:10]
+
+df_Total= (df2_useful[['Entity', 'Total']].copy()).rename(columns= {'Total':'Value'})
+df_Total.insert(2, "Type", 'Total', True)
+
+df_Fossil= (df2_useful[['Entity', 'Fossils']].copy()).rename(columns= {'Fossils':'Value'})
+df_Fossil.insert(2, "Type", 'Fossils', True)
+
+df_LandUse= (df2_useful[['Entity', 'Land_Use']].copy()).rename(columns= {'Land_Use':'Value'})
+df_LandUse.insert(2, "Type", 'Land_Use', True)
+
+dfHeatmap = pd.concat([df_Total, df_Fossil, df_LandUse])
+
+percorso_ds2 = '../../src/data/co2_by_type_Heatmap.csv'
+
+# Salva il DataFrame come CSV
+dfHeatmap.to_csv(percorso_ds2, index=False)

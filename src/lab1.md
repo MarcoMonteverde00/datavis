@@ -67,7 +67,7 @@ display(
 ```js
 
 const data2 = await FileAttachment("./data/co2_2022_mean.csv").csv(); 
-const trimmed2 = data2.slice(0,20)
+const trimmed2 = data2.slice(0,20);
 
 const values2 = data2.map(d => d["Annual CO₂ emissions (per capita)"]);
 const min2 = Math.min(...values2);
@@ -183,5 +183,82 @@ display(
   )
   
 );
+```
+
+```js
+display(
+  Plot.plot({
+    marginLeft: 90,
+    width: 900,
+    height: 360,
+    title: "CO2 emission per capita in each Region (tonnes per person) (2022)",
+    //color: { scheme: "Dark2", legend: true},
+    x: {label: "Emissions", percent: false},
+    y: {label: "Continent", padding: 0.2},
+    color: {legend: true},
+    marks: [
+      Plot.barX(
+        data3_without_total,
+        {   
+          x: "Annual CO₂ emissions (per capita)",
+          fill: "Rank",
+          y: "Continent",
+		  offset:"normalize",
+          channels: {Country: 'Entity'},
+          tip: {
+            format: {
+              x: (d) => `${d.toFixed(4)} tonnes/per`,  
+              fill: false
+            }
+          }
+        }
+      ),
+      Plot.ruleX([0])
+
+    ]
+  })
+);
+
+```
+
+<br /><br /><br />
+# Emission type comparison top 10 polluters
+
+```js
+const data_by_type = await FileAttachment("./data/co2_by_type_Heatmap.csv").csv();
+
+const values_Heatmap = data_by_type.map(d => d["Value"]);
+const minHeatmap = Math.min(...values_Heatmap);
+const maxHeatmap = Math.max(...values_Heatmap);
+
+
+display(
+	Plot.plot({
+	  padding: 0,
+	  marginLeft: 90,
+	  marginBottom: 80,
+	  width: 900,
+      height: 360,
+      title: "Mean CO2 emission by type (2012-2022)",
+	  x: {
+      label: "Country",
+      tickRotate: -30
+	  },
+	  color: {legend: true, zero: true},
+	  marks: [
+		Plot.cell(data_by_type, {
+		  x: "Entity",
+		  y: "Type",
+		  fill: d => colorScale(d["Value"], minHeatmap, maxHeatmap),
+		  inset: 0.5,
+		  channels: {Co2_Emissions: "Value"},
+		tip: {
+            format: {value: true}
+          }
+		})
+	  ]
+	})
+)
+
 ```
 
