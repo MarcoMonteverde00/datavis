@@ -8,9 +8,15 @@
 
 function colorScale(value, min, max) {
   const ratio = (value - min) / (max - min);
-  const r = 255; 
-  const g = Math.floor(255 * (1-ratio)); 
   const b = 0;
+  let r,g ;
+  if (value<0){
+	r=0;
+	g = Math.floor(255 * (1 + ratio));
+  } else{
+	r=255;
+	g = Math.floor(255 * (1 - ratio));
+	}
   return `rgb(${r}, ${g}, ${b})`;
 }
 
@@ -23,8 +29,6 @@ const max1 = Math.max(...values1);
 
 ```
 <br /><br />
-
-#
 
 # Top 20 polluters in a year
 
@@ -231,7 +235,6 @@ const values_Heatmap = data_by_type.map(d => d["Value"]);
 const minHeatmap = Math.min(...values_Heatmap);
 const maxHeatmap = Math.max(...values_Heatmap);
 
-
 display(
 	Plot.plot({
 	  padding: 0,
@@ -239,7 +242,7 @@ display(
 	  marginBottom: 80,
 	  width: 900,
       height: 360,
-      title: "Mean CO2 emission by type (2012-2022)",
+      title: "Mean total CO2 emission for each country divided by type (tonnes) (2012-2022)",
 	  x: {
       label: "Country",
       tickRotate: -30
