@@ -6,6 +6,13 @@
 
 ```js
 
+let data_year = {
+  "2022": await FileAttachment("./data/co2_2022.csv").csv(),
+  "2021": await FileAttachment("./data/co2_2021.csv").csv(),
+  "2020": await FileAttachment("./data/co2_2020.csv").csv(),
+  "2019": await FileAttachment("./data/co2_2019.csv").csv()
+};
+
 function colorScale(value, min, max) {
   const ratio = (value - min) / (max - min);
   const b = 0;
@@ -20,48 +27,72 @@ function colorScale(value, min, max) {
   return `rgb(${r}, ${g}, ${b})`;
 }
 
-const data1 = await FileAttachment("./data/co2_2022.csv").csv();
-const trimmed1 = data1.slice(0,20)
-
-const values1 = data1.map(d => d["Annual CO₂ emissions (per capita)"]);
-const min1 = Math.min(...values1);
-const max1 = Math.max(...values1);
-
 ```
 <br /><br />
 
 # Top 20 polluters in a year
 
 ```js
-display(  
-  Plot.plot({
-    marginBottom: 80,
-    title: "CO2 emission per capita (tonnes per person) (2022)",
-    x: {
-      label: "Country",
-      tickRotate: -30
-    },
-    y: {
-      label: "CO₂ emissions",
-      grid: true,
-      percent: false
-    },
-    marks: [
-      Plot.ruleY([0]),
-      Plot.barY(trimmed1, {
-        x: "Entity", 
-        y: "Annual CO₂ emissions (per capita)", 
-        sort: {x: "y", reverse: true}, 
-        fill: d => colorScale(d["Annual CO₂ emissions (per capita)"], min1, max1),
-        tip: {
-          format: {
-            y: (d) => `${d.toFixed(4)} tonnes/per`   
+
+
+const years = [2019,2020,2021,2022];
+
+const selected_year = Inputs.select(years, {value: "2022", label: "Year:", format: (d) => d});
+
+view(selected_year);
+
+let plot1;
+
+function showPlot1() {
+
+  let data1 = data_year[selected_year.value];
+  let trimmed1 = data1.slice(0,20)
+
+  let values1 = data1.map(d => d["Annual CO₂ emissions (per capita)"]);
+  let min1 = Math.min(...values1);
+  let max1 = Math.max(...values1);
+
+  plot1 = display(  
+    Plot.plot({
+      marginBottom: 80,
+      title: `CO2 emission per capita (tonnes per person) ${selected_year.value}`,
+      x: {
+        label: "Country",
+        tickRotate: -30
+      },
+      y: {
+        label: "CO₂ emissions",
+        grid: true,
+        percent: false
+      },
+      marks: [
+        Plot.ruleY([0]),
+        Plot.barY(trimmed1, {
+          x: "Entity", 
+          y: "Annual CO₂ emissions (per capita)", 
+          sort: {x: "y", reverse: true}, 
+          fill: d => colorScale(d["Annual CO₂ emissions (per capita)"], min1, max1),
+          tip: {
+            format: {
+              y: (d) => `${d.toFixed(4)} tonnes/per`   
+            }
           }
-        }
-      })
-    ]
-  })
-);
+        })
+      ]
+    })
+  );
+}
+
+showPlot1();
+
+
+selected_year.addEventListener("change", (e) => {
+
+  if (plot1 != undefined) {
+    plot1.parentNode.removeChild(plot1);
+  }
+  showPlot1();
+});
 
 ```
 <br /><br /><br />
@@ -115,7 +146,10 @@ display(
 
 ```js
 const data3 = await FileAttachment("./data/co2_2022_stacked.csv").csv();
-const data3_without_total = data3.slice(0,36)
+const data3_without_total = data3.slice(0,36);
+const data3_total = data3.slice(36);
+
+console.log(data3_total);
 
 display(
   Plot.plot({
@@ -124,7 +158,7 @@ display(
     height: 360,
     title: "CO2 emission per capita in each Region (tonnes per person) (2022)",
     //color: { scheme: "Dark2", legend: true},
-    x: {label: "Emissions", percent: false},
+    x: {label: "", percent: false, },
     y: {label: "Continent", padding: 0.2},
     color: {legend: true},
     marks: [
@@ -134,6 +168,7 @@ display(
           x: "Annual CO₂ emissions (per capita)",
           fill: "Rank",
           y: "Continent",
+          sort: {y: "x", reverse: true },
           channels: {Country: 'Entity'},
           tip: {
             format: {
@@ -143,6 +178,17 @@ display(
           }
         }
       ),
+      Plot.text(data3_total, {
+        text: d => `${Number(d["Annual CO₂ emissions (per capita)"]).toFixed(4)}`,
+        y: "Continent",
+        x: "Annual CO₂ emissions (per capita)",
+        //sort: {y: "x", reverse: true },
+        textAnchor: "end",
+        dx: -30,
+        fill: "rgb(22,22,22)"
+      }),
+
+      Plot.axisX({ticks: []}),
       Plot.ruleX([0])
 
     ]
