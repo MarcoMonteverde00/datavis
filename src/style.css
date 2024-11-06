@@ -51,6 +51,24 @@ nav {
     max-width: 380px;
 }
 
+.plot {
+  position: relative;
+  width: fit-content;
+}
+
+.gradient-legend-ramp {
+  position: absolute;
+  top: 50px;
+  right: 30px;
+  max-width: 50vw;
+}
+
+@media screen and (max-width: 500px) {
+  .gradient-legend-ramp {
+    top: 75px;
+  }
+}
+
 .break {
     width: 100%;
     height: 0px;
