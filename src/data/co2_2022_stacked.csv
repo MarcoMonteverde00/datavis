@@ -1,43 +1,43 @@
-Entity,Annual CO₂ emissions (per capita),Continent,Rank
-Luxembourg,15.80507690909091,Europe,1st
-Qatar,38.571882,Asia,1st
-Libya,8.809849645454547,Africa,1st
-Trinidad and Tobago,27.67744163636364,North America,1st
-Suriname,4.914460309090909,South America,1st
-New Caledonia,17.629292727272727,Oceania,1st
-Faroe Islands,13.468321272727273,Europe,2nd
-Kuwait,24.56940818181818,Asia,2nd
-South Africa,7.865766327272727,Africa,2nd
-Canada,15.326585,North America,2nd
-Chile,4.530358781818181,South America,2nd
-Australia,16.447157818181818,Oceania,2nd
-Estonia,11.600663536363637,Europe,3rd
-United Arab Emirates,24.295391545454546,Asia,3rd
-Seychelles,5.384862081818182,Africa,3rd
-Saint Pierre and Miquelon,10.700806,North America,3rd
-Argentina,4.240420763636364,South America,3rd
-Palau,12.126827363636364,Oceania,3rd
-Iceland,10.197368545454545,Europe,4th
-Bahrain,23.93537072727273,Asia,4th
-Equatorial Guinea,4.660035445454546,Africa,4th
-Greenland,9.818777136363638,North America,4th
-Guyana,3.2798738727272725,South America,4th
-New Zealand,7.367068,Oceania,4th
-Czechia,9.811274863636363,Europe,5th
-Saudi Arabia,18.941520909090908,Asia,5th
-Algeria,3.9475324181818183,Africa,5th
-Anguilla,8.941526545454545,North America,5th
-Brazil,2.398147609090909,South America,5th
-Nauru,4.4650689,Oceania,5th
-Europe Others,200.82750536363636,Europe,Others
-Asia Others,162.83160727818182,Asia,Others
-Africa Others,31.114790888636364,Africa,Others
-North America Others,86.08700015818182,North America,Others
-South America Others,9.104560860000001,South America,Others
-Oceania Others,23.85086767,Oceania,Others
-Europe Sum,261.7102104909091,Europe,Total
-Asia Sum,293.1451806418182,Asia,Total
-Africa Sum,61.78283680681818,Africa,Total
-North America Sum,158.55213647636364,North America,Total
-South America Sum,28.467822196363638,South America,Total
-Oceania Sum,81.88628247909091,Oceania,Total
+Entity,Annual CO₂ emissions (per capita),Population,Continent,Rank
+Faroe Islands,14.084624,54039.0,Europe,1st
+Qatar,37.601273,2892465.0,Asia,1st
+Libya,9.242238,7223804.0,Africa,1st
+Trinidad and Tobago,22.423758,1495922.0,North America,1st
+Suriname,5.8029985,623173.0,South America,1st
+New Caledonia,17.641167,287131.0,Oceania,1st
+Luxembourg,11.618432,653316.0,Europe,2nd
+United Arab Emirates,25.833244,10242085.0,Asia,2nd
+South Africa,6.7461643,62378419.0,Africa,2nd
+Canada,14.249212,38821260.0,North America,2nd
+Guyana,4.3736935,821636.0,South America,2nd
+Australia,14.985412,26200987.0,Oceania,2nd
+Iceland,9.499798,380368.0,Europe,3rd
+Bahrain,25.672274,1533459.0,Asia,3rd
+Seychelles,6.1495123,125532.0,Africa,3rd
+Greenland,10.473997,56014.0,North America,3rd
+Chile,4.3041654,19553032.0,South America,3rd
+Palau,12.123921,17784.0,Oceania,3rd
+Czechia,9.3357525,10673216.0,Europe,4th
+Kuwait,25.578102,4589514.0,Asia,4th
+Algeria,3.9272263,45477391.0,Africa,4th
+Saint Pierre and Miquelon,10.293288,5760.0,North America,4th
+Argentina,4.2378173,45407904.0,South America,4th
+New Zealand,6.212154,5131733.0,Oceania,4th
+Poland,8.106886,38385734.0,Europe,5th
+Saudi Arabia,18.197495,32175352.0,Asia,5th
+Mauritius,3.2697906,1276134.0,Africa,5th
+Anguilla,8.752724,14202.0,North America,5th
+Ecuador,2.3117273,17823900.0,South America,5th
+Nauru,4.1700416,11821.0,Oceania,5th
+Europe Others,183.9038441,,Europe,Others
+Asia Others,160.39051018,,Asia,Others
+Africa Others,31.75321928,,Africa,Others
+North America Others,78.62579984,,North America,Others
+South America Others,9.5929412,,South America,Others
+Oceania Others,24.02056006,,Oceania,Others
+Europe Sum,236.5493366,,Europe,Total
+Asia Sum,293.27289818,,Asia,Total
+Africa Sum,61.08815078,,Africa,Total
+North America Sum,144.81877884,,North America,Total
+South America Sum,30.623343199999997,,South America,Total
+Oceania Sum,79.15325566,,Oceania,Total

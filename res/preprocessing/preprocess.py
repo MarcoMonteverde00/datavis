@@ -58,10 +58,16 @@ def get_continent(country_name):
         return None
     
 
-continents = list(map(get_continent, df_mean['Entity']))
-df_mean['Continent'] = continents
+population = pd.read_csv('population.csv')
+population = population.drop(["Code", "Year"], axis=1)
+population.rename(columns = {'Population - Sex: all - Age: all - Variant: estimates':'Population'}, inplace = True)
+dsComplete = pd.merge(df_year, population, on='Entity')
+dsComplete = dsComplete.drop(["Code", "Year"], axis=1)
 
-df_continents = df_mean.dropna(subset=['Continent'])
+continents = list(map(get_continent, dsComplete['Entity']))
+dsComplete['Continent'] = continents
+
+df_continents = dsComplete.dropna(subset=['Continent'])
 
 #df_continents_sorted = df_continents.sort_values(by=['Continent', colname], ascending=False)
 
@@ -70,7 +76,7 @@ df_stacked = pd.DataFrame()
 for continent in ['Europe', 'Asia', 'Africa', 'North America', 'South America', 'Oceania', 'Antarctica']:
     df_continent = df_continents[df_continents['Continent'] == continent].sort_values(by=[colname], ascending=False)
     df_others = df_continent[5:].groupby('Continent')[colname].sum().reset_index()
-    df_others['Entity'] = continent + ' Others'
+    df_others['Entity'] = continent + ' Others' 
     df_sum = df_continent.groupby('Continent')[colname].sum().reset_index()
     df_sum['Entity'] = continent + ' Sum'
     df_continent = pd.concat([df_continent[0:5], df_others, df_sum])
@@ -82,9 +88,9 @@ tmp1 = df_stacked.to_numpy()
 
 tmp2 = np.concat([tmp1[i::7] for i in range(7)])
 
-df_reordered = pd.DataFrame(tmp2, columns=['Entity','Annual CO₂ emissions (per capita)','Continent'])
+df_reordered = pd.DataFrame(tmp2, columns=['Entity','Annual CO₂ emissions (per capita)','Population','Continent'])
 #print(df_reordered)
-df_reordered.insert(3, 'Rank', ["1st"] * 6 + ["2nd"] * 6 + ["3rd"] * 6 + ["4th"] * 6 + ["5th"] * 6 + ["Others"] * 6 + ["Total"] * 6 , True)
+df_reordered.insert(4, 'Rank', ["1st"] * 6 + ["2nd"] * 6 + ["3rd"] * 6 + ["4th"] * 6 + ["5th"] * 6 + ["Others"] * 6 + ["Total"] * 6 , True)
 
 df_reordered.to_csv(percorso_stacked, index=False)
 #print(df_stacked)

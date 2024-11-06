@@ -52,6 +52,7 @@ function showPlot1() {
   let min1 = Math.min(...values1);
   let max1 = Math.max(...values1);
 
+
   plot1 = display(  
     Plot.plot({
       marginBottom: 80,
@@ -71,7 +72,7 @@ function showPlot1() {
           x: "Entity", 
           y: "Annual CO₂ emissions (per capita)", 
           sort: {x: "y", reverse: true}, 
-          fill: d => colorScale(d["Annual CO₂ emissions (per capita)"], min1, max1),
+          fill: d => colorScale(d["Annual CO₂ emissions (per capita)"],min1,max1),
           tip: {
             format: {
               y: (d) => `${d.toFixed(4)} tonnes/per`   
@@ -149,6 +150,8 @@ const data3 = await FileAttachment("./data/co2_2022_stacked.csv").csv();
 const data3_without_total = data3.slice(0,36);
 const data3_total = data3.slice(36);
 
+const dataTotalCO2_2022 = await FileAttachment("./data/Totalco2_2022_stacked.csv").csv();
+
 console.log(data3_total);
 
 display(
@@ -204,15 +207,15 @@ display(
       marginLeft: 90,
       width: 900,
       height: 360,
-      title: "CO2 emission per capita in each Region (tonnes per person) (2022)",
-      x: {label: "Emissions", domain: [0,250]},
+      title: "Total CO2 emission in each Region (tonnes) (2022)",
+      x: {label: "Emissions"},
       y: {label: "Continent"},
       color: {legend: true},
       marks: [
         Plot.barX(
-          data3,
+          dataTotalCO2_2022,
           {
-            x: "Annual CO₂ emissions (per capita)",
+            x: "Annual CO2 total",
             fx: "Rank",
             fill: "Rank",
             y: "Continent", 
@@ -221,7 +224,7 @@ display(
             channels: {Country: 'Entity'},
             tip: {
               format: {
-                x: (d) => `${d.toFixed(4)} tonnes/per`,  
+                x: (d) => `${d.toFixed(4)} tonnes`,  
                 fill: false,
                 fx: false
               }
