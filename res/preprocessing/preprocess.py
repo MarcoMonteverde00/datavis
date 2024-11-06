@@ -75,10 +75,19 @@ df_stacked = pd.DataFrame()
 
 for continent in ['Europe', 'Asia', 'Africa', 'North America', 'South America', 'Oceania', 'Antarctica']:
     df_continent = df_continents[df_continents['Continent'] == continent].sort_values(by=[colname], ascending=False)
+    df_continent['Total Annual CO2'] = (df_continent[colname]*df_continent['Population'])
     df_others = df_continent[5:].groupby('Continent')[colname].sum().reset_index()
-    df_others['Entity'] = continent + ' Others' 
+    df_others_population = df_continent[5:].groupby('Continent')['Population'].sum().reset_index()
+    df_others['Population'] = df_others_population['Population']
+    df_others['Entity'] = continent + ' Others'
+    df_others_total = df_continent[5:].groupby('Continent')['Total Annual CO2'].sum().reset_index()
+    df_others['Total Annual CO2'] = df_others_total['Total Annual CO2']
     df_sum = df_continent.groupby('Continent')[colname].sum().reset_index()
-    df_sum['Entity'] = continent + ' Sum'
+    df_sum_population = df_continent.groupby('Continent')['Population'].sum().reset_index()
+    df_sum['Population'] = df_sum_population['Population']
+    df_sum['Entity'] = continent + ' Sum'    
+    df_sum_total = df_continent.groupby('Continent')['Total Annual CO2'].sum().reset_index()
+    df_sum['Total Annual CO2'] = df_sum_total['Total Annual CO2']
     df_continent = pd.concat([df_continent[0:5], df_others, df_sum])
     df_stacked = pd.concat([df_stacked, df_continent])
 
@@ -88,9 +97,10 @@ tmp1 = df_stacked.to_numpy()
 
 tmp2 = np.concat([tmp1[i::7] for i in range(7)])
 
-df_reordered = pd.DataFrame(tmp2, columns=['Entity','Annual CO₂ emissions (per capita)','Population','Continent'])
+df_reordered = pd.DataFrame(tmp2, columns=['Entity','Annual CO₂ emissions (per capita)','Population','Continent', 'Total Annual CO2'])
 #print(df_reordered)
-df_reordered.insert(4, 'Rank', ["1st"] * 6 + ["2nd"] * 6 + ["3rd"] * 6 + ["4th"] * 6 + ["5th"] * 6 + ["Others"] * 6 + ["Total"] * 6 , True)
+df_reordered.insert(5, 'Rank', ["1st"] * 6 + ["2nd"] * 6 + ["3rd"] * 6 + ["4th"] * 6 + ["5th"] * 6 + ["Others"] * 6 + ["Total"] * 6 , True)
+df_reordered.insert(6, '2022 CO2 emissions per capita', df_reordered['Total Annual CO2']/df_reordered['Population'] , True)
 
 df_reordered.to_csv(percorso_stacked, index=False)
 #print(df_stacked)

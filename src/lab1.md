@@ -150,8 +150,6 @@ const data3 = await FileAttachment("./data/co2_2022_stacked.csv").csv();
 const data3_without_total = data3.slice(0,36);
 const data3_total = data3.slice(36);
 
-const dataTotalCO2_2022 = await FileAttachment("./data/Totalco2_2022_stacked.csv").csv();
-
 console.log(data3_total);
 
 display(
@@ -207,15 +205,15 @@ display(
       marginLeft: 90,
       width: 900,
       height: 360,
-      title: "Total CO2 emission in each Region (tonnes) (2022)",
+      title: "CO2 emission in each Region per capita (tonnes/pers) (2022)",
       x: {label: "Emissions"},
       y: {label: "Continent"},
       color: {legend: true},
       marks: [
         Plot.barX(
-          dataTotalCO2_2022,
+          data3,
           {
-            x: "Annual CO2 total",
+            x: "2022 CO2 emissions per capita",
             fx: "Rank",
             fill: "Rank",
             y: "Continent", 
