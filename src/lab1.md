@@ -96,6 +96,7 @@ selected_year.addEventListener("change", (e) => {
 });
 
 ```
+The plot aims to investigate which countries were the major contributors to pollution in each year (2019, 2020, 2021, 2022), in terms of CO2 emissions per person. At this purpose, by chosing the year with the selector, the graph displays the 20 most polluting countries of that year and conveys this information through both the size of the bars and their color, the more red and bigger the bar, the more the country is polluting.
 <br /><br /><br />
 
 # Top 20 polluters in a decade
@@ -140,7 +141,7 @@ display(
   })
 );
 ```
-
+In order to have a more complete analysis the same plot is evaluated in the decade 2012-2022. The CO2 emissions per person value is computed as the mean of the values of the 10 years.
 <br /><br /><br />
 
 # Continents Comparison
@@ -157,39 +158,39 @@ display(
     marginLeft: 90,
     width: 900,
     height: 360,
-    title: "CO2 emission per capita in each Region (tonnes per person) (2022)",
-    //color: { scheme: "Dark2", legend: true},
+    title: "Total CO2 emission in each Region (tonnes) (2022)",
+    //color: { scheme: "Spectral", legend: true},
     x: {label: "", percent: false, },
     y: {label: "Continent", padding: 0.2},
-    color: {legend: true},
+    color: {scheme: "Observable10", legend: true},
     marks: [
       Plot.barX(
         data3_without_total,
         {   
-          x: "Annual CO₂ emissions (per capita)",
+          x: "Total CO2",
           fill: "Rank",
           y: "Continent",
           sort: {y: "x", reverse: true },
           channels: {Country: 'Entity'},
           tip: {
             format: {
-              x: (d) => `${d.toFixed(4)} tonnes/per`,  
+              x: (d) => `${d.toFixed(4)} tonnes`,  
               fill: false
             }
           }
         }
       ),
-      Plot.text(data3_total, {
-        text: d => `${Number(d["Annual CO₂ emissions (per capita)"]).toFixed(4)}`,
-        y: "Continent",
-        x: "Annual CO₂ emissions (per capita)",
-        //sort: {y: "x", reverse: true },
-        textAnchor: "end",
-        dx: -30,
-        fill: "rgb(22,22,22)"
-      }),
 
-      Plot.axisX({ticks: []}),
+	  //Plot.text(data3_total, {
+        //text: d => `${Number(d["Total CO2"]).toFixed(4)} tonnes`,
+        //y: "Continent",
+        //x: "Total CO2",
+        //sort: {y: "x", reverse: true },
+        //textAnchor: "end",
+        //dx: 30,
+        //fill: "rgb(22,22,22)"
+      //}),
+      //Plot.axisX({ticks: []}),
       Plot.ruleX([0])
 
     ]
@@ -197,6 +198,7 @@ display(
 );
 
 ```
+
 ```js
 
 display(
@@ -205,15 +207,15 @@ display(
       marginLeft: 90,
       width: 900,
       height: 360,
-      title: "CO2 emission in each Region per capita (tonnes/pers) (2022)",
+      title: "Total CO2 emission in each Region (tonnes) (2022)",
       x: {label: "Emissions"},
       y: {label: "Continent"},
-      color: {legend: true},
+      color: {scheme: "Observable10",legend: true},
       marks: [
         Plot.barX(
           data3,
           {
-            x: "2022 CO2 emissions per capita",
+            x: "Total CO2",
             fx: "Rank",
             fill: "Rank",
             y: "Continent", 
@@ -242,23 +244,23 @@ display(
     marginLeft: 90,
     width: 900,
     height: 360,
-    title: "CO2 emission per capita in each Region (tonnes per person) (2022)",
+    title: "Total CO2 emission in each Region (tonnes) (2022)",
     //color: { scheme: "Dark2", legend: true},
     x: {label: "Emissions", percent: false},
     y: {label: "Continent", padding: 0.2},
-    color: {legend: true},
+    color: {scheme: "Observable10", legend: true},
     marks: [
       Plot.barX(
         data3_without_total,
         {   
-          x: "Annual CO₂ emissions (per capita)",
+          x: "Total CO2",
           fill: "Rank",
           y: "Continent",
 		  offset:"normalize",
           channels: {Country: 'Entity'},
           tip: {
             format: {
-              x: (d) => `${d.toFixed(4)} tonnes/per`,  
+              x: (d) => `${d.toFixed(4)} tonnes`,  
               fill: false
             }
           }
@@ -309,6 +311,6 @@ display(
 	  ]
 	})
 )
-
 ```
 
+The mean value of the CO2 emissions in the decade 2012-2022 is studied also with respect to their type, fossils and land use.  The colors of the plot show for the top ten global polluters the CO2 emissions quantity divided by type. The value of the emissions increaseas as the color goes from yellow to red while decreases going from yellow to green. 
