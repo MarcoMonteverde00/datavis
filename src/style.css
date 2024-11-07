@@ -51,6 +51,7 @@ nav {
     max-width: 380px;
 }
 
+
 .datasource {
     font-size: 12px;       /* Font più piccolo */
     color: #808080;        /* Colore grigio */
@@ -58,7 +59,25 @@ nav {
     font-weight: 500;      /* Peso del font */
     line-height: 1.5;      /* Altezza della linea */
     max-width: 34em;       /* Larghezza massima */
-    font-style: initial;
+    font-style: initial; 
+}
+
+.plot {
+  position: relative;
+  width: fit-content;
+}
+
+.gradient-legend-ramp {
+  position: absolute;
+  top: 50px;
+  right: 30px;
+  max-width: 50vw;
+}
+
+@media screen and (max-width: 500px) {
+  .gradient-legend-ramp {
+    top: 75px;
+  }
 }
 
 .break {

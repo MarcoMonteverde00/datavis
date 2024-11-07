@@ -31,6 +31,7 @@ function colorScale(value, min, max) {
 <br /><br />
 
 # Top 20 polluters in a year
+
 ```js
 
 
@@ -40,7 +41,15 @@ const selected_year = Inputs.select(years, {value: "2022", label: "Year:", forma
 
 view(selected_year);
 
+```
+
+<div class="plot">
+
+```js
+
 let plot1;
+
+let plot1_legend;
 
 function showPlot1() {
 
@@ -50,6 +59,20 @@ function showPlot1() {
   let values1 = data1.map(d => d["Annual CO₂ emissions (per capita)"]);
   let min1 = Math.min(...values1);
   let max1 = Math.max(...values1);
+
+  plot1_legend = display(
+    Plot.legend({
+      data: [10,20,30],
+      color: {
+        interpolate: x => colorScale(x*max1 + min1, min1, max1),
+        domain: [min1, max1]
+      },
+      className: "gradient-legend",
+      width: 300,
+      ticks: 10,
+      label: "Annual CO₂ emissions (per capita, tonnes)"
+    })
+  )
 
 
   plot1 = display(  
@@ -65,6 +88,7 @@ function showPlot1() {
         grid: true,
         percent: false
       },
+
       marks: [
         Plot.ruleY([0]),
         Plot.barY(trimmed1, {
@@ -77,10 +101,12 @@ function showPlot1() {
               y: (d) => `${d.toFixed(4)} tonnes/per`   
             }
           }
-        })
+        }),
       ]
     })
+
   );
+
 }
 
 showPlot1();
@@ -91,19 +117,27 @@ selected_year.addEventListener("change", (e) => {
   if (plot1 != undefined) {
     plot1.parentNode.removeChild(plot1);
   }
+  if (plot1_legend != undefined) {
+    plot1_legend.parentNode.removeChild(plot1_legend);
+  }
   showPlot1();
 });
 
 ```
+
+</div>
 <a href="https://ourworldindata.org/grapher/co-emissions-per-capita" style="color: #808080; font-size: 12px; text-decoration: none;">
     Data Source: [CO2 emission per capita - Our World in Data]
-  </a>
+</a>
   
 The plot aims to investigate which countries were the major contributors to pollution in each year (2019, 2020, 2021, 2022), in terms of CO2 emissions per person. At this purpose, by chosing the year with the selector, the graph displays the CO2 emissions per capita of the 20 most polluting countries of that year and conveys this information through both the size of the bars and their color, the more red and bigger the bar, the more the country is polluting.
 
 <br /><br /><br />
 
 # Top 20 polluters in a decade
+  
+<div class="plot">
+
 ```js
 
 const data2 = await FileAttachment("./data/co2_2022_mean.csv").csv(); 
@@ -113,11 +147,26 @@ const values2 = data2.map(d => d["Annual CO₂ emissions (per capita)"]);
 const min2 = Math.min(...values2);
 const max2 = Math.max(...values2);
 
+display(
+  Plot.legend({
+    data: [10,20,30],
+    color: {
+      interpolate: x => colorScale(x*max2 + min2, min2, max2),
+      domain: [min2, max2]
+    },
+    className: "gradient-legend",
+    width: 300,
+    ticks: 10,
+    label: "Mean CO2 emission (per capita, tonnes)"
+  })
+)
 
 display(  
   Plot.plot({
     marginBottom: 80,
+
     title: "Mean Carbone dioxide (CO2) emission per capita (tonnes per person) (2012-2022)",
+
     x: {
       label: "Country",
       tickRotate: -30
@@ -145,6 +194,7 @@ display(
 );
 ```
 
+</div>
 <a href="https://ourworldindata.org/grapher/co-emissions-per-capita" style="color: #808080; font-size: 12px; text-decoration: none;">
     Data Source: [CO2 emission per capita - Our World in Data]
   </a>
