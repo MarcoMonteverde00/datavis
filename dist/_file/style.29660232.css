@@ -80,15 +80,9 @@ nav {
   max-width: 50vw;
 }
 
-@media screen and (max-width: 650px) {
+@media screen and (max-width: 500px) {
   .gradient-legend-ramp {
     top: 75px;
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .gradient-legend-ramp {
-    top: 95px;
   }
 }
 
