@@ -1,7 +1,9 @@
 <link rel="stylesheet" href="style.css">
 
 <div class="hero">
-  <h1>CO2 emissions</h1>
+
+# CO2 emissions
+
 </div>
 
 ```js
@@ -28,7 +30,9 @@ function colorScale(value, min, max) {
 }
 
 ```
-<br /><br />
+<br />
+
+#
 
 # Top 20 polluters in a year
 
