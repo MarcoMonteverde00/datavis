@@ -51,6 +51,17 @@ nav {
     max-width: 380px;
 }
 
+
+.datasource {
+    font-size: 12px;       /* Font più piccolo */
+    color: #808080;        /* Colore grigio */
+    font-family: var(--sans-serif); /* Font sans-serif */
+    font-weight: 500;      /* Peso del font */
+    line-height: 1.5;      /* Altezza della linea */
+    max-width: 34em;       /* Larghezza massima */
+    font-style: initial; 
+}
+
 .plot {
   position: relative;
   width: fit-content;
