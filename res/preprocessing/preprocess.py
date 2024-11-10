@@ -44,28 +44,36 @@ continent_mapping = {
     "AN": "Antarctica"
 }
 
-def get_continent(country_name):
+'''
+def get_continent(country_code):
+
     try:
         #print(country_name)
-        country_code = countries.get(country_name).alpha2
+        #country_code = countries.get(country_name).alpha2
         # Map ISO codes to continent
         # Example: 'IT' (Italy) would map to 'EU' in this context
         #print(country_name, " ", country_code)
-        continent_code = pc.country_alpha2_to_continent_code(country_code)
+
+        continent_code = pc.country_alpha2_to_continent_code(country_code[0:2])
         #print(country_name, " ", country_code, " ", continent_code)
         return continent_mapping.get(continent_code, None)
-    except KeyError:
+    except Exception:
+        print("error for ", country_code)
         return None
     
+'''
+
+df_2022 = pd.read_csv('co2_2022_corrected.csv')
 
 population = pd.read_csv('population.csv')
 population = population.drop(["Code", "Year"], axis=1)
 population.rename(columns = {'Population - Sex: all - Age: all - Variant: estimates':'Population'}, inplace = True)
-dsComplete = pd.merge(df_year, population, on='Entity')
-dsComplete = dsComplete.drop(["Code", "Year"], axis=1)
+dsComplete = pd.merge(df_2022, population, on='Entity')
+dsComplete = dsComplete.drop(["Year", "Code"], axis=1)
 
-continents = list(map(get_continent, dsComplete['Entity']))
-dsComplete['Continent'] = continents
+
+#continents = list(map(get_continent, dsComplete['Code']))
+#dsComplete['Continent'] = continents
 
 df_continents = dsComplete.dropna(subset=['Continent'])
 df_continents.insert(3, 'Total CO2', df_continents[colname]*df_continents['Population'])
@@ -88,12 +96,14 @@ for continent in ['Europe', 'Asia', 'Africa', 'North America', 'South America', 
 
 percorso_stacked = '../../src/data/co2_2022_stacked.csv'
 
+print(df_stacked.head())
+
 tmp1 = df_stacked.to_numpy()
 
 tmp2 = np.concat([tmp1[i::7] for i in range(7)])
 
-df_reordered = pd.DataFrame(tmp2, columns=['Entity','Annual CO₂ emissions (per capita)','Population','Total CO2','Continent'])
-#print(df_reordered)
+df_reordered = pd.DataFrame(tmp2, columns=['Entity','Annual CO₂ emissions (per capita)','Continent','Total CO2','Population'])
+print(df_reordered.head())
 df_reordered.insert(5, 'Rank', ["1st"] * 6 + ["2nd"] * 6 + ["3rd"] * 6 + ["4th"] * 6 + ["5th"] * 6 + ["Others"] * 6 + ["Total"] * 6 , True)
 
 df_reordered.to_csv(percorso_stacked, index=False)
@@ -125,3 +135,8 @@ percorso_ds2 = '../../src/data/co2_by_type_Heatmap.csv'
 
 # Salva il DataFrame come CSV
 dfHeatmap.to_csv(percorso_ds2, index=False)
+
+
+# alluvial preprocess
+
+
