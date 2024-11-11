@@ -10,11 +10,17 @@
   text-align: center;
 }
 
+@media screen and (max-width: 950px) {
+  .hero {
+    margin: 1.5rem 0 1.5rem;
+  }
+}
+
 h1 {
     padding: 0.3rem 0;
     max-height: none;
     max-width: none;
-    font-size: 2.6vw;
+    font-size: max(2.6vw, 2.6vh);
     font-weight: 600;
     font-family: var(--sans-serif);
     line-height: 1;
@@ -27,7 +33,7 @@ h1 {
 .hero h1 {
   padding: 0.8rem 0;
   max-width: none;
-  font-size: 4vw;
+  font-size: max(4vw, 5vh);
   font-weight: 900;
   background: linear-gradient(30deg, var(--theme-foreground-focus), currentColor);
   -webkit-background-clip: text;
@@ -74,9 +80,15 @@ nav {
   max-width: 50vw;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 650px) {
   .gradient-legend-ramp {
     top: 75px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .gradient-legend-ramp {
+    top: 95px;
   }
 }
 

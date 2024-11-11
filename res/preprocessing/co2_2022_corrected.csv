@@ -1,0 +1,125 @@
+Entity,Code,Year,Annual CO₂ emissions (per capita),Continent
+Qatar,QAT,2022,37.601273,Asia
+United Arab Emirates,ARE,2022,25.833244,Asia
+Bahrain,BHR,2022,25.672274,Asia
+Kuwait,KWT,2022,25.578102,Asia
+Brunei,BRN,2022,23.950201,Asia
+Trinidad and Tobago,TTO,2022,22.423758,North America
+Saudi Arabia,SAU,2022,18.197495,Asia
+New Caledonia,NCL,2022,17.641167,Oceania
+Oman,OMN,2022,15.730261,Asia
+Australia,AUS,2022,14.985412,Oceania
+United States,USA,2022,14.949616,North America
+Sint Maarten (Dutch part),SXM,2022,14.352394,North America
+Canada,CAN,2022,14.249212,North America
+Faroe Islands,FRO,2022,14.084624,Europe
+Kazakhstan,KAZ,2022,13.979704,Asia
+Palau,PLW,2022,12.123921,Oceania
+Taiwan,TWN,2022,11.630868,Asia
+Luxembourg,LUX,2022,11.618432,Europe
+South Korea,KOR,2022,11.598764,Asia
+Russia,RUS,2022,11.416899,Asia
+Mongolia,MNG,2022,11.150772,Asia
+Turkmenistan,TKM,2022,11.03418,Asia
+Greenland,GRL,2022,10.473997,North America
+Saint Pierre and Miquelon,SPM,2022,10.293288,North America
+Iceland,ISL,2022,9.499798,Europe
+Czechia,CZE,2022,9.335753,Europe
+Libya,LBY,2022,9.242238,Africa
+Curacao,CUW,2022,9.189007,North America
+Singapore,SGP,2022,8.911513,Asia
+Anguilla,AIA,2022,8.752724,North America
+Malaysia,MYS,2022,8.576508,Asia
+Japan,JPN,2022,8.501681,Asia
+Aruba,ABW,2022,8.133404,North America
+Poland,POL,2022,8.106886,Europe
+China,CHN,2022,7.992761,Asia
+Germany,DEU,2022,7.983758,Europe
+Iran,IRN,2022,7.799332,Asia
+Estonia,EST,2022,7.77628,Europe
+Ireland,IRL,2022,7.721119,Europe
+Belgium,BEL,2022,7.687539,Europe
+Turks and Caicos Islands,TCA,2022,7.636793,North America
+Norway,NOR,2022,7.509306,Europe
+Netherlands,NLD,2022,7.137218,Europe
+Bermuda,BMU,2022,6.937063,North America
+Austria,AUT,2022,6.878194,Europe
+Bulgaria,BGR,2022,6.804453,Europe
+South Africa,ZAF,2022,6.746164,Africa
+Finland,FIN,2022,6.52674,Europe
+Antigua and Barbuda,ATG,2022,6.421875,North America
+New Zealand,NZL,2022,6.212154,Oceania
+Israel,ISR,2022,6.208912,Asia
+Belarus,BLR,2022,6.166901,Europe
+Seychelles,SYC,2022,6.149512,Africa
+Bosnia and Herzegovina,BIH,2022,6.103457,Europe
+Slovakia,SVK,2022,6.051555,Europe
+Serbia,SRB,2022,6.024712,Europe
+Slovenia,SVN,2022,5.997992,Europe
+Suriname,SUR,2022,5.803,South America
+Greece,GRC,2022,5.745106,Europe
+Italy,ITA,2022,5.726825,Europe
+Cyprus,CYP,2022,5.616782,Europe
+Bahamas,BHS,2022,5.17087,North America
+Spain,ESP,2022,5.164443,Europe
+Turkey,TUR,2022,5.105206,Asia
+British Virgin Islands,VGB,2022,5.003958,North America
+Denmark,DNK,2022,4.940161,Europe
+Montserrat,MSR,2022,4.844777,North America
+Kosovo,OWID_KOS,2022,4.830646,Europe
+United Kingdom,GBR,2022,4.720181,Europe
+Saint Kitts and Nevis,KNA,2022,4.708081,North America
+Andorra,AND,2022,4.617124,Europe
+Lithuania,LTU,2022,4.606163,Europe
+France,FRA,2022,4.603891,Europe
+Hungary,HUN,2022,4.449911,Europe
+Barbados,BRB,2022,4.377257,North America
+Guyana,GUY,2022,4.373694,South America
+Lebanon,LBN,2022,4.354396,Asia
+Croatia,HRV,2022,4.348515,Europe
+Chile,CHL,2022,4.304165,South America
+Argentina,ARG,2022,4.237817,South America
+Nauru,NRU,2022,4.170042,Oceania
+Bonaire Sint Eustatius and Saba,BES,2022,4.083284,North America
+Hong Kong,HKG,2022,4.081913,Asia
+Portugal,PRT,2022,4.050785,Europe
+Switzerland,CHE,2022,4.047855,Europe
+Iraq,IRQ,2022,4.024638,Asia
+Mexico,MEX,2022,4.015337,North America
+Cook Islands,COK,2022,3.995009,Oceania
+Algeria,DZA,2022,3.927226,Africa
+Niue,NIU,2022,3.872951,Oceania
+Liechtenstein,LIE,2022,3.809783,Europe
+Thailand,THA,2022,3.776257,Asia
+Romania,ROU,2022,3.739777,Europe
+Azerbaijan,AZE,2022,3.674683,Asia
+Montenegro,MNE,2022,3.655819,Europe
+Marshall Islands,MHL,2022,3.635371,Oceania
+North Macedonia,MKD,2022,3.62457,Europe
+Sweden,SWE,2022,3.606909,Europe
+Latvia,LVA,2022,3.561689,Europe
+Ukraine,UKR,2022,3.557854,Europe
+Vietnam,VNM,2022,3.499517,Asia
+Uzbekistan,UZB,2022,3.48306,Asia
+Saint Helena,SHN,2022,3.298648,Africa
+Mauritius,MUS,2022,3.269791,Africa
+Maldives,MDV,2022,3.247572,Asia
+Malta,MLT,2022,3.103598,Europe
+Laos,LAO,2022,3.080348,Asia
+Equatorial Guinea,GNQ,2022,3.03072,Africa
+Georgia,GEO,2022,2.962545,Asia
+Tunisia,TUN,2022,2.879285,Africa
+French Polynesia,PYF,2022,2.85093,Oceania
+Botswana,BWA,2022,2.838951,Africa
+Venezuela,VEN,2022,2.716869,South America
+Grenada,GRD,2022,2.713365,North America
+Panama,PAN,2022,2.699258,North America
+Indonesia,IDN,2022,2.645661,Asia
+Saint Lucia,LCA,2022,2.614921,North America
+Gabon,GAB,2022,2.388264,Africa
+Egypt,EGY,2022,2.333106,Africa
+Ecuador,ECU,2022,2.311727,South America
+Uruguay,URY,2022,2.306038,South America
+Armenia,ARM,2022,2.304558,Asia
+Saint Vincent and the Grenadines,VCT,2022,2.296473,North America
+Jamaica,JAM,2022,2.294559,North America
