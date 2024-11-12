@@ -25,26 +25,34 @@ function getShades(baseColor, count) {
 
 const data0 = await FileAttachment("./data/co2_2022_stacked.csv").csv();
 
-console.log(data0);
+const data1 = data0.sort((a, b) => {
+  if(a.Rank == "Total" && b.Rank != "Total") return 1;
+  if(b.Rank == "Total" && a.Rank != "Total") return -1;
+  if(a.Continent < b.Continent) return -1;
+  if(a.Continent == b.Continent && a.Rank < b.Rank) return -1;
+  return 1;
+});
+
+console.log(data1);
 
 const links = [];
 
-data0.forEach((node, index) => {
+data1.forEach((node, index) => {
   if (index < 36) {
     const {Continent} = node;
     let dest = 0;
     switch(Continent) {
-      case "Europe":
+      case "Africa":
         dest = 36; break;
       case "Asia":
         dest = 37; break;
-      case "Africa":
+      case "Europe":
         dest = 38; break;
       case "North America":
         dest = 39; break;
-      case "South America":
-        dest = 40; break;
       case "Oceania":
+        dest = 40; break;
+      case "South America":
         dest = 41; break;
       default:
         break;
@@ -56,9 +64,12 @@ data0.forEach((node, index) => {
 });
 
 
-const nodes = data0.map(d => {
+const nodes = data1.map(d => {
   return {name: d.Entity, continent: d.Continent};
 });
+
+console.log("nodes");
+console.log(nodes);
 
 const data = {
   nodes,
@@ -78,7 +89,8 @@ const svg = d3.select('#alluvial')
 const sankeyGenerator = sankey()
   .nodeWidth(20)
   .nodePadding(10)
-  .extent([[1, 1], [width - 1, height - 1]])
+  .nodeSort(null)
+  .extent([[10, 10], [width - 10, height - 10]])
   .nodeAlign(sankeyCenter); // Optional alignment (e.g., sankeyLeft, sankeyRight)
 
 
@@ -98,6 +110,20 @@ data0.forEach(node => {
 });
 
 // Draw the links with colors based on the source and target countries' shades
+
+var tooltipsvg = d3.select("#my_dataviz")
+  .append("svg")
+    .attr("width", 400)
+    .attr("height", 400);
+
+var tooltip = d3.select("#tooltip")
+  .append("div")
+    .style("position", "fixed")
+    .style("visibility", "hidden")
+    .style("background-color", "white")
+    .style("margin", "0")
+    .style("padding","20px")
+    .text("example");
 
 const link = svg.append("g")
   .selectAll('path')
@@ -122,7 +148,24 @@ const link = svg.append("g")
       .domain([0, 1])
       .range([continentShadeMap[sourceContinent][sourceShadeIndex], continentShadeMap[targetContinent][targetShadeIndex]])(0.5);
   })
-  .attr('opacity', 0.5);
+  .attr('opacity', 0.5)
+  .on('mouseover', function (d, i) {
+    d3.select(this).transition()
+          .duration('50')
+          .attr('opacity', '1');
+
+    tooltip.style("visibility", "visible");
+  })
+  .on("mousemove", function(event){
+
+    tooltip.style("top", (event.clientY + 30)+"px").style("left",(event.clientX + 30)+"px");
+  })
+  .on('mouseout', function (d, i) {
+    d3.select(this).transition()
+          .duration('50')
+          .attr('opacity', '0.5');
+    tooltip.style("visibility", "hidden");
+  });
 
 // Draw the nodes with shades based on continent and country index
 
@@ -141,7 +184,6 @@ svg.append('g')
     const shadeIndex = nodes.filter(node => node.name === d.name && node.continent === continent).indexOf(d);
     return continentShadeMap[continent][shadeIndex];  // Apply the appropriate shade for this country
   })
-
   .attr('stroke', '#000');
 
 // Add node labels
@@ -161,6 +203,7 @@ svg.append('g')
 
 # Prova
 
+<div id="tooltip"></div>
 <svg id="alluvial"></svg>
 
 ```js
