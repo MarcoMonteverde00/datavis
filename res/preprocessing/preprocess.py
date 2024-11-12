@@ -63,20 +63,26 @@ def get_continent(country_code):
     
 '''
 
-df_2022 = pd.read_csv('co2_2022_corrected.csv')
+#df_2022 = pd.read_csv('co2_2022_corrected.csv')
 
-population = pd.read_csv('population.csv')
+
+population = pd.read_csv('continent.csv')
 population = population.drop(["Code", "Year"], axis=1)
 population.rename(columns = {'Population - Sex: all - Age: all - Variant: estimates':'Population'}, inplace = True)
-dsComplete = pd.merge(df_2022, population, on='Entity')
+
+dsComplete = pd.merge(df_year, population, on='Entity')
 dsComplete = dsComplete.drop(["Year", "Code"], axis=1)
 
+#continents = list(map(get_continent, dsComplete['Entity']))
 
 #continents = list(map(get_continent, dsComplete['Code']))
+
+
 #dsComplete['Continent'] = continents
 
 df_continents = dsComplete.dropna(subset=['Continent'])
-df_continents.insert(3, 'Total CO2', df_continents[colname]*df_continents['Population'])
+df_continents.insert(4, 'Total CO2', df_continents[colname]*df_continents['Population'])
+#print(df_continents)
 #df_continents_sorted = df_continents.sort_values(by=['Continent', colname], ascending=False)
 
 df_stacked = pd.DataFrame()
@@ -96,18 +102,24 @@ for continent in ['Europe', 'Asia', 'Africa', 'North America', 'South America', 
 
 percorso_stacked = '../../src/data/co2_2022_stacked.csv'
 
-print(df_stacked.head())
+#print(df_stacked.head())
+
 
 tmp1 = df_stacked.to_numpy()
 
 tmp2 = np.concat([tmp1[i::7] for i in range(7)])
 
-df_reordered = pd.DataFrame(tmp2, columns=['Entity','Annual CO₂ emissions (per capita)','Continent','Total CO2','Population'])
-print(df_reordered.head())
+df_reordered = pd.DataFrame(tmp2, columns=['Entity','Annual CO₂ emissions (per capita)','Population','Continent','Total CO2'])
+print(df_reordered)
+
+#df_reordered = pd.DataFrame(tmp2, columns=['Entity','Annual CO₂ emissions (per capita)','Continent','Total CO2','Population'])
+#print(df_reordered.head())
+
+
 df_reordered.insert(5, 'Rank', ["1st"] * 6 + ["2nd"] * 6 + ["3rd"] * 6 + ["4th"] * 6 + ["5th"] * 6 + ["Others"] * 6 + ["Total"] * 6 , True)
 
 df_reordered.to_csv(percorso_stacked, index=False)
-#print(df_stacked)
+print(df_reordered)
 
 df2 = pd.read_csv('co2-fossil-plus-land-use.csv')
 
