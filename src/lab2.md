@@ -3,7 +3,6 @@
 import * as d3 from 'd3';
 import { sankey, sankeyLinkHorizontal, sankeyCenter } from 'd3-sankey';
 
-
 const continentColors = {
   "Europe": "red",
   "Asia": "yellow",
@@ -11,6 +10,7 @@ const continentColors = {
   "North America": "blue",
   "South America": "purple",
   "Oceania": "cyan"
+
 };
 
 // Function to generate shades for a base color
@@ -20,6 +20,7 @@ function getShades(baseColor, count) {
     .range([d3.rgb(baseColor).brighter(0.5), d3.rgb(baseColor).darker(0.5)]);  // Adjust brightness for shades
 
   return d3.range(count).map(i => colorScale(i));  // Return an array of color shades
+
 }
 
 const data0 = await FileAttachment("./data/co2_2022_stacked.csv").csv();
@@ -97,6 +98,7 @@ data0.forEach(node => {
 });
 
 // Draw the links with colors based on the source and target countries' shades
+
 const link = svg.append("g")
   .selectAll('path')
   .data(sankeyData.links)
@@ -105,6 +107,7 @@ const link = svg.append("g")
   .attr('d', sankeyLinkHorizontal())
   .attr('stroke-width', d => Math.max(1, d.width))
   .attr('fill', 'none')
+
   .attr('stroke', d => {
     // Links will now have different colors based on both source and target
     const sourceContinent = d.source.continent;
@@ -122,6 +125,7 @@ const link = svg.append("g")
   .attr('opacity', 0.5);
 
 // Draw the nodes with shades based on continent and country index
+
 svg.append('g')
   .selectAll('rect')
   .data(sankeyData.nodes)
@@ -137,6 +141,7 @@ svg.append('g')
     const shadeIndex = nodes.filter(node => node.name === d.name && node.continent === continent).indexOf(d);
     return continentShadeMap[continent][shadeIndex];  // Apply the appropriate shade for this country
   })
+
   .attr('stroke', '#000');
 
 // Add node labels

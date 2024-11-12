@@ -65,15 +65,18 @@ def get_continent(country_code):
 
 #df_2022 = pd.read_csv('co2_2022_corrected.csv')
 
+
 population = pd.read_csv('continent.csv')
 population = population.drop(["Code", "Year"], axis=1)
 population.rename(columns = {'Population - Sex: all - Age: all - Variant: estimates':'Population'}, inplace = True)
+
 dsComplete = pd.merge(df_year, population, on='Entity')
 dsComplete = dsComplete.drop(["Year", "Code"], axis=1)
 
 #continents = list(map(get_continent, dsComplete['Entity']))
 
 #continents = list(map(get_continent, dsComplete['Code']))
+
 
 #dsComplete['Continent'] = continents
 
@@ -101,6 +104,7 @@ percorso_stacked = '../../src/data/co2_2022_stacked.csv'
 
 #print(df_stacked.head())
 
+
 tmp1 = df_stacked.to_numpy()
 
 tmp2 = np.concat([tmp1[i::7] for i in range(7)])
@@ -110,6 +114,7 @@ print(df_reordered)
 
 #df_reordered = pd.DataFrame(tmp2, columns=['Entity','Annual CO₂ emissions (per capita)','Continent','Total CO2','Population'])
 #print(df_reordered.head())
+
 
 df_reordered.insert(5, 'Rank', ["1st"] * 6 + ["2nd"] * 6 + ["3rd"] * 6 + ["4th"] * 6 + ["5th"] * 6 + ["Others"] * 6 + ["Total"] * 6 , True)
 
