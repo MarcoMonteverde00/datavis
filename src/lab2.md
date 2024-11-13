@@ -9,8 +9,8 @@ const continentColors = {
   "Africa": "green",
   "North America": "blue",
   "South America": "purple",
-  "Oceania": "cyan"
-
+  "Oceania": "cyan",
+  "Total": "gray"
 };
 
 // Function to generate shades for a base color
@@ -33,7 +33,6 @@ const data1 = data0.sort((a, b) => {
   return 1;
 });
 
-console.log(data1);
 
 const links = [];
 
@@ -65,11 +64,21 @@ data1.forEach((node, index) => {
 
 
 const nodes = data1.map(d => {
-  return {name: d.Entity, continent: d.Continent};
+  return {name: d.Entity, continent: d.Continent, rank: d.Rank, per_capita: d["Annual CO₂ emissions (per capita)"]};
 });
 
-console.log("nodes");
-console.log(nodes);
+const world = {name: "World Sum", continent: "Total", rank: "Total"};
+nodes.push(world);
+
+data1.push({Entity: "Total", Continent: "Total", Rank: "Total"});
+
+for(let i = 36; i < 42; i++) {
+  links.push(
+    {source: i, target: 42, value: data1[i]["Total CO2"]}
+  );
+}
+
+
 
 const data = {
   nodes,
@@ -77,8 +86,8 @@ const data = {
 }
 
 // Set the diagram dimensions
-const width = 900;
-const height = 2000;
+const width = 1000;
+const height = 1700;
 
 // Create an SVG container
 const svg = d3.select('#alluvial')
@@ -97,12 +106,11 @@ const sankeyGenerator = sankey()
 // Generate the Sankey layout
 const sankeyData = sankeyGenerator(data);
 
-console.log(sankeyData.nodes);
-
  // Generate color shades for each continent and its countries
 const continentShadeMap = {};
-data0.forEach(node => {
+data1.forEach(node => {
   const { Continent } = node;
+  if (Continent == "Total") console.log("test1");
   if (!continentShadeMap[Continent]) {
     // Generate 6 shades for each continent
     continentShadeMap[Continent] = getShades(continentColors[Continent], 6);
@@ -111,10 +119,10 @@ data0.forEach(node => {
 
 // Draw the links with colors based on the source and target countries' shades
 
-var tooltipsvg = d3.select("#my_dataviz")
+/*var tooltipsvg = d3.select("#tooltip")
   .append("svg")
     .attr("width", 400)
-    .attr("height", 400);
+    .attr("height", 400);*/
 
 var tooltip = d3.select("#tooltip")
   .append("div")
@@ -123,6 +131,7 @@ var tooltip = d3.select("#tooltip")
     .style("background-color", "white")
     .style("margin", "0")
     .style("padding","20px")
+    .style("border-radius", "5px")
     .text("example");
 
 const link = svg.append("g")
@@ -138,34 +147,57 @@ const link = svg.append("g")
     // Links will now have different colors based on both source and target
     const sourceContinent = d.source.continent;
     const targetContinent = d.target.continent;
+
+    console.log("");
+    console.log(sourceContinent);
+    console.log(targetContinent);
     
     // Get the correct shade for the source and target
     const sourceShadeIndex = nodes.filter(node => node.name === d.source.name && node.continent === sourceContinent).indexOf(d.source);
     const targetShadeIndex = nodes.filter(node => node.name === d.target.name && node.continent === targetContinent).indexOf(d.target);
 
-    // Color the link based on source and target shades
-    return d3.scaleLinear()
+    console.log("the problem is after");
+
+    const color = d3.scaleLinear()
       .domain([0, 1])
       .range([continentShadeMap[sourceContinent][sourceShadeIndex], continentShadeMap[targetContinent][targetShadeIndex]])(0.5);
+
+    console.log("ciao");
+    // Color the link based on source and target shades
+    return color;
   })
   .attr('opacity', 0.5)
-  .on('mouseover', function (d, i) {
+  .on('mouseover', function (event) {
     d3.select(this).transition()
           .duration('50')
           .attr('opacity', '1');
 
     tooltip.style("visibility", "visible");
+
   })
   .on("mousemove", function(event){
 
-    tooltip.style("top", (event.clientY + 30)+"px").style("left",(event.clientX + 30)+"px");
+    const data = event.target.__data__;
+  
+    tooltip
+      .html(`
+        <b>Country</b>: ${data.source.name}
+        <br/>
+        <b>Rank</b>: ${data.source.rank}
+        <br/>
+        <b>Total CO2</b>: ${Number(data.value).toFixed(2)} tonnes
+        <br/>
+        <b>CO2 per capita</b>: ${Number(data.source.per_capita).toFixed(4)} tonnes/person</b>
+      `) 
+      .style("top", (event.clientY + 30)+"px").style("left",(event.clientX + 30)+"px");
+
   })
-  .on('mouseout', function (d, i) {
+  .on('mouseout', function (event) {
     d3.select(this).transition()
           .duration('50')
           .attr('opacity', '0.5');
     tooltip.style("visibility", "hidden");
-  });
+  })
 
 // Draw the nodes with shades based on continent and country index
 
