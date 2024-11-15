@@ -46,10 +46,16 @@ for year in range(2019,2023):
         df_others['Entity'] = continent + ' Others'
         df_others_total = df_continent[5:].groupby('Continent')['Total CO2'].sum().reset_index()
         df_others['Total CO2'] = df_others_total['Total CO2']
+        df_others_pop = df_continent[5:].groupby('Continent')['Population'].sum().reset_index()
+        df_others['Population'] = df_others_pop['Population']
+        df_others[colname] = df_others['Total CO2']/df_others['Population']
         df_sum = df_continent.groupby('Continent')[colname].sum().reset_index()
         df_sum['Entity'] = continent + ' Sum'    
         df_sum_total = df_continent.groupby('Continent')['Total CO2'].sum().reset_index()
         df_sum['Total CO2'] = df_sum_total['Total CO2']
+        df_sum_pop = df_continent.groupby('Continent')['Population'].sum().reset_index()
+        df_sum['Population'] = df_sum_pop['Population']
+        df_sum[colname] = df_sum['Total CO2']/df_sum['Population']
         df_continent = pd.concat([df_continent[0:5], df_others, df_sum])
         df_stacked = pd.concat([df_stacked, df_continent])
 
@@ -62,8 +68,6 @@ for year in range(2019,2023):
     df_reordered = pd.DataFrame(tmp2, columns=['Entity','Annual CO₂ emissions (per capita)','Population','Continent','Total CO2'])
 
     #df_reordered = pd.DataFrame(tmp2, columns=['Entity','Annual CO₂ emissions (per capita)','Continent','Total CO2','Population'])
-    #print(df_reordered.head())
-
 
     df_reordered.insert(5, 'Rank', ["1st"] * 6 + ["2nd"] * 6 + ["3rd"] * 6 + ["4th"] * 6 + ["5th"] * 6 + ["Others"] * 6 + ["Total"] * 6 , True)
 

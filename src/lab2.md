@@ -27,9 +27,9 @@ function getShades(baseColor, count) {
 
 let data_year = {
   "2022": await FileAttachment("./data/co2_2022_stacked.csv").csv(),
-  //"2021": await FileAttachment("./data/co2_2021_stacked.csv").csv(),
-  //"2020": await FileAttachment("./data/co2_2020_stacked.csv").csv(),
-  //"2019": await FileAttachment("./data/co2_2019_stacked.csv").csv()
+  "2021": await FileAttachment("./data/co2_2021_stacked.csv").csv(),
+  "2020": await FileAttachment("./data/co2_2020_stacked.csv").csv(),
+  "2019": await FileAttachment("./data/co2_2019_stacked.csv").csv()
 };
 
 
@@ -43,11 +43,14 @@ let data_year = {
 
 ```js
 
-const years = [/*2019,2020,2021,*/2022];
+const years = [2019,2020,2021,2022];
 
 const selected_year = Inputs.select(years, {value: "2022", label: "Year:", format: (d) => d});
 
 view(selected_year);
+```
+
+```js
 
 // Set the diagram dimensions
 const width = 1000;
@@ -67,7 +70,7 @@ let svg;
 
 function showPlot1() {
 
-  const data1 = data_year[selected_year.value].sort((a, b) => {
+  let data1 = data_year[selected_year.value].sort((a, b) => {
     if(a.Rank == "Total" && b.Rank != "Total") return 1;
     if(b.Rank == "Total" && a.Rank != "Total") return -1;
     if(a.Continent < b.Continent) return -1;
