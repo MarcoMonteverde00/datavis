@@ -48,13 +48,21 @@ const years = [2019,2020,2021,2022];
 const selected_year = Inputs.select(years, {value: "2022", label: "Year:", format: (d) => d});
 
 view(selected_year);
-```
-
-```js
 
 // Set the diagram dimensions
 const width = 1000;
 const height = 1700;
+
+// Create an SVG container
+let svg = d3.select('#alluvial')
+  .attr('width', width)
+  .attr('height', height);
+
+```
+
+```js
+
+
 
 const tooltip = d3.select("#tooltip")
     .append("div")
@@ -65,8 +73,6 @@ const tooltip = d3.select("#tooltip")
       .style("padding","20px")
       .style("border-radius", "5px")
       .text("example");
-
-let svg;
 
 function showPlot1() {
 
@@ -127,11 +133,6 @@ function showPlot1() {
     links
   }
 
-  // Create an SVG container
-  svg = d3.select('#alluvial')
-    .attr('width', width)
-    .attr('height', height);
-
   // Initialize the Sankey generator
   const sankeyGenerator = sankey()
     .nodeWidth(20)
@@ -176,7 +177,6 @@ function showPlot1() {
         .range([continentShadeMap[sourceContinent][sourceShadeIndex], continentShadeMap[targetContinent][targetShadeIndex]])
         (0.75);
 
-      console.log(color);
       // Color the link based on source and target shades
       return color;
     })
@@ -254,13 +254,8 @@ showPlot1();
 
 selected_year.addEventListener("change", (e) => {
 
-  if (svg != undefined) {
-    svg.parentNode.removeChild(svg);
-  }
-  svg = null;
-  /*if (plot1_legend != undefined) {
-    plot1_legend.parentNode.removeChild(plot1_legend);
-  }*/
+  let alluvial = document.getElementById("alluvial");
+  alluvial.innerHTML = "";
   showPlot1();
 });
 
