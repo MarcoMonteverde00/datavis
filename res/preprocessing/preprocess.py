@@ -37,7 +37,11 @@ for year in range(2019,2023):
     
     df_continents = dsComplete.dropna(subset=['Continent'])
     df_continents.insert(4, 'Total CO2', df_continents[colname]*df_continents['Population'])
-      
+
+    percorso_ass3 = '../../src/data/ass3_'+str(year)+'.csv'      
+    df_continents.to_csv(percorso_ass3, index=False )  
+    #print(df_continents)
+    
     df_stacked = pd.DataFrame()
       
     for continent in ['Europe', 'Asia', 'Africa', 'North America', 'South America', 'Oceania', 'Antarctica']:
