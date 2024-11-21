@@ -3,3 +3,4 @@ pandas
 iso3166
 pycountry_convert
 openpyxl
+pycountry

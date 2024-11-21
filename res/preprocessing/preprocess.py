@@ -2,6 +2,7 @@ from iso3166 import countries
 import pandas as pd
 import numpy as np
 import pycountry_convert as pc
+import pycountry 
 
 
 df = pd.read_csv('co-emissions-per-capita.csv')
@@ -11,6 +12,14 @@ missing_values = df[colname].isnull().sum()
 
 print(f"Valori mancanti in 'variabile': {missing_values}")
 
+def get_numeric_code(alpha_3_code):
+    country = pycountry.countries.get(alpha_3=alpha_3_code)
+    if country:
+        return country.numeric
+    else:
+        return None
+        
+print(pycountry.countries)
 
 # Rimuovi le righe con valori mancanti nella colonna 'variabile'
 df_cleaned = df.dropna(subset=[colname])
@@ -33,14 +42,17 @@ for year in range(2019,2023):
         population = pd.merge(population, ds2022.drop(["Code", "Year", "Population"],axis=1), on = 'Entity') 
     
     dsComplete = pd.merge(df_year, population, on='Entity')
-    dsComplete = dsComplete.drop(["Year", "Code"], axis=1)
     
     df_continents = dsComplete.dropna(subset=['Continent'])
-    df_continents.insert(4, 'Total CO2', df_continents[colname]*df_continents['Population'])
+    df_continents.insert(6, 'Total CO2', df_continents[colname]*df_continents['Population'])
+    df_continents.insert(7, 'Numeric Code', df_continents['Code'].apply(get_numeric_code))
 
     percorso_ass3 = '../../src/data/ass3_'+str(year)+'.csv'      
     df_continents.to_csv(percorso_ass3, index=False )  
-    #print(df_continents)
+    
+    print(df_continents)
+    
+    df_continents = df_continents.drop(["Year", "Code","Numeric Code"], axis=1)
     
     df_stacked = pd.DataFrame()
       
