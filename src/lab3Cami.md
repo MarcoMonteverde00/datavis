@@ -2,16 +2,19 @@
 
 <div class="hero">
 
-# Displaying maps
+# Global Pollution by Country: A Comparison of Map Projections
 
 </div>
 
 <br />
 
-# Total CO2 emissions
+# Global Pollution by Country: A Comparison of Map Projections
+<br />
 
-## Equal Earth  projection
+## Carbone dioxide CO2 emissions (tonnes) by country --Equal Earth  projection
+
 ```js
+//Equal Earth  projection
 
 let data_year = {
   "2022": await FileAttachment("./data/ass3_2022.csv").csv(),
@@ -126,11 +129,12 @@ selected_year.addEventListener("change", (e) => {
 <br />
 
 
-## Mercator projection
+## Carbone dioxide CO2 emissions (tonnes) by country --Mercator projection
 
 ```js
+const years2 = [2019,2020,2021,2022];
 
-const selected_year2 = Inputs.select(years, {value: "2022", label: "Year:", format: (d) => d});
+const selected_year2 = Inputs.select(years2, {value: "2022", label: "Year:", format: (d) => d});
 
 view(selected_year2);
 ```  
@@ -143,20 +147,20 @@ let plot2;
 let plot2_legend;
 
 function showPlot2() {
-	let data1 = data_year[selected_year.value];
+	let data2 = data_year[selected_year2.value];
 	
-	const TotalEmission = new Map(data1.map(d => [d["Numeric Code"], +d["Total CO2"]]))
+	const TotalEmission2 = new Map(data2.map(d => [d["Numeric Code"], +d["Total CO2"]]))
 
-	const values1 = data1.map(d => d["Total CO2"]);
-	const min1 = Math.min(...values1);
-	const max1 = Math.max(...values1);
+	const values2 = data2.map(d => d["Total CO2"]);
+	const min2 = Math.min(...values2);
+	const max2 = Math.max(...values2);
 	
 	plot2_legend = display(
 		Plot.legend({
 		  //data: [10,20,30],
 		  color: {
-			interpolate: x => colorScale(x*max1 + min1, min1, max1),
-			domain: [min1, max1],
+			interpolate: x => colorScale(x*max2 + min2, min2, max2),
+			domain: [min2, max2],
 			label: "Annual CO₂ emissions (tonnes)",
 		  },
 		  className: "gradient-legend",
@@ -170,10 +174,10 @@ function showPlot2() {
 	  projection: "Mercator",
 	  marks: [
 		Plot.geo(country, Plot.centroid({
-		  fill: d => colorScale(TotalEmission.get(d.id),min1,max1),
+		  fill: d => colorScale(TotalEmission2.get(d.id),min2,max2),
 		  tip: true,
 		  channels: {
-			"CO2 (tonnes)": d=> TotalEmission.get(d.id),
+			"CO2 (tonnes)": d=> TotalEmission2.get(d.id),
 			Country: d => d.properties.name,
 		  }
 		})),
@@ -184,7 +188,7 @@ function showPlot2() {
 
 showPlot2();
 
-selected_year.addEventListener("change", (e) => {
+selected_year2.addEventListener("change", (e) => {
 
   if (plot2 != undefined) {
     plot2.parentNode.removeChild(plot2);
@@ -231,3 +235,179 @@ display(Plot.plot({
 <a href="https://ourworldindata.org/explorers/population-and-demography?tab=table&time=2022&Metric=Population&Sex=Both+sexes&Age+group=Total&Projection+Scenario=None&country=CHN~IND~USA~IDN~PAK~NGA~BRA~JPN" style="color: #808080; font-size: 12px; text-decoration: none;">
     Data Source: [Global Population - Our World in Data]
   </a>
+  
+Both projections aim to convey, through the use of colors, how much each country contributes to global pollution. 
+
+The main difference between them lies in the fact that the Mercator projection distorts areas, while the Equal Earth projection preserves 
+them. In particular, the Mercator projection causes countries closer to the poles to appear disproportionately large, which can 
+create a misleading impression of pollution levels. For instance, Russia might appear less significant as a polluter  with respect to the apparent size.
+Moreover changing only the size of countries in the northern or southern extremes a comparison of the CO2 emissions among all the countries is not accurate.
+On the other hand, while the Equal Earth projection distorts shapes, it preserves the relative size of countries, making the representation of pollution data more accurate.
+
+## Carbone dioxide CO2 emissions per capita (tonnes per person) by country --Equal earth projection
+
+```js
+
+const selected_year3 = Inputs.select(years, {value: "2022", label: "Year:", format: (d) => d});
+
+view(selected_year3);
+``` 
+
+```js
+const world = await FileAttachment("countries-110m.json").json();
+const country = topojson.feature(world, world.objects.countries);
+
+let plot3;
+let plot3_legend;
+
+function showPlot3() {
+	let data1 = data_year[selected_year3.value];
+	
+	const TotalEmission = new Map(data1.map(d => [d["Numeric Code"], +d["Annual CO₂ emissions (per capita)"]]))
+
+	const values1 = data1.map(d => d["Annual CO₂ emissions (per capita)"]);
+	const min1 = Math.min(...values1);
+	const max1 = Math.max(...values1);
+	
+	plot3_legend = display(
+		Plot.legend({
+		  //data: [10,20,30],
+		  color: {
+			interpolate: x => colorScale(x*max1 + min1, min1, max1),
+			domain: [min1, max1],
+			label: "Annual CO₂ emissions per capita (tonnes/person)",
+		  },
+		  className: "gradient-legend",
+		  width: 300,
+		  ticks: 6,
+		  label: "Annual CO₂ emissions per capita (tonnes/person)"
+		})
+	  )
+
+	plot3 = display(Plot.plot({
+	  projection: "equal-earth",
+	  marks: [
+		Plot.geo(country, Plot.centroid({
+		  fill: d => colorScale(TotalEmission.get(d.id),min1,max1),
+		  tip: true,
+		  channels: {
+			"CO2 (tonnes/person)": d=> TotalEmission.get(d.id),
+			Country: d => d.properties.name,
+		  }
+		})),
+	  ]
+	}));
+
+}
+
+showPlot3();
+
+selected_year3.addEventListener("change", (e) => {
+
+  if (plot3 != undefined) {
+    plot3.parentNode.removeChild(plot3);
+  }
+  if (plot3_legend != undefined) {
+    plot3_legend.parentNode.removeChild(plot3_legend);
+  }
+  showPlot3();
+});
+
+```
+
+<a href="https://ourworldindata.org/grapher/co-emissions-per-capita" style="color: #808080; font-size: 12px; text-decoration: none;">
+    Data Source: [CO2 emission per capita - Our World in Data]
+  </a>
+  
+  
+<a href="https://ourworldindata.org/explorers/population-and-demography?tab=table&time=2022&Metric=Population&Sex=Both+sexes&Age+group=Total&Projection+Scenario=None&country=CHN~IND~USA~IDN~PAK~NGA~BRA~JPN" style="color: #808080; font-size: 12px; text-decoration: none;">
+    Data Source: [Global Population - Our World in Data]
+  </a>
+
+<br />
+
+<br />
+
+## Carbone dioxide CO2 emissions per capita (tonnes per person) by country --Mercator projection
+
+```js
+
+const selected_year4 = Inputs.select(years, {value: "2022", label: "Year:", format: (d) => d});
+
+view(selected_year4);
+``` 
+
+```js
+const world = await FileAttachment("countries-110m.json").json();
+const country = topojson.feature(world, world.objects.countries);
+
+let plot4;
+let plot4_legend;
+
+function showPlot4() {
+	let data1 = data_year[selected_year4.value];
+	
+	const TotalEmission = new Map(data1.map(d => [d["Numeric Code"], +d["Annual CO₂ emissions (per capita)"]]))
+
+	const values1 = data1.map(d => d["Annual CO₂ emissions (per capita)"]);
+	const min1 = Math.min(...values1);
+	const max1 = Math.max(...values1);
+	
+	plot4_legend = display(
+		Plot.legend({
+		  //data: [10,20,30],
+		  color: {
+			interpolate: x => colorScale(x*max1 + min1, min1, max1),
+			domain: [min1, max1],
+			label: "Annual CO₂ emissions per capita (tonnes/person)",
+		  },
+		  className: "gradient-legend",
+		  width: 300,
+		  ticks: 6,
+		  label: "Annual CO₂ emissions per capita (tonnes/person)"
+		})
+	  )
+
+	plot4 = display(Plot.plot({
+	  projection: "Mercator",
+	  marks: [
+		Plot.geo(country, Plot.centroid({
+		  fill: d => colorScale(TotalEmission.get(d.id),min1,max1),
+		  tip: true,
+		  channels: {
+			"CO2 (tonnes/person)": d=> TotalEmission.get(d.id),
+			Country: d => d.properties.name,
+		  }
+		})),
+	  ]
+	}));
+
+}
+
+showPlot4();
+
+selected_year4.addEventListener("change", (e) => {
+
+  if (plot4 != undefined) {
+    plot4.parentNode.removeChild(plot4);
+  }
+  if (plot4_legend != undefined) {
+    plot4_legend.parentNode.removeChild(plot4_legend);
+  }
+  showPlot4();
+});
+
+```
+
+<a href="https://ourworldindata.org/grapher/co-emissions-per-capita" style="color: #808080; font-size: 12px; text-decoration: none;">
+    Data Source: [CO2 emission per capita - Our World in Data]
+  </a>
+  
+  
+<a href="https://ourworldindata.org/explorers/population-and-demography?tab=table&time=2022&Metric=Population&Sex=Both+sexes&Age+group=Total&Projection+Scenario=None&country=CHN~IND~USA~IDN~PAK~NGA~BRA~JPN" style="color: #808080; font-size: 12px; text-decoration: none;">
+    Data Source: [Global Population - Our World in Data]
+  </a>
+
+<br />
+
+<br />
