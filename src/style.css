@@ -80,6 +80,10 @@ nav {
   max-width: 50vw;
 }
 
+.world-gradient-legend {
+  
+}
+
 
 @media screen and (max-width: 650px) {
   .gradient-legend-ramp {
