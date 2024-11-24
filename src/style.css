@@ -81,9 +81,16 @@ nav {
 }
 
 .world-gradient-legend {
-  
+
 }
 
+.Za-Warudo:hover {
+  cursor: pointer;
+}
+
+.Za-Warudo path:hover {
+  stroke: black;
+}
 
 @media screen and (max-width: 650px) {
   .gradient-legend-ramp {

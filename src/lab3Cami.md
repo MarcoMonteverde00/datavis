@@ -60,6 +60,10 @@ const country = topojson.feature(world, world.objects.countries);
 let plot1;
 let plot1_legend;
 
+let plot1_zoom = false;
+let trans_x = 0;
+let trans_y = 0;
+
 function showPlot() {
 	let data1 = data_year[selected_year.value];
 	
@@ -90,7 +94,8 @@ function showPlot() {
 	  marks: [
 		Plot.geo(country, Plot.centroid({
 		  fill: d => colorScale(TotalEmission.get(d.id),min1,max1),
-		  tip: true,
+		  tip: {className: "Za-Warudo-Tip"},
+		  className: "Za-Warudo",
 		  channels: {
 			"CO2 (tonnes)": d=> TotalEmission.get(d.id),
 			Country: d => d.properties.name,
@@ -98,6 +103,56 @@ function showPlot() {
 		})),
 	  ]
 	}));
+
+	let g = plot1.childNodes[1];
+	let tip = plot1.childNodes[2];
+
+	g.style.transition = "transform 0.3s ease-in 0s";
+
+	g.style.transform = "";
+	plot1_zoom = false;
+	trans_x = 0;
+	trans_y = 0;
+
+	g.childNodes.forEach(c => {
+    	c.addEventListener("click", (e) => {
+			
+			let rect = g.parentNode.getBoundingClientRect()
+			//console.log(e);
+
+			let innerRect = e.target.getBoundingClientRect();
+
+			console.log(rect);
+			console.log(innerRect);
+
+			let x = rect.x - innerRect.x;
+			let y = rect.y - innerRect.y;
+
+
+			const zoom_factor = 3;
+
+			if (!plot1_zoom) {
+				x *= zoom_factor;
+				y *= zoom_factor;
+				x -= innerRect.width * zoom_factor / 2;
+				y -= innerRect.height * zoom_factor / 2;
+			} else {
+				
+				x -= innerRect.width / 2;
+				y -= innerRect.height / 2;
+			}
+
+			x += rect.width / 2;
+			y += rect.height / 2;
+
+			trans_x += x;
+			trans_y += y;
+
+			g.style.transform = "translate(" + trans_x + "px, " + trans_y + "px)" + " scale(" + zoom_factor + ", " + zoom_factor + ")";
+
+			plot1_zoom = true;
+		});
+	});
 
 }
 
@@ -114,7 +169,20 @@ selected_year.addEventListener("change", (e) => {
   showPlot();
 });
 
+
+document.getElementsByClassName("unzoom")[0].addEventListener("click", () => {
+
+	let g = plot1.childNodes[1];
+	g.style.transform = "";
+	plot1_zoom = false;
+	trans_x = 0;
+	trans_y = 0;
+
+});
+
 ```
+
+<button class="unzoom">Unzoom</button>
 
 <a href="https://ourworldindata.org/grapher/co-emissions-per-capita" style="color: #808080; font-size: 12px; text-decoration: none;">
     Data Source: [CO2 emission per capita - Our World in Data]
@@ -398,6 +466,8 @@ selected_year4.addEventListener("change", (e) => {
   }
   showPlot4();
 });
+
+
 
 ```
 
