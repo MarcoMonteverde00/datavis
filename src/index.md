@@ -15,6 +15,10 @@ toc: false
 
 ## Assignment 1 <a href="lab1"><button>CO2 per capita</button></a>
 
+<br>
+
+
+## Assignment 2 <a href="lab2"><button>CO2 per capita</button></a>
 
 <style>
 

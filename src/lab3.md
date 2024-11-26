@@ -67,7 +67,12 @@ let trans_y = 0;
 function showPlot() {
 	let data1 = data_year[selected_year.value];
 	
-	const TotalEmission = new Map(data1.map(d => [d["Numeric Code"], +d["Total CO2"]]))
+	console.log(country);
+	const TotalEmission = new Map(data1.map(d => [d["Numeric Code"], d["Total CO2"]]))
+	const EmissionByName = new Map(country.features.map(d => [d.properties.name, TotalEmission.get(d.id)]));
+
+	console.log(TotalEmission)
+	console.log(EmissionByName);
 
 	const values1 = data1.map(d => d["Total CO2"]);
 	const min1 = Math.min(...values1);
@@ -94,13 +99,14 @@ function showPlot() {
 	  marks: [
 		Plot.geo(country, Plot.centroid({
 		  fill: d => colorScale(TotalEmission.get(d.id),min1,max1),
-		  tip: {className: "Za-Warudo-Tip"},
+		  //tip: {className: "Za-Warudo-Tip"},
+		  title: d => d.properties.name,
 		  className: "Za-Warudo",
 		  channels: {
-			"CO2 (tonnes)": d=> TotalEmission.get(d.id),
+			"CO2 (tonnes)": d => TotalEmission.get(d.id),
 			Country: d => d.properties.name,
 		  }
-		})),
+		}))
 	  ]
 	}));
 
@@ -118,12 +124,9 @@ function showPlot() {
     	c.addEventListener("click", (e) => {
 			
 			let rect = g.parentNode.getBoundingClientRect()
-			//console.log(e);
 
 			let innerRect = e.target.getBoundingClientRect();
 
-			console.log(rect);
-			console.log(innerRect);
 
 			let x = rect.x - innerRect.x;
 			let y = rect.y - innerRect.y;
@@ -152,6 +155,31 @@ function showPlot() {
 
 			plot1_zoom = true;
 		});
+
+		c.addEventListener("mouseover", (e) => {
+
+			let country = e.target.childNodes[0].innerHTML;
+			let emissions = EmissionByName.get(country);
+			if(emissions == NaN)
+				emissions = "No Data";
+			else
+				emissions = Number(emissions).toFixed(0);
+
+			let tip = document.getElementById("tooltip-1");
+
+			tip.style.visibility = "visible";
+
+			tip.innerHTML = `<span><b>Country:</b> ${country}</span><br/>
+				<span><b>CO2 Emissions</b>: ${emissions} tonnes</span>`;
+			
+
+				
+		})
+		c.addEventListener("mouseout", (e) => {
+
+			let tip = document.getElementById("tooltip-1");
+			tip.style.visibility = "hidden";
+		})
 	});
 
 }
@@ -181,8 +209,10 @@ document.getElementsByClassName("unzoom")[0].addEventListener("click", () => {
 });
 
 ```
-
+<div class="tooltip" id="tooltip-1">tooltip</div>
+</div>
 <button class="unzoom">Unzoom</button>
+<br/>
 
 <a href="https://ourworldindata.org/grapher/co-emissions-per-capita" style="color: #808080; font-size: 12px; text-decoration: none;">
     Data Source: [CO2 emission per capita - Our World in Data]

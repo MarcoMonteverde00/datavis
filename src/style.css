@@ -92,6 +92,17 @@ nav {
   stroke: black;
 }
 
+.tooltip {
+  position: absolute;
+  bottom: 0px;
+  border: 1px dashed grey;
+  width: fit-content;
+  background-color: white;
+  padding: 5px;
+  font-size: small;
+  visibility: hidden;
+}
+
 @media screen and (max-width: 650px) {
   .gradient-legend-ramp {
     top: 75px;

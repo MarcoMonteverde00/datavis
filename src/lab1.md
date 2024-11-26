@@ -128,7 +128,6 @@ selected_year.addEventListener("change", (e) => {
 });
 
 ```
-
 </div>
 <a href="https://ourworldindata.org/grapher/co-emissions-per-capita" style="color: #808080; font-size: 12px; text-decoration: none;">
     Data Source: [CO2 emission per capita - Our World in Data]
