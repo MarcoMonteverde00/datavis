@@ -77,12 +77,13 @@ function showPlot() {
 			domain: [min1, max1],
 			label: "Annual CO₂ emissions (tonnes)",
 		  },
-		  className: "gradient-legend",
+		  className: "world-gradient-legend",
 		  width: 300,
 		  ticks: 6,
+		  tickFormat: d => (d / 1000000000) + "B",
 		  label: "Annual CO₂ emissions (tonnes)"
 		})
-	  )
+	);
 
 	plot1 = display(Plot.plot({
 	  projection: "equal-earth",
@@ -163,10 +164,11 @@ function showPlot2() {
 			domain: [min2, max2],
 			label: "Annual CO₂ emissions (tonnes)",
 		  },
-		  className: "gradient-legend",
+		  className: "world-gradient-legend",
 		  width: 300,
 		  ticks: 6,
-		  label: "Annual CO₂ emissions (tonnes)"
+		  label: "Annual CO₂ emissions (tonnes)",
+		  tickFormat: d => (d / 1000000000) + "B"
 		})
 	  )
 
@@ -277,7 +279,7 @@ function showPlot3() {
 			domain: [min1, max1],
 			label: "Annual CO₂ emissions per capita (tonnes/person)",
 		  },
-		  className: "gradient-legend",
+		  className: "world-gradient-legend",
 		  width: 300,
 		  ticks: 6,
 		  label: "Annual CO₂ emissions per capita (tonnes/person)"
@@ -361,7 +363,7 @@ function showPlot4() {
 			domain: [min1, max1],
 			label: "Annual CO₂ emissions per capita (tonnes/person)",
 		  },
-		  className: "gradient-legend",
+		  className: "world-gradient-legend",
 		  width: 300,
 		  ticks: 6,
 		  label: "Annual CO₂ emissions per capita (tonnes/person)"
