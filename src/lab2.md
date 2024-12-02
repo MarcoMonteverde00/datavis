@@ -25,6 +25,23 @@ function getShades(baseColor, count) {
 
 }
 
+function numToScientific(number) {
+  let digits = ["⁰", "¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹", "⁻"];
+
+  let num = Number(number).toExponential(2);
+
+  let [val, exp] = num.split("e");
+
+  let true_exp = "";
+  if (exp[0] == "-") true_exp = digits[10];
+
+  for(let i in exp.slice(1)) {
+    true_exp += digits[Number(exp[Number(i)+1])];
+  }
+
+  return val + ` x 10${true_exp}`;
+}
+
 let data_year = {
   "2022": await FileAttachment("./data/co2_2022_stacked.csv").csv(),
   "2021": await FileAttachment("./data/co2_2021_stacked.csv").csv(),
@@ -192,6 +209,10 @@ function showPlot1() {
     .on("mousemove", function(event){
 
       const data = event.target.__data__;
+
+      let emissions = data.value
+
+      let emissionsPerCapita = data.source.per_capita;
     
       tooltip
         .html(`
@@ -199,9 +220,9 @@ function showPlot1() {
           <br/>
           <b>Rank</b>: ${data.source.rank}
           <br/>
-          <b>Total CO2</b>: ${Number(data.value).toFixed(2)} tonnes
+          <b>Total CO2</b>: ${numToScientific(emissions)} tonnes
           <br/>
-          <b>CO2 per capita</b>: ${Number(data.source.per_capita).toFixed(4)} tonnes/person</b>
+          <b>CO2 per capita</b>: ${numToScientific(emissionsPerCapita)} tonnes/person</b>
         `) 
         .style("top", (event.clientY + 30)+"px").style("left",(event.clientX + 30)+"px");
 

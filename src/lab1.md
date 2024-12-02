@@ -15,6 +15,23 @@ let data_year = {
   "2019": await FileAttachment("./data/co2_2019.csv").csv()
 };
 
+function numToScientific(number) {
+  let digits = ["⁰", "¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹", "⁻"];
+
+  let num = Number(number).toExponential(2);
+
+  let [val, exp] = num.split("e");
+
+  let true_exp = "";
+  if (exp[0] == "-") true_exp = digits[10];
+
+  for(let i in exp.slice(1)) {
+    true_exp += digits[Number(exp[Number(i)+1])];
+  }
+
+  return val + ` x 10${true_exp}`;
+}
+
 function colorScale(value, min, max) {
   const ratio = (value - min) / (max - min);
   const b = 0;
@@ -34,7 +51,7 @@ function colorScale(value, min, max) {
 
 #
 
-# Top 20 polluters in a year
+# Top 20 polluters (per person) in a year
 
 ```js
 
@@ -50,6 +67,7 @@ view(selected_year);
 <div class="plot">
 
 ```js
+
 
 let plot1;
 
@@ -137,7 +155,7 @@ The plot aims to investigate which countries were the major contributors to poll
 
 <br /><br /><br />
 
-# Top 20 polluters in a decade
+# Top 20 polluters (per person) in a decade
   
 <div class="plot">
 
@@ -208,11 +226,11 @@ In order to have a more complete analysis the same plot is evaluated in the deca
 
 # Continents Comparison
 ```js
+
 const data3 = await FileAttachment("./data/co2_2022_stacked.csv").csv();
 const data3_without_total = data3.slice(0,36);
 const data3_total = data3.slice(36);
 
-console.log(data3_total);
 
 display(
   Plot.plot({
@@ -236,7 +254,10 @@ display(
           channels: {Country: 'Entity'},
           tip: {
             format: {
-              x: (d) => `${d.toFixed(4)} tonnes`,  
+              x: (d) => {
+                let emissions = numToScientific(d);
+                return `${emissions} tonnes`;
+              },  
               fill: false
             }
           }
@@ -298,7 +319,7 @@ display(
             channels: {Country: 'Entity'},
             tip: {
               format: {
-                x: (d) => `${d.toFixed(4)} tonnes`,  
+                x: (d) => `${numToScientific(d)} tonnes`,  
                 fill: false,
                 fx: false
               }
@@ -347,7 +368,7 @@ display(
           channels: {Country: 'Entity'},
           tip: {
             format: {
-              x: (d) => `${d.toFixed(4)} tonnes`,  
+              x: (d) => `${numToScientific(d)} tonnes`,  
               fill: false
             }
           }
@@ -401,7 +422,7 @@ display(
 		  inset: 0.5,
 		  channels: {Co2_Emissions: "Value"},
 		tip: {
-            format: {value: true}
+            format: {Co2_Emissions: d => `${numToScientific(d)} tonnes`}
           }
 		})
 	  ]

@@ -14,7 +14,6 @@
 ## Carbone dioxide CO2 emissions (tonnes) by country --Equal Earth  projection
 
 ```js
-//Equal Earth  projection
 
 let data_year = {
   "2022": await FileAttachment("./data/ass3_2022.csv").csv(),
@@ -23,7 +22,53 @@ let data_year = {
   "2019": await FileAttachment("./data/ass3_2019.csv").csv()
 };
 
+var minAbs, maxAbs, minCap, maxCap;
+minAbs = Number(data_year["2019"][0]["Total CO2"]);
+maxAbs = Number(data_year["2019"][0]["Total CO2"]);
+minCap = Number(data_year["2019"][0]["Annual CO₂ emissions (per capita)"]);
+maxCap = Number(data_year["2019"][0]["Annual CO₂ emissions (per capita)"]);
+
+let _years = ["2019", "2020", "2021", "2022"];
+
+console.log(maxAbs);
+console.log(minAbs);
+
+for (let i in _years) {
+	let year = _years[i];
+	for(let j in data_year[year]) {
+		if (j == "columns") continue;
+		let abs = Number(data_year[year][j]["Total CO2"]);
+		let cap = Number(data_year[year][j]["Annual CO₂ emissions (per capita)"]);
+
+		if (abs > maxAbs) maxAbs = abs;
+		else if (abs < minAbs) minAbs = abs;
+
+		if(cap > maxCap) maxCap = cap;
+		else if (cap < minCap) minCap = cap;
+	}
+}
+
+
+function numToScientific(number) {
+  let digits = ["⁰", "¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹", "⁻"];
+
+  let num = Number(number).toExponential(2);
+
+  let [val, exp] = num.split("e");
+
+  let true_exp = "";
+  if (exp[0] == "-") true_exp = digits[10];
+
+  for(let i in exp.slice(1)) {
+    true_exp += digits[Number(exp[Number(i)+1])];
+  }
+
+  return val + ` x 10${true_exp}`;
+}
+
 function colorScale(value, min, max) {
+  if (!value) // for NaN values
+	return `rgb(140, 140, 140)`;
   const ratio = (value - min) / (max - min);
   const b = 0;
   let r,g ;
@@ -39,6 +84,16 @@ function colorScale(value, min, max) {
 
 import * as topojson from "topojson-client";
 
+const world = await FileAttachment("countries-110m.json").json();
+const country = topojson.feature(world, world.objects.countries);
+
+let zoom_info = [
+	{zoomed: false, trans_x: 0, trans_y: 0},
+	{zoomed: false, trans_x: 0, trans_y: 0},
+	{zoomed: false, trans_x: 0, trans_y: 0},
+	{zoomed: false, trans_x: 0, trans_y: 0}
+];
+
 ```
 <br />
 
@@ -46,59 +101,42 @@ import * as topojson from "topojson-client";
 
 const years = [2019,2020,2021,2022];
 
-const selected_year = Inputs.select(years, {value: "2022", label: "Year:", format: (d) => d});
+const selected_year_1 = Inputs.select(years, {value: "2022", label: "Year:", format: (d) => d});
 
-view(selected_year);
+view(selected_year_1);
+
 ```
 
 <div class="plot">
 
 ```js
-const world = await FileAttachment("countries-110m.json").json();
-const country = topojson.feature(world, world.objects.countries);
 
-let plot1;
-let plot1_legend;
+function showPlot1(plot_id, data, projection, column_name, column_label) {
 
-let plot1_zoom = false;
-let trans_x = 0;
-let trans_y = 0;
-
-function showPlot() {
-	let data1 = data_year[selected_year.value];
-	
-	console.log(country);
-	const TotalEmission = new Map(data1.map(d => [d["Numeric Code"], d["Total CO2"]]))
+	const TotalEmission = new Map(data.map(d => [d["Numeric Code"], d[column_name]]))
 	const EmissionByName = new Map(country.features.map(d => [d.properties.name, TotalEmission.get(d.id)]));
-
-	console.log(TotalEmission)
-	console.log(EmissionByName);
-
-	const values1 = data1.map(d => d["Total CO2"]);
-	const min1 = Math.min(...values1);
-	const max1 = Math.max(...values1);
 	
-	plot1_legend = display(
+	let plot_legend = display(
 		Plot.legend({
 		  //data: [10,20,30],
 		  color: {
-			interpolate: x => colorScale(x*max1 + min1, min1, max1),
-			domain: [min1, max1],
-			label: "Annual CO₂ emissions (tonnes)",
+			interpolate: x => colorScale(x*maxAbs + minAbs, minAbs, maxAbs),
+			domain: [minAbs, maxAbs],
+			label: column_label,
 		  },
 		  className: "world-gradient-legend",
 		  width: 300,
 		  ticks: 6,
 		  tickFormat: d => (d / 1000000000) + "B",
-		  label: "Annual CO₂ emissions (tonnes)"
+		  label: column_label
 		})
 	);
 
-	plot1 = display(Plot.plot({
-	  projection: "equal-earth",
+	let plot = display(Plot.plot({
+	  projection,
 	  marks: [
 		Plot.geo(country, Plot.centroid({
-		  fill: d => colorScale(TotalEmission.get(d.id),min1,max1),
+		  fill: d => colorScale(TotalEmission.get(d.id),minAbs,maxAbs),
 		  //tip: {className: "Za-Warudo-Tip"},
 		  title: d => d.properties.name,
 		  className: "Za-Warudo",
@@ -110,18 +148,19 @@ function showPlot() {
 	  ]
 	}));
 
-	let g = plot1.childNodes[1];
-	let tip = plot1.childNodes[2];
+	let g = plot.childNodes[1];
+	let tip = plot.childNodes[2];
 
 	g.style.transition = "transform 0.3s ease-in 0s";
 
 	g.style.transform = "";
-	plot1_zoom = false;
-	trans_x = 0;
-	trans_y = 0;
+
+	zoom_info[plot_id] = {zoomed: false, trans_x: 0, trans_y: 0};
 
 	g.childNodes.forEach(c => {
     	c.addEventListener("click", (e) => {
+
+			let {zoomed, trans_x, trans_y} = zoom_info[plot_id];
 			
 			let rect = g.parentNode.getBoundingClientRect()
 
@@ -134,7 +173,7 @@ function showPlot() {
 
 			const zoom_factor = 3;
 
-			if (!plot1_zoom) {
+			if (!zoomed) {
 				x *= zoom_factor;
 				y *= zoom_factor;
 				x -= innerRect.width * zoom_factor / 2;
@@ -153,19 +192,20 @@ function showPlot() {
 
 			g.style.transform = "translate(" + trans_x + "px, " + trans_y + "px)" + " scale(" + zoom_factor + ", " + zoom_factor + ")";
 
-			plot1_zoom = true;
+			zoomed = true;
+
+			zoom_info[plot_id] = {zoomed, trans_x, trans_y};
 		});
 
 		c.addEventListener("mouseover", (e) => {
 
 			let country = e.target.childNodes[0].innerHTML;
 			let emissions = EmissionByName.get(country);
-			if(emissions == NaN)
-				emissions = "No Data";
-			else
-				emissions = Number(emissions).toFixed(0);
 
-			let tip = document.getElementById("tooltip-1");
+
+			emissions = numToScientific(emissions);
+
+			let tip = document.getElementsByClassName("tooltip")[plot_id];
 
 			tip.style.visibility = "visible";
 
@@ -177,16 +217,21 @@ function showPlot() {
 		})
 		c.addEventListener("mouseout", (e) => {
 
-			let tip = document.getElementById("tooltip-1");
+			let tip = document.getElementsByClassName("tooltip")[plot_id];
 			tip.style.visibility = "hidden";
 		})
 	});
 
+	return [plot, plot_legend]
+
 }
 
-showPlot();
+let plot1;
+let plot1_legend;
 
-selected_year.addEventListener("change", (e) => {
+[plot1, plot1_legend] = showPlot1(0, data_year[selected_year_1.value], "equal-earth", "Total CO2", "Annual CO₂ emissions (tonnes)");
+
+selected_year_1.addEventListener("change", (e) => {
 
   if (plot1 != undefined) {
     plot1.parentNode.removeChild(plot1);
@@ -194,7 +239,9 @@ selected_year.addEventListener("change", (e) => {
   if (plot1_legend != undefined) {
     plot1_legend.parentNode.removeChild(plot1_legend);
   }
-  showPlot();
+  
+  [plot1, plot1_legend] = showPlot1(0, data_year[selected_year_1.value], "equal-earth", "Total CO2", "Annual CO₂ emissions (tonnes)");
+
 });
 
 
@@ -202,16 +249,14 @@ document.getElementsByClassName("unzoom")[0].addEventListener("click", () => {
 
 	let g = plot1.childNodes[1];
 	g.style.transform = "";
-	plot1_zoom = false;
-	trans_x = 0;
-	trans_y = 0;
+	zoom_info[0] = {zoomed: false, trans_x: 0, trans_y: 0};
 
 });
 
 ```
-<div class="tooltip" id="tooltip-1">tooltip</div>
+<div class="tooltip">tooltip</div>
+<button class="unzoom"></button>
 </div>
-<button class="unzoom">Unzoom</button>
 <br/>
 
 <a href="https://ourworldindata.org/grapher/co-emissions-per-capita" style="color: #808080; font-size: 12px; text-decoration: none;">
@@ -231,64 +276,137 @@ document.getElementsByClassName("unzoom")[0].addEventListener("click", () => {
 ## Carbone dioxide CO2 emissions (tonnes) by country --Mercator projection
 
 ```js
-const years2 = [2019,2020,2021,2022];
 
-const selected_year2 = Inputs.select(years2, {value: "2022", label: "Year:", format: (d) => d});
+const selected_year_2 = Inputs.select(years, {value: "2022", label: "Year:", format: (d) => d});
 
-view(selected_year2);
-```  
+view(selected_year_2);
+
+```
+
+<div class="plot">
 
 ```js
-const world = await FileAttachment("countries-110m.json").json();
-const country = topojson.feature(world, world.objects.countries);
 
-let plot2;
-let plot2_legend;
+function showPlot2(plot_id, data, projection, column_name, column_label) {
 
-function showPlot2() {
-	let data2 = data_year[selected_year2.value];
+	const TotalEmission = new Map(data.map(d => [d["Numeric Code"], d[column_name]]))
+	const EmissionByName = new Map(country.features.map(d => [d.properties.name, TotalEmission.get(d.id)]));
 	
-	const TotalEmission2 = new Map(data2.map(d => [d["Numeric Code"], +d["Total CO2"]]))
-
-	const values2 = data2.map(d => d["Total CO2"]);
-	const min2 = Math.min(...values2);
-	const max2 = Math.max(...values2);
-	
-	plot2_legend = display(
+	let plot_legend = display(
 		Plot.legend({
 		  //data: [10,20,30],
 		  color: {
-			interpolate: x => colorScale(x*max2 + min2, min2, max2),
-			domain: [min2, max2],
-			label: "Annual CO₂ emissions (tonnes)",
+			interpolate: x => colorScale(x*maxAbs + minAbs, minAbs, maxAbs),
+			domain: [minAbs, maxAbs],
+			label: column_label,
 		  },
 		  className: "world-gradient-legend",
 		  width: 300,
 		  ticks: 6,
-		  label: "Annual CO₂ emissions (tonnes)",
-		  tickFormat: d => (d / 1000000000) + "B"
+		  tickFormat: d => (d / 1000000000) + "B",
+		  label: column_label
 		})
-	  )
+	);
 
-	plot2 = display(Plot.plot({
-	  projection: "Mercator",
+	let plot = display(Plot.plot({
+	  projection,
 	  marks: [
 		Plot.geo(country, Plot.centroid({
-		  fill: d => colorScale(TotalEmission2.get(d.id),min2,max2),
-		  tip: true,
+		  fill: d => colorScale(TotalEmission.get(d.id),minAbs,maxAbs),
+		  //tip: {className: "Za-Warudo-Tip"},
+		  title: d => d.properties.name,
+		  className: "Za-Warudo",
 		  channels: {
-			"CO2 (tonnes)": d=> TotalEmission2.get(d.id),
+			"CO2 (tonnes)": d => TotalEmission.get(d.id),
 			Country: d => d.properties.name,
 		  }
-		})),
+		}))
 	  ]
 	}));
 
+	let g = plot.childNodes[1];
+	let tip = plot.childNodes[2];
+
+	g.style.transition = "transform 0.3s ease-in 0s";
+
+	g.style.transform = "";
+
+	zoom_info[plot_id] = {zoomed: false, trans_x: 0, trans_y: 0};
+
+	g.childNodes.forEach(c => {
+    	c.addEventListener("click", (e) => {
+
+			let {zoomed, trans_x, trans_y} = zoom_info[plot_id];
+			
+			let rect = g.parentNode.getBoundingClientRect()
+
+			let innerRect = e.target.getBoundingClientRect();
+
+
+			let x = rect.x - innerRect.x;
+			let y = rect.y - innerRect.y;
+
+
+			const zoom_factor = 3;
+
+			if (!zoomed) {
+				x *= zoom_factor;
+				y *= zoom_factor;
+				x -= innerRect.width * zoom_factor / 2;
+				y -= innerRect.height * zoom_factor / 2;
+			} else {
+				
+				x -= innerRect.width / 2;
+				y -= innerRect.height / 2;
+			}
+
+			x += rect.width / 2;
+			y += rect.height / 2;
+
+			trans_x += x;
+			trans_y += y;
+
+			g.style.transform = "translate(" + trans_x + "px, " + trans_y + "px)" + " scale(" + zoom_factor + ", " + zoom_factor + ")";
+
+			zoomed = true;
+
+			zoom_info[plot_id] = {zoomed, trans_x, trans_y};
+		});
+
+		c.addEventListener("mouseover", (e) => {
+
+			let country = e.target.childNodes[0].innerHTML;
+			let emissions = EmissionByName.get(country);
+			
+			emissions = numToScientific(emissions);
+
+			let tip = document.getElementsByClassName("tooltip")[plot_id];
+
+			tip.style.visibility = "visible";
+
+			tip.innerHTML = `<span><b>Country:</b> ${country}</span><br/>
+				<span><b>CO2 Emissions</b>: ${emissions} tonnes</span>`;
+			
+
+				
+		})
+		c.addEventListener("mouseout", (e) => {
+
+			let tip = document.getElementsByClassName("tooltip")[plot_id];
+			tip.style.visibility = "hidden";
+		})
+	});
+
+	return [plot, plot_legend]
+
 }
 
-showPlot2();
+let plot2;
+let plot2_legend;
 
-selected_year2.addEventListener("change", (e) => {
+[plot2, plot2_legend] = showPlot2(1, data_year[selected_year_2.value], "Mercator", "Total CO2", "Annual CO₂ emissions (tonnes)");
+
+selected_year_2.addEventListener("change", (e) => {
 
   if (plot2 != undefined) {
     plot2.parentNode.removeChild(plot2);
@@ -296,36 +414,25 @@ selected_year2.addEventListener("change", (e) => {
   if (plot2_legend != undefined) {
     plot2_legend.parentNode.removeChild(plot2_legend);
   }
-  showPlot2();
+  
+  [plot2, plot2_legend] = showPlot2(1, data_year[selected_year_2.value], "Mercator", "Total CO2", "Annual CO₂ emissions (tonnes)");
+
 });
 
-/*
-display(Plot.plot({
-  projection: "equirectangular",
-  color: {
-    type: "quantize",
-    n: 9,
-    domain: [min1, max1],
-    scheme: "YlOrRd",
-    label: "Unemployment rate (%)",
-    legend: true
-  },
-  marks: [
-    Plot.geo(country, Plot.centroid({
-	fill: d => {
-        const emissions = TotalEmission.get(d.id); // Make sure to use the correct property here
-        return emissions !== undefined ? emissions : 0; // Default to 0 if no data
-      },
-      //fill: d => TotalEmission.get(d.Entity),
-      tip: true,
-      channels: {
-        Country: d => d.properties.name,
-      }
-    })),
-  ]
-}));*/
+
+document.getElementsByClassName("unzoom")[1].addEventListener("click", () => {
+
+	let g = plot2.childNodes[1];
+	g.style.transform = "";
+	zoom_info[1] = {zoomed: false, trans_x: 0, trans_y: 0};
+
+});
 
 ```
+<div class="tooltip">tooltip</div>
+<button class="unzoom"></button>
+</div>
+<br/>
 
 <a href="https://ourworldindata.org/grapher/co-emissions-per-capita" style="color: #808080; font-size: 12px; text-decoration: none;">
     Data Source: [CO2 emission per capita - Our World in Data]
@@ -348,61 +455,134 @@ On the other hand, while the Equal Earth projection distorts shapes, it preserve
 
 ```js
 
-const selected_year3 = Inputs.select(years, {value: "2022", label: "Year:", format: (d) => d});
+const selected_year_3 = Inputs.select(years, {value: "2022", label: "Year:", format: (d) => d});
 
-view(selected_year3);
+view(selected_year_3);
 ``` 
 
+<div class="plot">
+
 ```js
-const world = await FileAttachment("countries-110m.json").json();
-const country = topojson.feature(world, world.objects.countries);
 
-let plot3;
-let plot3_legend;
+function showPlot3(plot_id, data, projection, column_name, column_label) {
 
-function showPlot3() {
-	let data1 = data_year[selected_year3.value];
-	
-	const TotalEmission = new Map(data1.map(d => [d["Numeric Code"], +d["Annual CO₂ emissions (per capita)"]]))
+	const TotalEmission = new Map(data.map(d => [d["Numeric Code"], d[column_name]]))
+	const EmissionByName = new Map(country.features.map(d => [d.properties.name, TotalEmission.get(d.id)]));
 
-	const values1 = data1.map(d => d["Annual CO₂ emissions (per capita)"]);
-	const min1 = Math.min(...values1);
-	const max1 = Math.max(...values1);
-	
-	plot3_legend = display(
+	let plot_legend = display(
 		Plot.legend({
 		  //data: [10,20,30],
 		  color: {
-			interpolate: x => colorScale(x*max1 + min1, min1, max1),
-			domain: [min1, max1],
-			label: "Annual CO₂ emissions per capita (tonnes/person)",
+			interpolate: x => colorScale(x*maxCap + minCap, minCap, maxCap),
+			domain: [minCap, maxCap],
+			label: column_label,
 		  },
 		  className: "world-gradient-legend",
 		  width: 300,
 		  ticks: 6,
-		  label: "Annual CO₂ emissions per capita (tonnes/person)"
+		  //tickFormat: d => (d / 1000000000) + "B",
+		  label: column_label
 		})
-	  )
+	);
 
-	plot3 = display(Plot.plot({
-	  projection: "equal-earth",
+	let plot = display(Plot.plot({
+	  projection,
 	  marks: [
 		Plot.geo(country, Plot.centroid({
-		  fill: d => colorScale(TotalEmission.get(d.id),min1,max1),
-		  tip: true,
+		  fill: d => colorScale(TotalEmission.get(d.id),minCap,maxCap),
+		  //tip: {className: "Za-Warudo-Tip"},
+		  title: d => d.properties.name,
+		  className: "Za-Warudo",
 		  channels: {
-			"CO2 (tonnes/person)": d=> TotalEmission.get(d.id),
+			"CO2 (tonnes)": d => TotalEmission.get(d.id),
 			Country: d => d.properties.name,
 		  }
-		})),
+		}))
 	  ]
 	}));
 
+	let g = plot.childNodes[1];
+	let tip = plot.childNodes[2];
+
+	g.style.transition = "transform 0.3s ease-in 0s";
+
+	g.style.transform = "";
+
+	zoom_info[plot_id] = {zoomed: false, trans_x: 0, trans_y: 0};
+
+	g.childNodes.forEach(c => {
+    	c.addEventListener("click", (e) => {
+
+			let {zoomed, trans_x, trans_y} = zoom_info[plot_id];
+			
+			let rect = g.parentNode.getBoundingClientRect()
+
+			let innerRect = e.target.getBoundingClientRect();
+
+
+			let x = rect.x - innerRect.x;
+			let y = rect.y - innerRect.y;
+
+
+			const zoom_factor = 3;
+
+			if (!zoomed) {
+				x *= zoom_factor;
+				y *= zoom_factor;
+				x -= innerRect.width * zoom_factor / 2;
+				y -= innerRect.height * zoom_factor / 2;
+			} else {
+				
+				x -= innerRect.width / 2;
+				y -= innerRect.height / 2;
+			}
+
+			x += rect.width / 2;
+			y += rect.height / 2;
+
+			trans_x += x;
+			trans_y += y;
+
+			g.style.transform = "translate(" + trans_x + "px, " + trans_y + "px)" + " scale(" + zoom_factor + ", " + zoom_factor + ")";
+
+			zoomed = true;
+
+			zoom_info[plot_id] = {zoomed, trans_x, trans_y};
+		});
+
+		c.addEventListener("mouseover", (e) => {
+
+			let country = e.target.childNodes[0].innerHTML;
+			let emissions = EmissionByName.get(country);
+			emissions = numToScientific(emissions);
+
+			let tip = document.getElementsByClassName("tooltip")[plot_id];
+
+			tip.style.visibility = "visible";
+
+			tip.innerHTML = `<span><b>Country:</b> ${country}</span><br/>
+				<span><b>CO2 Emissions</b>: ${emissions} tonnes</span>`;
+			
+
+				
+		})
+		c.addEventListener("mouseout", (e) => {
+
+			let tip = document.getElementsByClassName("tooltip")[plot_id];
+			tip.style.visibility = "hidden";
+		})
+	});
+
+	return [plot, plot_legend]
+
 }
 
-showPlot3();
+let plot3;
+let plot3_legend;
 
-selected_year3.addEventListener("change", (e) => {
+[plot3, plot3_legend] = showPlot3(2, data_year[selected_year_3.value], "equal-earth", "Annual CO₂ emissions (per capita)", "Annual CO₂ emissions per capita (tonnes/person)");
+
+selected_year_3.addEventListener("change", (e) => {
 
   if (plot3 != undefined) {
     plot3.parentNode.removeChild(plot3);
@@ -410,10 +590,25 @@ selected_year3.addEventListener("change", (e) => {
   if (plot3_legend != undefined) {
     plot3_legend.parentNode.removeChild(plot3_legend);
   }
-  showPlot3();
+  
+  [plot3, plot3_legend] = showPlot3(2, data_year[selected_year_3.value], "equal-earth", "Annual CO₂ emissions (per capita)", "Annual CO₂ emissions per capita (tonnes/person)");
+
+});
+
+
+document.getElementsByClassName("unzoom")[2].addEventListener("click", () => {
+
+	let g = plot3.childNodes[1];
+	g.style.transform = "";
+	zoom_info[2] = {zoomed: false, trans_x: 0, trans_y: 0};
+
 });
 
 ```
+<div class="tooltip">tooltip</div>
+<button class="unzoom"></button>
+</div>
+<br/>
 
 <a href="https://ourworldindata.org/grapher/co-emissions-per-capita" style="color: #808080; font-size: 12px; text-decoration: none;">
     Data Source: [CO2 emission per capita - Our World in Data]
@@ -430,63 +625,137 @@ selected_year3.addEventListener("change", (e) => {
 
 ## Carbone dioxide CO2 emissions per capita (tonnes per person) by country --Mercator projection
 
+
 ```js
 
-const selected_year4 = Inputs.select(years, {value: "2022", label: "Year:", format: (d) => d});
+const selected_year_4 = Inputs.select(years, {value: "2022", label: "Year:", format: (d) => d});
 
-view(selected_year4);
+view(selected_year_4);
 ``` 
 
+<div class="plot">
+
 ```js
-const world = await FileAttachment("countries-110m.json").json();
-const country = topojson.feature(world, world.objects.countries);
 
-let plot4;
-let plot4_legend;
+function showPlot4(plot_id, data, projection, column_name, column_label) {
 
-function showPlot4() {
-	let data1 = data_year[selected_year4.value];
-	
-	const TotalEmission = new Map(data1.map(d => [d["Numeric Code"], +d["Annual CO₂ emissions (per capita)"]]))
+	const TotalEmission = new Map(data.map(d => [d["Numeric Code"], d[column_name]]))
+	const EmissionByName = new Map(country.features.map(d => [d.properties.name, TotalEmission.get(d.id)]));
 
-	const values1 = data1.map(d => d["Annual CO₂ emissions (per capita)"]);
-	const min1 = Math.min(...values1);
-	const max1 = Math.max(...values1);
-	
-	plot4_legend = display(
+	let plot_legend = display(
 		Plot.legend({
 		  //data: [10,20,30],
 		  color: {
-			interpolate: x => colorScale(x*max1 + min1, min1, max1),
-			domain: [min1, max1],
-			label: "Annual CO₂ emissions per capita (tonnes/person)",
+			interpolate: x => colorScale(x*maxCap + minCap, minCap, maxCap),
+			domain: [minCap, maxCap],
+			label: column_label,
 		  },
 		  className: "world-gradient-legend",
 		  width: 300,
 		  ticks: 6,
-		  label: "Annual CO₂ emissions per capita (tonnes/person)"
+		  //tickFormat: d => (d / 1000000000) + "B",
+		  label: column_label
 		})
-	  )
+	);
 
-	plot4 = display(Plot.plot({
-	  projection: "Mercator",
+	let plot = display(Plot.plot({
+	  projection,
 	  marks: [
 		Plot.geo(country, Plot.centroid({
-		  fill: d => colorScale(TotalEmission.get(d.id),min1,max1),
-		  tip: true,
+		  fill: d => colorScale(TotalEmission.get(d.id),minCap,maxCap),
+		  //tip: {className: "Za-Warudo-Tip"},
+		  title: d => d.properties.name,
+		  className: "Za-Warudo",
 		  channels: {
-			"CO2 (tonnes/person)": d=> TotalEmission.get(d.id),
+			"CO2 (tonnes)": d => TotalEmission.get(d.id),
 			Country: d => d.properties.name,
 		  }
-		})),
+		}))
 	  ]
 	}));
 
+	let g = plot.childNodes[1];
+	let tip = plot.childNodes[2];
+
+	g.style.transition = "transform 0.3s ease-in 0s";
+
+	g.style.transform = "";
+
+	zoom_info[plot_id] = {zoomed: false, trans_x: 0, trans_y: 0};
+
+	g.childNodes.forEach(c => {
+    	c.addEventListener("click", (e) => {
+
+			let {zoomed, trans_x, trans_y} = zoom_info[plot_id];
+			
+			let rect = g.parentNode.getBoundingClientRect()
+
+			let innerRect = e.target.getBoundingClientRect();
+
+
+			let x = rect.x - innerRect.x;
+			let y = rect.y - innerRect.y;
+
+
+			const zoom_factor = 3;
+
+			if (!zoomed) {
+				x *= zoom_factor;
+				y *= zoom_factor;
+				x -= innerRect.width * zoom_factor / 2;
+				y -= innerRect.height * zoom_factor / 2;
+			} else {
+				
+				x -= innerRect.width / 2;
+				y -= innerRect.height / 2;
+			}
+
+			x += rect.width / 2;
+			y += rect.height / 2;
+
+			trans_x += x;
+			trans_y += y;
+
+			g.style.transform = "translate(" + trans_x + "px, " + trans_y + "px)" + " scale(" + zoom_factor + ", " + zoom_factor + ")";
+
+			zoomed = true;
+
+			zoom_info[plot_id] = {zoomed, trans_x, trans_y};
+		});
+
+		c.addEventListener("mouseover", (e) => {
+
+			let country = e.target.childNodes[0].innerHTML;
+			let emissions = EmissionByName.get(country);
+			emissions = numToScientific(emissions);
+
+			let tip = document.getElementsByClassName("tooltip")[plot_id];
+
+			tip.style.visibility = "visible";
+
+			tip.innerHTML = `<span><b>Country:</b> ${country}</span><br/>
+				<span><b>CO2 Emissions</b>: ${emissions} tonnes</span>`;
+			
+
+				
+		})
+		c.addEventListener("mouseout", (e) => {
+
+			let tip = document.getElementsByClassName("tooltip")[plot_id];
+			tip.style.visibility = "hidden";
+		})
+	});
+
+	return [plot, plot_legend]
+
 }
 
-showPlot4();
+let plot4;
+let plot4_legend;
 
-selected_year4.addEventListener("change", (e) => {
+[plot4, plot4_legend] = showPlot4(3, data_year[selected_year_4.value], "Mercator", "Annual CO₂ emissions (per capita)", "Annual CO₂ emissions per capita (tonnes/person)");
+
+selected_year_4.addEventListener("change", (e) => {
 
   if (plot4 != undefined) {
     plot4.parentNode.removeChild(plot4);
@@ -494,12 +763,25 @@ selected_year4.addEventListener("change", (e) => {
   if (plot4_legend != undefined) {
     plot4_legend.parentNode.removeChild(plot4_legend);
   }
-  showPlot4();
+  
+  [plot4, plot4_legend] = showPlot4(3, data_year[selected_year_4.value], "Mercator", "Annual CO₂ emissions (per capita)", "Annual CO₂ emissions per capita (tonnes/person)");
+
 });
 
 
+document.getElementsByClassName("unzoom")[3].addEventListener("click", () => {
+
+	let g = plot4.childNodes[1];
+	g.style.transform = "";
+	zoom_info[3] = {zoomed: false, trans_x: 0, trans_y: 0};
+
+});
 
 ```
+<div class="tooltip">tooltip</div>
+<button class="unzoom"></button>
+</div>
+<br/>
 
 <a href="https://ourworldindata.org/grapher/co-emissions-per-capita" style="color: #808080; font-size: 12px; text-decoration: none;">
     Data Source: [CO2 emission per capita - Our World in Data]
