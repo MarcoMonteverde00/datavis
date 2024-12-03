@@ -2,16 +2,15 @@
 
 <div class="hero">
 
-# Global Pollution by Country: A Comparison of Map Projections
+# Global Pollution by Country: How CO2 Shapes the World
 
 </div>
 
 <br />
+<p>Pollution, in particular when related to CO2 emissions, is an <b>invisible phenomenon</b>, perceivable by effect but not through eyes. Here, we show the Earth as it would appear <b>if pollution were visible</b>, exploiting colours. The reader is strongly invited to <b>interact</b> with the maps to access <b>more detailed information</b> and discover how the environmental crisis is differently impacted by some countries more than others.</p>
+<p>In order to convey the data in the most transparent way, reducing bias regarding world representation, we provide different projections. The first two are, respectively, Equal Earth and Mercator projections.</p> 
 
-# Global Pollution by Country: A Comparison of Map Projections
-<br />
-
-## Carbone dioxide CO2 emissions (tonnes) by country --Equal Earth  projection
+<h2>Carbone Dioxide (CO2) Emissions by Country</h2>
 
 ```js
 
@@ -272,9 +271,6 @@ document.getElementsByClassName("unzoom")[0].addEventListener("click", () => {
 
 <br />
 
-
-## Carbone dioxide CO2 emissions (tonnes) by country --Mercator projection
-
 ```js
 
 const selected_year_2 = Inputs.select(years, {value: "2022", label: "Year:", format: (d) => d});
@@ -443,15 +439,13 @@ document.getElementsByClassName("unzoom")[1].addEventListener("click", () => {
     Data Source: [Global Population - Our World in Data]
   </a>
   
-Both projections aim to convey, through the use of colors, how much each country contributes to global pollution. 
+<p>Both projections aim to convey, through the use of colors, how much each country <b>contributes to global pollution</b>.</p>
 
-The main difference between them lies in the fact that the Mercator projection distorts areas, while the Equal Earth projection preserves 
-them. In particular, the Mercator projection causes countries closer to the poles to appear disproportionately large, which can 
-create a misleading impression of pollution levels. For instance, Russia might appear less significant as a polluter  with respect to the apparent size.
-Moreover changing only the size of countries in the northern or southern extremes a comparison of the CO2 emissions among all the countries is not accurate.
-On the other hand, while the Equal Earth projection distorts shapes, it preserves the relative size of countries, making the representation of pollution data more accurate.
+<p>Why bothering with different representation of the same information? The main reason behind this choice lies in the fact that the Mercator projection <b>distorts areas</b>, while the Equal Earth projection preserves them. In particular, the Mercator projection causes countries closer to the poles to appear disproportionately large, which can create a <b>misleading impression</b> of pollution levels. For instance, Russia might appear less significant as a polluter  with respect to the apparent size. Moreover, changing only the size of countries in the northern or southern extremes produces a <b>not accurate comparison</b> of the CO2 emissions among all the countries.</p>
 
-## Carbone dioxide CO2 emissions per capita (tonnes per person) by country --Equal earth projection
+<p>On the other hand, while the Equal Earth projection distorts shapes, it <b>preserves the relative size</b> of countries, making the representation of pollution data more accurate, despite being different from the typical image we all have in our mind when thinking about Earth.</p>
+
+<h2>Carbone Dioxide (CO2) Emissions per Capita by Country</h2>
 
 ```js
 
@@ -622,9 +616,6 @@ document.getElementsByClassName("unzoom")[2].addEventListener("click", () => {
 <br />
 
 <br />
-
-## Carbone dioxide CO2 emissions per capita (tonnes per person) by country --Mercator projection
-
 
 ```js
 
