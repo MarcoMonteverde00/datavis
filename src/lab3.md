@@ -30,9 +30,6 @@ maxCap = Number(data_year["2019"][0]["Annual CO₂ emissions (per capita)"]);
 
 let _years = ["2019", "2020", "2021", "2022"];
 
-console.log(maxAbs);
-console.log(minAbs);
-
 for (let i in _years) {
 	let year = _years[i];
 	for(let j in data_year[year]) {
@@ -63,7 +60,7 @@ function numToScientific(number) {
     true_exp += digits[Number(exp[Number(i)+1])];
   }
 
-  return val + ` x 10${true_exp}`;
+  return val + ` × 10${true_exp}`;
 }
 
 function colorScale(value, min, max) {

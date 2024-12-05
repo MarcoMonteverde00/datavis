@@ -73,11 +73,15 @@ nav {
   width: fit-content;
 }
 
-.gradient-legend-ramp {
+.gradient-legend-ramp, .heatmap-legend-ramp {
   position: absolute;
   top: 50px;
   right: 30px;
   max-width: 50vw;
+}
+
+.heatmap {
+  margin-top: 30px;
 }
 
 .world-gradient-legend {
@@ -121,11 +125,18 @@ nav {
   .gradient-legend-ramp {
     top: 75px;
   }
+
+  .heatmap-legend-ramp {
+    top: 85px;
+  }
 }
 
 @media screen and (max-width: 480px) {
   .gradient-legend-ramp {
     top: 95px;
+  }
+  .heatmap-legend-ramp {
+    top: 104px;
   }
 }
 

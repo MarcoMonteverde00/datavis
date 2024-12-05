@@ -15,6 +15,29 @@ let data_year = {
   "2019": await FileAttachment("./data/co2_2019.csv").csv()
 };
 
+var minAbs, maxAbs, minCap, maxCap;
+minAbs = Number(data_year["2019"][0]["Total CO2"]);
+maxAbs = Number(data_year["2019"][0]["Total CO2"]);
+minCap = Number(data_year["2019"][0]["Annual CO₂ emissions (per capita)"]);
+maxCap = Number(data_year["2019"][0]["Annual CO₂ emissions (per capita)"]);
+
+let _years = ["2019", "2020", "2021", "2022"];
+
+for (let i in _years) {
+	let year = _years[i];
+	for(let j in data_year[year]) {
+		if (j == "columns") continue;
+		let abs = Number(data_year[year][j]["Total CO2"]);
+		let cap = Number(data_year[year][j]["Annual CO₂ emissions (per capita)"]);
+
+		if (abs > maxAbs) maxAbs = abs;
+		else if (abs < minAbs) minAbs = abs;
+
+		if(cap > maxCap) maxCap = cap;
+		else if (cap < minCap) minCap = cap;
+	}
+}
+
 function numToScientific(number) {
   let digits = ["⁰", "¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹", "⁻"];
 
@@ -29,7 +52,7 @@ function numToScientific(number) {
     true_exp += digits[Number(exp[Number(i)+1])];
   }
 
-  return val + ` x 10${true_exp}`;
+  return val + ` × 10${true_exp}`;
 }
 
 function colorScale(value, min, max) {
@@ -78,16 +101,11 @@ function showPlot1() {
   let data1 = data_year[selected_year.value];
   let trimmed1 = data1.slice(0,20)
 
-  let values1 = data1.map(d => d["Annual CO₂ emissions (per capita)"]);
-  let min1 = Math.min(...values1);
-  let max1 = Math.max(...values1);
-
   plot1_legend = display(
     Plot.legend({
-      data: [10,20,30],
       color: {
-        interpolate: x => colorScale(x*max1 + min1, min1, max1),
-        domain: [min1, max1]
+        interpolate: x => colorScale(x*(maxCap - minCap) + minCap, minCap, maxCap),
+        domain: [minCap, maxCap]
       },
       className: "gradient-legend",
       width: 300,
@@ -117,7 +135,7 @@ function showPlot1() {
           x: "Entity", 
           y: "Annual CO₂ emissions (per capita)", 
           sort: {x: "y", reverse: true}, 
-          fill: d => colorScale(d["Annual CO₂ emissions (per capita)"],min1,max1),
+          fill: d => colorScale(d["Annual CO₂ emissions (per capita)"],minCap,maxCap),
           tip: {
             format: {
               y: (d) => `${d.toFixed(4)} tonnes/per`   
@@ -164,16 +182,11 @@ The plot aims to investigate which countries were the major contributors to poll
 const data2 = await FileAttachment("./data/co2_2022_mean.csv").csv(); 
 const trimmed2 = data2.slice(0,20);
 
-const values2 = data2.map(d => d["Annual CO₂ emissions (per capita)"]);
-const min2 = Math.min(...values2);
-const max2 = Math.max(...values2);
-
 display(
   Plot.legend({
-    data: [10,20,30],
     color: {
-      interpolate: x => colorScale(x*max2 + min2, min2, max2),
-      domain: [min2, max2]
+      interpolate: x => colorScale(x*(maxCap - minCap) + minCap, minCap, maxCap),
+      domain: [minCap, maxCap]
     },
     className: "gradient-legend",
     width: 300,
@@ -203,7 +216,7 @@ display(
         x: "Entity", 
         y: "Annual CO₂ emissions (per capita)", 
         sort: {x: "y", reverse: true}, 
-        fill: d => colorScale(d["Annual CO₂ emissions (per capita)"], min2, max2),
+        fill: d => colorScale(d["Annual CO₂ emissions (per capita)"], minCap, maxCap),
         tip: {
           format: {
             y: (d) => `${d.toFixed(4)} tonnes/per`   
@@ -394,12 +407,50 @@ The same data are also evaluated with respect to the total CO2 emissions of the 
 <br /><br /><br />
 # Emissions type comparison
 
+<div class="plot">
+
 ```js
 const data_by_type = await FileAttachment("./data/co2_by_type_Heatmap.csv").csv();
 
 const values_Heatmap = data_by_type.map(d => d["Value"]);
 const minHeatmap = Math.min(...values_Heatmap);
 const maxHeatmap = Math.max(...values_Heatmap);
+
+function colorScaleWithNegatives(value, min, max) {
+  
+  let r = 255;
+  let g = 255;
+  let b = 0;
+  let ratio;
+  if (min >= 0) {
+    ratio = (value - min) / (max - min);
+    g = Math.floor(255 * (1 - ratio));
+  } else {
+    if (value > 0) {
+      ratio = value / max;
+      g = Math.floor(255 * (1 - ratio));
+    } else {
+      ratio = value / min;
+      r = Math.floor(255 * (1 - ratio));
+    }
+  }
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
+
+display(
+  Plot.legend({
+    //data: [10,20,30],
+    color: {
+      interpolate: x => colorScaleWithNegatives(x*(2 * maxHeatmap) - maxHeatmap, -maxHeatmap, maxHeatmap),
+      domain: [-maxHeatmap, maxHeatmap]
+    },
+    className: "heatmap-legend",
+    width: 500,
+    ticks: 10,
+    tickFormat: d => (d / 1000000000) + "B"
+  })
+)
 
 display(
 	Plot.plot({
@@ -413,12 +464,13 @@ display(
       label: "Country",
       tickRotate: -30
 	  },
+    className: "heatmap",
 	  color: {legend: true, zero: true},
 	  marks: [
 		Plot.cell(data_by_type, {
 		  x: "Entity",
 		  y: "Type",
-		  fill: d => colorScale(d["Value"], minHeatmap, maxHeatmap),
+		  fill: d => colorScaleWithNegatives(d["Value"], -maxHeatmap, maxHeatmap),
 		  inset: 0.5,
 		  channels: {Co2_Emissions: "Value"},
 		tip: {
@@ -429,6 +481,7 @@ display(
 	})
 )
 ```
+</div>
 
 <a href="https://ourworldindata.org/grapher/co2-fossil-plus-land-use" style="color: #808080; font-size: 12px; text-decoration: none;">
     Data Source: [CO2 emissions by type - Our World in Data]
