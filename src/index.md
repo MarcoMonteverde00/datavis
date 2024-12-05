@@ -13,12 +13,18 @@ toc: false
 ---
 <br>
 
-## Assignment 1 <a href="lab1"><button>CO2 per capita</button></a>
+## Assignment 1 <a href="lab1"><button>Comparing Categories</button></a>
 
 <br>
 
 
-## Assignment 2 <a href="lab2"><button>CO2 per capita</button></a>
+## Assignment 2 <a href="lab2"><button>Alluvial</button></a>
+
+<br>
+
+
+## Assignment 3 <a href="lab3"><button>Maps</button></a>
+
 
 <style>
 
