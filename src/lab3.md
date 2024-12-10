@@ -6,11 +6,14 @@
 
 </div>
 
-<br />
 <p>Pollution, in particular when related to CO2 emissions, is an <b>invisible phenomenon</b>, perceivable by effect but not through eyes. Here, we show the Earth as it would appear <b>if pollution were visible</b>, exploiting colours. The reader is strongly invited to <b>interact</b> with the maps to access <b>more detailed information</b> and discover how the environmental crisis is differently impacted by some countries more than others.</p>
-<p>In order to convey the data in the most transparent way, reducing bias regarding world representation, we provide different projections. The first two are, respectively, Equal Earth and Mercator projections.</p> 
+
+<h1>Earth Representation may Deceive: Here's How</h1>
+<p>There are a lot of different ways to represent the Earth, preserving different properties and <b>loosing some other</b>. When dealing with Carbon Dioxide emissions, a <b>wrong or deceitful</b> usage of maps can result in <b>communication errors</b>, justification of <b>conspirational theories</b> or <b>data manipulation</b> to minimize the problem.
+<p>In order to convey the data in the most transparent way, reducing bias regarding world representation, we provide different projections. The first two are, respectively, Equal Earth and Mercator projections.</p>
 
 <h2>Carbone Dioxide (CO2) Emissions by Country</h2>
+<h3>Equal Earth Projection</h3>
 
 ```js
 
@@ -102,7 +105,6 @@ const selected_year_1 = Inputs.select(years, {value: "2022", label: "Year:", for
 view(selected_year_1);
 
 ```
-
 <div class="plot">
 
 ```js
@@ -258,15 +260,15 @@ document.getElementsByClassName("unzoom")[0].addEventListener("click", () => {
 <a href="https://ourworldindata.org/grapher/co-emissions-per-capita" style="color: #808080; font-size: 12px; text-decoration: none;">
     Data Source: [CO2 emission per capita - Our World in Data]
   </a>
-  
+<br />
   
 <a href="https://ourworldindata.org/explorers/population-and-demography?tab=table&time=2022&Metric=Population&Sex=Both+sexes&Age+group=Total&Projection+Scenario=None&country=CHN~IND~USA~IDN~PAK~NGA~BRA~JPN" style="color: #808080; font-size: 12px; text-decoration: none;">
     Data Source: [Global Population - Our World in Data]
   </a>
 
 <br />
-
 <br />
+<h3>Mercator Projection</h3>
 
 ```js
 
@@ -275,7 +277,6 @@ const selected_year_2 = Inputs.select(years, {value: "2022", label: "Year:", for
 view(selected_year_2);
 
 ```
-
 <div class="plot">
 
 ```js
