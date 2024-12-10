@@ -7,23 +7,18 @@ toc: false
   <h2>We love casting spells</h2>
 </div>
 
-#### Group Memebers: Camilla Commodaro, Gabriele Dellepere, Marco Monteverde
+<h3>Group Memebers: Camilla Commodaro, Gabriele Dellepere, Marco Monteverde</h3>
 
 
 ---
 <br>
-
-## Assignment 1 <a href="lab1"><button>Comparing Categories</button></a>
-
-<br>
-
-
-## Assignment 2 <a href="lab2"><button>Alluvial</button></a>
+<h2><a href="lab1">CO2 Emissions: an Overview</a></h2>
 
 <br>
+<h2><a href="lab2">Which Countries are the Worst Polluters</a></h2>
 
-
-## Assignment 3 <a href="lab3"><button>Maps</button></a>
+<br>
+<h2><a href="lab3">Global Pollution by Country: How CO2 Shapes the World</a></h2>
 
 
 <style>

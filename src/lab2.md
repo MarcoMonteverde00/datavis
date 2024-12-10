@@ -54,7 +54,7 @@ let data_year = {
 
 <div class="hero">
 
-# Which countries are the worst polluters?
+# Which Countries are the Worst Polluters?
 
 </div>
 
