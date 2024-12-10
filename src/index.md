@@ -20,6 +20,7 @@ toc: false
 <br>
 <h2><a href="lab3">Global Pollution by Country: How CO2 Shapes the World</a></h2>
 
+
 <style>
 
 .hero {

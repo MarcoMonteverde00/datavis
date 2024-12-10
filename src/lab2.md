@@ -39,7 +39,7 @@ function numToScientific(number) {
     true_exp += digits[Number(exp[Number(i)+1])];
   }
 
-  return val + ` x 10${true_exp}`;
+  return val + ` × 10${true_exp}`;
 }
 
 let data_year = {
@@ -79,8 +79,16 @@ let svg = d3.select('#alluvial')
 
 ```js
 
+let continents_in_order = data_year[selected_year.value].filter(d => d.Rank == "Total" && d.Entity != "Total").sort((a, b) => {
+  return b["Total CO2"] - a["Total CO2"];
+});
 
+let continents_order = new Map();
 
+for (let i in continents_in_order) {
+  continents_order[continents_in_order[i].Continent] = Number(i);
+}
+ 
 const tooltip = d3.select("#tooltip")
     .append("div")
       .style("position", "fixed")
@@ -96,8 +104,13 @@ function showPlot1() {
   let data1 = data_year[selected_year.value].sort((a, b) => {
     if(a.Rank == "Total" && b.Rank != "Total") return 1;
     if(b.Rank == "Total" && a.Rank != "Total") return -1;
-    if(a.Continent < b.Continent) return -1;
-    if(a.Continent == b.Continent && a.Rank < b.Rank) return -1;
+    let cont_ord_a = continents_order[a.Continent]
+    let cont_ord_b = continents_order[b.Continent]
+
+    if (cont_ord_a != cont_ord_b) return cont_ord_a - cont_ord_b;
+
+    if(a.Rank < b.Rank) return -1;
+
     return 1;
   });
 
@@ -106,24 +119,7 @@ function showPlot1() {
   data1.forEach((node, index) => {
     if (index < 36) {
       const {Continent} = node;
-      let dest = 0;
-      switch(Continent) {
-        case "Africa":
-          dest = 36; break;
-        case "Asia":
-          dest = 37; break;
-        case "Europe":
-          dest = 38; break;
-        case "North America":
-          dest = 39; break;
-        case "Oceania":
-          dest = 40; break;
-        case "South America":
-          dest = 41; break;
-        default:
-          break;
-      }
-
+      let dest = 36 + continents_order[Continent];
       links.push({source: index, target: dest, value: node["Total CO2"]});
     }
 
