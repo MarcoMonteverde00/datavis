@@ -1,0 +1,103 @@
+001 Alabama         
+002 Arizona         
+003 Arkansas        
+004 California      
+005 Colorado        
+006 Connecticut     
+007 Delaware        
+008 Florida         
+009 Georgia         
+010 Idaho           
+011 Illinois        
+012 Indiana         
+013 Iowa            
+014 Kansas          
+015 Kentucky        
+016 Louisiana       
+017 Maine           
+018 Maryland        
+019 Massachusetts   
+020 Michigan          
+021 Minnesota       
+022 Mississippi     
+023 Missouri        
+024 Montana         
+025 Nebraska        
+026 Nevada          
+027 New Hampshire   
+028 New Jersey      
+029 New Mexico      
+030 New York                    
+031 North Carolina
+032 North Dakota
+033 Ohio
+034 Oklahoma
+035 Oregon
+036 Pennsylvania
+037 Rhode Island
+038 South Carolina
+039 South Dakota
+040 Tennessee
+041 Texas
+042 Utah
+043 Vermont
+044 Virginia
+045 Washington
+046 West Virginia
+047 Wisconsin
+048 Wyoming
+049 Hawaii
+050 Alaska  
+101 Northeast Region  
+102 East North Central Region  
+103 Central Region  
+104 Southeast Region  
+105 West North Central Region  
+106 South Region  
+107 Southwest Region  
+108 Northwest Region  
+109 West Region
+110 National (contiguous 48 States)
+111 Great Plains
+115 Southern Plains and Gulf Coast
+120 US Rockies and Westward
+121 NWS Eastern Region
+122 NWS Southern Region
+123 NWS Central Region
+124 NWS Western Region
+201 Pacific Northwest Basin
+202 California River Basin
+203 Great Basin
+204 Lower Colorado River Basin
+205 Upper Colorado River Basin
+206 Rio Grande River Basin
+207 Texas Gulf Coast River Basin
+208 Arkansas-White-Red Basin
+209 Lower Mississippi River Basin
+210 Missouri River Basin
+211 Souris-Red-Rainy Basin
+212 Upper Mississippi River Basin
+213 Great Lakes Basin
+214 Tennessee River Basin
+215 Ohio River Basin
+216 South Atlantic-Gulf Basin
+217 Mid-Atlantic Basin
+218 New England Basin
+220 Mississippi River Basin & Tributaties (N. of Memphis, TN)
+250 Spring Wheat Belt (area weighted)
+255 Primary Hard Red Winter Wheat Belt (area weighted)
+256 Winter Wheat Belt (area weighted)
+260 Primary Corn and Soybean Belt (area weighted)
+261 Corn Belt (area weighted)
+262 Soybean Belt (area weighted)
+265 Cotton Belt (area weighted)
+350 Spring Wheat Belt (productivity weighted)
+356 Winter Wheat Belt (productivity weighted)
+361 Corn Belt (productivity weighted)
+362 Soybean Belt (productivity weighted)
+365 Cotton Belt (productivity weighted)
+450 Spring Wheat Belt (% productivity in the Palmer Z Index)
+456 Winter Wheat Belt (% productivity in the Palmer Z Index)
+461 Corn Belt (% productivity in the Palmer Z Index)
+462 Soybean Belt (% productivity in the Palmer Z Index)
+465 Cotton Belt (% productivity in the Palmer Z Index)
