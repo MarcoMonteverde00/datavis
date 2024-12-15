@@ -106,43 +106,6 @@ const dataAlabama2023Max = dataMax.filter(row => row["State"] == "Alabama" && ro
 const dataAlabama2023Avg = dataAvg.filter(row => row["State"] == "Alabama" && row["Year"] == "2023");
 const dataAlabama2023Min = dataMin.filter(row => row["State"] == "Alabama" && row["Year"] == "2023");
 
-
-
-let plot = display(
-    Plot.plot({
-        marginBottom: 70,
-        x: {
-            label: "Month",
-            tickRotate: -30,
-            tickFormat: d => months[Number(d)],
-            ticks: 12
-        },
-        y: {
-            label: "Temperature (C°)",
-            grid: true
-        },
-        legend: true,
-        marks: [
-            Plot.ruleY([0]),
-            Plot.lineY(dataAlabama2023Max, {
-                x: d => Number(d["Month"]), 
-                y: d => Number(d["Value"]),
-				stroke: "red"
-            }),
-            Plot.dot(dataAlabama2023Avg, {
-                x: d => Number(d["Month"]), 
-                y: d => Number(d["Value"]),
-				stroke: "green"
-            }),
-            Plot.lineY(dataAlabama2023Min, {
-                x: d => Number(d["Month"]), 
-                y: d => Number(d["Value"]),
-				stroke: "blue"
-            })
-        ]
-    })
-);
-
 /*
 const points = dataAlabama2023Max.flatMap(({ State, ...values }) =>
   Object.entries(values).map(([Month, Value]) => ({ name: State, key: Month, value: Value/100.0 }))
