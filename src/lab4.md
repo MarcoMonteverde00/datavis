@@ -237,17 +237,39 @@ display(
     })
 );
 
+/*
+const alabamaPoints = {};
+const longitudes = {}
 
+let years = [2023, 2018, 2013, 2008, 2003, 1998, 1993, 1988, 1983, 1978];
+
+years.forEach( year => {
+
+    let data = dataAvg
+        .filter(row => row["State"] === "Alabama" && Number(row["Year"]) == year )
+        .sort( (a, b) => (a["Month"] - b["Month"]) );
+
+    alabamaPoints[year] = data.map(({State, Month, Value, Year}) => {
+        return {name: "Average", key: Month, value: (Number(Value) + 10) * 0.5 / 40, state: State, order: ((Number(Year)-2018) * 12 + 0 * Number(Month)) / 71.0}; // "max" temp = 30, "min" temp = -10
+    });
+
+    longitudes[year] = d3.scalePoint(new Set(Plot.valueof(alabamaPoints[year], "key")), [180, -180]).padding(0.5).align(1);
+
+});
+*/
 
 const dataAlabama = dataAvg
-    .filter(row => row["State"] === "Alabama" && Number(row["Year"]) >= 2018 && Number(row["Year"] <= 2023))
+    .filter(row => row["State"] === "Alabama" && (Number(row["Year"]) - 1978) % 5 == 0 && Number(row["Year"] >= 1978) && Number(row["Year"] <= 2023))
     .sort( (a, b) => (a["Year"] == b["Year"]) ? a["Month"] - b["Month"] : a["Year"] - b["Year"]);
 
-const points2 = dataAlabama.map(({State, Month, Value}) => {
-    return {name: "Average", key: Month, value: (Number(Value) + 10) * 0.5 / 40, state: State}; // "max" temp = 30, "min" temp = -10
+
+const points2 = dataAlabama.map(({State, Month, Value, Year}) => {
+    return {name: "Average", key: Month, value: (Number(Value) + 10) * 0.5 / 40, state: State, Year: Year}; // "max" temp = 30, "min" temp = -10
 });
 
+
 const longitude2 = d3.scalePoint(new Set(Plot.valueof(points2, "key")), [180, -180]).padding(0.5).align(1);
+
 
 display(
     Plot.plot({
@@ -258,7 +280,19 @@ display(
             // Note: 0.625° corresponds to max. length (here, 0.5), plus enough room for the labels
             domain: d3.geoCircle().center([0, 90]).radius(0.625)()
         },
-        color: { legend: true, scheme: "dark2", type: "categorical"},
+        color: { 
+            legend: true, 
+            width: 300,
+            scheme: "turbo", 
+            type: "categorical",
+            ticks: 10,
+            label: "Year",
+            //range: [0,1],
+            //domain: [0,1],
+            //tickFormat: d => Number(d * 5 + 1978).toFixed(0),
+            tip: false
+        },
+        className: "radar-chart",
         marks: [
             // grey discs
             Plot.geo([0.5, 0.4, 0.3, 0.2, 0.1], {
@@ -293,7 +327,7 @@ display(
 
             // axes labels
             Plot.text(longitude2.domain(), {
-                x: longitude,
+                x: longitude2,
                 y: 90 - 0.57,
                 text: d => months[Number(d)],
                 lineWidth: 5
@@ -302,24 +336,67 @@ display(
             // lines for max, min, avg            
             Plot.line(
                 points2, {
-                    x: ({ key }) => longitude(key),
+                    x: ({ key }) => longitude2(key),
                     y: ({ value }) => 90 - value,
                     curve: "cardinal", // Smooth curve that can handle non-monotonic x-axis
-                    stroke: "name",
-                    strokeWidth: 2
+                    stroke: "Year",
+                    strokeWidth: 2,
+                    channels: { Temperature: 'value' },
+                    tip: {
+                        format: {
+                            Temperature: d => `${Number(d * 40 / 0.5 - 10).toFixed(0)} °C`,
+                            x: null,
+                            y: null,
+                   
+                        }
+                    }
                 }
             ),
 
             // dots
             Plot.dot(
                 points2, {
-                    x: ({ key }) => longitude(key),
+                    x: ({ key }) => longitude2(key),
                     y: ({ value }) => 90 - value,
-                    fill: "name",
+                    fill: "Year",
                     stroke: "white"
                 }
             ),
-            
+/*
+            // lines for max, min, avg      
+            years.map( year => {
+
+                Plot.line(
+                alabamaPoints[year], {
+                    x: ({ key }) => longitudes[year](key),
+                    y: ({ value }) => 90 - value,
+                    z: null,
+                    stroke: "order",
+                    curve: "cardinal", // Smooth curve that can handle non-monotonic x-axis
+                    strokeWidth: 2,  
+                    channels: { Temperature: 'value', Year: 'order' }, 
+               
+                    tip: {
+                        format: {
+                            Year: d => Number(d * 6 + 2018 + 0.1).toFixed(0),
+                            Temperature: d => `${Number(d * 40 / 0.5 - 10).toFixed(0)} °C`,
+                            x: null,
+                            y: null
+                        }
+                    }
+                }),
+
+                // dots
+                Plot.dot(
+                    alabamaPoints[year], {
+                        x: ({ key }) => longitudes[year](key),
+                        y: ({ value }) => 90 - value,
+                        fill: "order",
+                        stroke: "white"
+                    }
+                )
+            }),  
+          */  
             // Discs labels
             Plot.text([0.125, 0.3, 0.4, 0.5], {
                 x: 180,
@@ -330,10 +407,10 @@ display(
                 fill: "currentColor",
                 stroke: "white",
                 fontSize: 10
-            }),
+            })
 
             //interactive labels (to be changed into temperatures)
-            Plot.text(
+            /*Plot.text(
                 points2,
                 Plot.pointer({
                     x: ({ key }) => longitude(key),
@@ -345,11 +422,35 @@ display(
                     stroke: "white",
                     maxRadius: 10
                 })
-            )
+            )*/
         ]
     
     })
 );
 
-console.log(dataAlabama);
+let charts = document.getElementsByClassName("radar-chart");
+
+for (let i = 0; i < charts.length; i++) {
+    let lines = charts.item(i).querySelector('[aria-label="line"]').childNodes;
+
+    lines.forEach( line => {
+        line.addEventListener("mouseover", (e) => {
+            for (let j = 0; j < lines.length; j++) {
+                lines[j].setAttribute('class', "out-of-focus");
+            }
+
+            line.setAttribute('class', "");
+        })
+    })
+}
+
+
+/*.forEach( chart => {
+    
+    let lines = chart.querySelector('[aria-label="line"]').childNodes;
+
+    console.log(lines);
+
+});*/
+
 ```

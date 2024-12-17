@@ -121,6 +121,10 @@ nav {
   /*z-index: 10000;*/
 }
 
+.out-of-focus {
+  stroke-opacity: 0.1;
+}
+
 @media screen and (max-width: 650px) {
   .gradient-legend-ramp {
     top: 75px;
