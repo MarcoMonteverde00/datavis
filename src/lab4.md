@@ -618,24 +618,31 @@ for (let i = 0; i < charts.length; i++) {
 ```js
 //ridgeline
 const Min = await FileAttachment("./data/countriesMinTemperatures.csv").csv();
+let AlabamaMin = Min.filter(row => row["State"] == "Alabama");
+
+const Max = await FileAttachment("./data/countriesMaxTemperatures.csv").csv();
+let AlabamaMax = Max.filter(row => row["State"] == "Alabama");
+
+const MinMax = AlabamaMin.concat(AlabamaMax)
 
 display(
 Plot.plot({
   height: 300,
   marginLeft: 60,
   y: { axis: null },
-  x: { nice: true },
+  x: { nice: true},
   fy: { domain:  ["2023", "2018", "2013", "2008", "2003", "1998", "1993", "1988", "1983", "1978"] }, // excludes N/A
   color: { legend: true },
-  facet: { data: Min, y: "Year" },
+  facet: { data: MinMax, y: "Year" },
   marks: [
+	//min
     Plot.areaY(
-      Min,
+      AlabamaMin,
       Plot.binX(
         { y2: "proportion" }, // using y2 to avoid areaY’s implicit stacking
         {
           x: "Value",
-          fill: "month",
+          fill: "blue",
           fillOpacity: 0.1,
           thresholds: 10,
           curve: "natural"
@@ -644,12 +651,40 @@ Plot.plot({
     ),
     Plot.ruleY([0]),
     Plot.lineY(
-      Min,
+      AlabamaMin,
       Plot.binX(
         { y: "proportion" },
         {
           x: "Value",
-          stroke: "month",
+          stroke: "blue",
+          thresholds: 10,
+          curve: "natural"
+        }
+      )
+    ),
+	
+	//max
+	Plot.areaY(
+      AlabamaMax,
+      Plot.binX(
+        { y2: "proportion" }, // using y2 to avoid areaY’s implicit stacking
+        {
+          x: "Value",
+          fill: "red",
+          fillOpacity: 0.1,
+          thresholds: 10,
+          curve: "natural"
+        }
+      )
+    ),
+    Plot.ruleY([0]),
+    Plot.lineY(
+      AlabamaMax,
+      Plot.binX(
+        { y: "proportion" },
+        {
+          x: "Value",
+          stroke: "red",
           thresholds: 10,
           curve: "natural"
         }
@@ -658,4 +693,153 @@ Plot.plot({
   ]
 })
 );
+
+console.log(AlabamaMin);
+
+//console.log(AlabamaMax.map(d => d.Value));
+
+const minMaxAlabamaMin = d3.extent(AlabamaMin, d => d.Value);
+console.log("Minimo e massimo per AlabamaMin:", minMaxAlabamaMin);
+```
+
+```js
+
+		
+	//ridgeline
+	const data = await FileAttachment("./data/dataRidgeLine.csv").csv();
+
+display(
+	Plot.plot({
+	  height: 300,
+	  marginLeft: 60,
+	  y: { axis: null },
+	  x: { nice: true },
+	  fy: { domain: ["2023", "2018", "2013", "2008", "2003", "1998", "1993", "1988", "1983", "1978"] }, // excludes N/A
+	  color: { legend: true },
+	  facet: { data: data, y: "year" },
+	  marks: [
+		Plot.areaY(
+		  penguins,
+		  Plot.binX(
+			{ y2: "proportion" }, // using y2 to avoid areaY’s implicit stacking
+			{
+			  x: "value",
+			  fill: "index",
+			  fillOpacity: 0.1,
+			  thresholds: 10,
+			  curve: "natural"
+			}
+		  )
+		),
+		Plot.ruleY([0]),
+		Plot.lineY(
+		  data,
+		  Plot.binX(
+			{ y: "proportion" },
+			{
+			  x: "value",
+			  stroke: "index",
+			  thresholds: 10,
+			  curve: "natural"
+			}
+		  )
+		)
+	  ]
+	})
+	)
+
+console.log(data);
+
+```
+
+```js
+let Plotly = require('plotly.js-dist')
+//plotly = import("https://cdn.plot.ly/plotly-latest.min.js")
+
+
+	const data = await FileAttachment("./data/dataRidgeLine.csv").csv();
+
+	let parsedData = data.map(d => ({
+	  ...d,
+	  Value: parseFloat(d.Value), // Converte la temperatura da stringa a numero
+	  Month: parseInt(d.Month),    // Converte il mese da stringa a numero
+	  Year: parseInt(d.Year)      // Converte l'anno da stringa a numero
+	}));
+
+	// Separa i dati in base a Min e Max
+	let minTemperatures = parsedData.filter(d => d.Index === 'min');
+	let maxTemperatures = parsedData.filter(d => d.Index === 'max');
+
+	// Raggruppa per anno
+	let groupedByYear = d3.group(parsedData, d => d.Year);
+
+	// Funzione per calcolare la distribuzione probabilistica della temperatura (kernel density estimation)
+	function calculateKDE(data, bandwidth = 1) {
+	  const kde = kernelDensityEstimator(kernelEpanechnikov(bandwidth), data);
+	  return kde(data.map(d => d.Value));
+	}
+
+	function kernelDensityEstimator(kernel, data) {
+	  return function(samplePoints) {
+		return samplePoints.map(x => ({
+		  x,
+		  y: d3.mean(data, d => kernel(x - d.Value))
+		}));
+	  };
+	}
+
+	function kernelEpanechnikov(bandwidth) {
+	  return function(u) {
+		return Math.abs(u) <= bandwidth ? (3 / (4 * bandwidth)) * (1 - (u * u) / (bandwidth * bandwidth)) : 0;
+	  };
+	}
+
+	// Genera la distribuzione per ogni anno
+	let distributions = [];
+	groupedByYear.forEach((yearData, year) => {
+	  const minData = yearData.filter(d => d.Index === 'min');
+	  const maxData = yearData.filter(d => d.Index === 'max');
+	  
+	  const minKDE = calculateKDE(minData);
+	  const maxKDE = calculateKDE(maxData);
+	  
+	  distributions.push({ year, minKDE, maxKDE });
+	});
+
+	// Crea un ridgeline plot usando Plotly
+	let traces = [];
+
+	distributions.forEach(d => {
+	  // Aggiungi la traccia per le temperature minime
+	  traces.push({
+		x: d.minKDE.map(k => k.x),
+		y: Array(d.minKDE.length).fill(d.year), // Mantenere l'anno sulla y
+		mode: 'lines',
+		name: `Min Temp ${d.year}`,
+		line: { color: 'blue' },
+		fill: 'tonexty'
+	  });
+	  
+	  // Aggiungi la traccia per le temperature massime
+	  traces.push({
+		x: d.maxKDE.map(k => k.x),
+		y: Array(d.maxKDE.length).fill(d.year), // Mantenere l'anno sulla y
+		mode: 'lines',
+		name: `Max Temp ${d.year}`,
+		line: { color: 'red' },
+		fill: 'tonexty'
+	  });
+	});
+
+	// Configurazione del grafico
+	const layout = {
+	  title: 'Ridgeline Plot of Min/Max Temperatures by Year',
+	  xaxis: { title: 'Temperature (°C)', zeroline: false },
+	  yaxis: { title: 'Year', tickvals: distributions.map(d => d.year), ticktext: distributions.map(d => d.year) },
+	  showlegend: false,
+	  height: 600
+	};
+
+	// Traccia il grafico
+	Plotly.newPlot('plotDiv', traces, layout);
 ```
