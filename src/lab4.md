@@ -8,6 +8,8 @@
 
 <div class="plot">
 
+A direct consequence of the global pollution is the climate change. To evaluate the effect of the global pollution
+it is therefore interesting to analyze the temperature time serie and how much it has changed over the years. 
 ```js
 
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
@@ -99,6 +101,14 @@ selected_year.addEventListener("change", (e) => {
 
 ```
 
+</div>
+<a href="https://www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/statewide/time-series" style="color: #808080; font-size: 12px; text-decoration: none;">
+    Data Source: [Statewide Time Series - National Centers for Environmental Information]
+  </a>
+
+The plot aims to investigate how the minimum, maximum and average temperatures change every five years 
+between 1978 and 2023. An immediate result is that all of the three temperatures have drastically increased 
+form the beginning of the time interval considered.
 
 ```js
 /*
@@ -282,7 +292,7 @@ function showPlot2() {
             // Note: 0.625° corresponds to max. length (here, 0.5), plus enough room for the labels
             domain: d3.geoCircle().center([0, 90]).radius(0.625)()
         },
-        color: { legend: true, scheme: "dark2", type: "categorical"},
+        color: { domain: ["Minimum", "Maximum", "Average"], range: ["blue", "red", "green"], legend: true}, //scheme: "dark2", type: "categorical"
         marks: [
             // grey discs
             Plot.geo([0.5, 0.4, 0.3, 0.2, 0.1], {
@@ -391,7 +401,12 @@ selected_year2.addEventListener("change", (e) => {
 });
 
 ```
-
+</div>
+<a href="https://www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/statewide/time-series" style="color: #808080; font-size: 12px; text-decoration: none;">
+    Data Source: [Statewide Time Series - National Centers for Environmental Information]
+  </a>
+  
+The same information is conveyed by the radarchart.
 
 ```js
 /*
@@ -615,7 +630,11 @@ for (let i = 0; i < charts.length; i++) {
 });*/
 
 ```
-
+</div>
+<a href="https://www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/statewide/time-series" style="color: #808080; font-size: 12px; text-decoration: none;">
+    Data Source: [Statewide Time Series - National Centers for Environmental Information]
+  </a>
+  
 ```js
 	//ridgeline
 	const data = await FileAttachment("./data/dataRidgeLine.csv").csv();
@@ -662,3 +681,7 @@ for (let i = 0; i < charts.length; i++) {
 	)
 
 ```
+</div>
+<a href="https://www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/statewide/time-series" style="color: #808080; font-size: 12px; text-decoration: none;">
+    Data Source: [Statewide Time Series - National Centers for Environmental Information]
+  </a>
