@@ -2,14 +2,22 @@
 
 <div class="hero">
 
-# Temperature time serie
+# Consequences of the global pollution: the climate change
 
 </div>
 
 <div class="plot">
 
 A direct consequence of the global pollution is the climate change. To evaluate the effect of the global pollution
-it is therefore interesting to analyze the temperature time serie and how much it has changed over the years. 
+it is therefore interesting to analyze the temperature time series and how much it has changed over the years. 
+In order to have a more precise information the minimum, maximum and average temperatures are all taken into account and compared
+through the use of different plots, the linechart and radarchart.
+
+
+Both plots aim to investigate how the monthly minimum, maximum and average temperatures change every five years 
+between 1978 and 2023. An immediate result is that all of the three temperatures have drastically increased 
+form the beginning of the time interval considered.
+
 ```js
 
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
@@ -66,18 +74,36 @@ function showPlot1() {
             Plot.lineY(data1Max, {
                 x: d => Number(d["Month"]), 
                 y: d => Number(d["Value"]),
-				stroke: "red"
+				stroke: "red",
+				tip: {
+					format: {
+					  y: (d) => `${d}`,
+					  x: d => months[Number(d)]
+					}
+				  }
             }),
             Plot.dot(data1Avg, {
                 x: d => Number(d["Month"]), 
                 y: d => Number(d["Value"]),
-				stroke: "green"
+				stroke: "green",
+				tip: {
+					format: {
+					  y: (d) => `${d}`,
+					  x: d => months[Number(d)]
+					}
+				  }
             }),
             Plot.lineY(data1Min, {
                 x: d => Number(d["Month"]), 
                 y: d => Number(d["Value"]),
-				stroke: "blue"
-            })
+				stroke: "blue",
+				tip: {
+					format: {
+					  y: (d) => `${d}`,
+					  x: d => months[Number(d)]
+					}
+				  }
+            }),
         ]
     })
 
@@ -105,10 +131,6 @@ selected_year.addEventListener("change", (e) => {
 <a href="https://www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/statewide/time-series" style="color: #808080; font-size: 12px; text-decoration: none;">
     Data Source: [Statewide Time Series - National Centers for Environmental Information]
   </a>
-
-The plot aims to investigate how the minimum, maximum and average temperatures change every five years 
-between 1978 and 2023. An immediate result is that all of the three temperatures have drastically increased 
-form the beginning of the time interval considered.
 
 ```js
 /*
@@ -406,7 +428,6 @@ selected_year2.addEventListener("change", (e) => {
     Data Source: [Statewide Time Series - National Centers for Environmental Information]
   </a>
   
-The same information is conveyed by the radarchart.
 
 ```js
 /*
@@ -650,7 +671,9 @@ for (let i = 0; i < charts.length; i++) {
 <a href="https://www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/statewide/time-series" style="color: #808080; font-size: 12px; text-decoration: none;">
     Data Source: [Statewide Time Series - National Centers for Environmental Information]
   </a>
-  
+
+In order to have an easier comparison among the years considered the radarchart plot is also used to display
+each of the monthly average temperatures.
 ```js
 	//ridgeline
 	const data = await FileAttachment("./data/dataRidgeLine.csv").csv();
@@ -674,7 +697,7 @@ for (let i = 0; i < charts.length; i++) {
 			  x: "Value",
 			  fill: "Index",
 			  fillOpacity: 0.1,
-			  thresholds: 10,
+			  //thresholds: 10,
 			  curve: "natural"
 			}
 		  )
@@ -687,8 +710,18 @@ for (let i = 0; i < charts.length; i++) {
 			{
 			  x: "Value",
 			  stroke: "Index",
-			  thresholds: 10,
-			  curve: "natural"
+			  //thresholds: 10,
+			  curve: "natural",
+			  tip: {
+					format: {
+					  "Index": false,
+					  Year: false,
+					  y: (d) => `${d}`,
+					  x: d => `${d}`,
+                      fill: false,
+					  stroke: false
+					}
+				  }
 			}
 		  )
 		)
@@ -701,3 +734,6 @@ for (let i = 0; i < charts.length; i++) {
 <a href="https://www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/statewide/time-series" style="color: #808080; font-size: 12px; text-decoration: none;">
     Data Source: [Statewide Time Series - National Centers for Environmental Information]
   </a>
+  
+A possible alternative to convey informations about the minimum and maximum temperatures of each year is represented by
+the ridgeline plot, which shows the probability distibution of the temperature.
