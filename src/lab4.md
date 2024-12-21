@@ -605,6 +605,7 @@ let charts = document.getElementsByClassName("radar-chart");
 
 for (let i = 0; i < charts.length; i++) {
     let lines = charts.item(i).querySelector('[aria-label="line"]').childNodes;
+    let dots = charts.item(i).querySelector('[aria-label="dot"]').childNodes;
 
     lines.forEach( line => {
 		line.addEventListener("mouseout", () => {
@@ -616,8 +617,23 @@ for (let i = 0; i < charts.length; i++) {
             }
 
             line.setAttribute('class', "");
-        })
-    })
+        });
+    });
+
+    for(let j = 0; j < dots.length; j++) {
+        let dot = dots[j];
+        dot.addEventListener("mouseout", () => {
+            lines.forEach(l => l.setAttribute('class', "focus")); 
+        });
+        dot.addEventListener("mouseover", () => {
+            
+            for (let k = 0; k < lines.length; k++) {
+                lines[k].setAttribute('class', "out-of-focus");
+            }
+            let selected = Math.floor(j / 12);
+            lines[selected].setAttribute('class', "");
+        });
+    }
 }
 
 
