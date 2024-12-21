@@ -84,6 +84,10 @@ nav {
   margin-top: 30px;
 }
 
+.normal-paragraph {
+  max-width: 100%;
+}
+
 .world-gradient-legend {
 
 }

@@ -1,5 +1,6 @@
 <link rel="stylesheet" href="style.css">
 
+
 ```js
 
 import * as d3 from 'd3';
@@ -55,6 +56,11 @@ let data_year = {
 <div class="hero">
 
 # Which Countries are the Worst Polluters?
+
+We'll now represent with an alluvial plot the contribution of each continent to the global amount of CO2 emissions, and
+the contribution of each Country to its continent total emissions.
+
+You'll see how very few players provide an huge impact on the change of global temperatures.
 
 </div>
 
@@ -280,23 +286,8 @@ selected_year.addEventListener("change", (e) => {
 
 <div id="tooltip"></div>
 <svg id="alluvial"></svg>
-
-```js
-
-
-
-//const data = await FileAttachment("./data/energy.json").json();
-
-/*
-const chart = SankeyChart(
-    {links: data},
-    {
-        nodeGroup: 
-        linkSource: d => "Entity",
-        linkTarget: d => "Continent"
-    }
-);*/
-
-//const chart = SankeyChart(data, "source-target", "sankey-left");
-
-```
+<p class="normal-paragraph">
+You saw previously how China, India and USA pollute relatively little with respect to their population size. Nontheless, these countries are so populated that a small per capita
+value still translates into an overwhelming amount of CO2 emissions. For Desktop users, every vertical cm in the plot above corresponds to around 1.4 BILLION Tonnes of CO2 in a single year;
+if you though that having to scroll this much was annoying, just cope with the fact that the Earth experiences a nuisance 10^9 times worse.
+<p>
