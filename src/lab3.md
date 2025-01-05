@@ -83,6 +83,8 @@ import * as topojson from "topojson-client";
 const world = await FileAttachment("countries-110m.json").json();
 const country = topojson.feature(world, world.objects.countries);
 
+console.log(country);
+
 let zoom_info = [
 	{zoomed: false, trans_x: 0, trans_y: 0},
 	{zoomed: false, trans_x: 0, trans_y: 0},

@@ -68,9 +68,14 @@ nav {
     font-style: initial; 
 }
 
+.container {
+  width: 100%;
+}
+
 .plot {
   position: relative;
   width: fit-content;
+  margin: auto;
 }
 
 .gradient-legend-ramp, .heatmap-legend-ramp {
@@ -108,6 +113,20 @@ nav {
   background-color: white;
   padding: 5px;
   font-size: small;
+  visibility: hidden;
+}
+
+.italy-tooltip {
+  position: absolute;
+  top: 50px;
+  right: 0px;
+  width: fit-content;
+  background-color: rgb(230, 255, 255);
+  border-style:ridge;
+  padding: 10px;
+  color: rgb(50, 50, 50);
+  font-size: medium;
+  font-family: sans-serif;
   visibility: hidden;
 }
 

@@ -20,9 +20,9 @@ dfRegions = df15_29[~np.isin(df15_29['Territorio'],areasToBeExcluded)]
 
 dfRegions = dfRegions.drop(['TIPO_DATO_FOL','Tipo dato', 'Classe di età', 'Flag Codes', 'Flags', 'Seleziona periodo'], axis=1)
  
-dfRegions['Territorio'].replace("Valle d'Aosta / Vallée d'Aoste", "Valle d'Aosta", inplace=True)
-dfRegions['Territorio'].replace("Trentino Alto Adige / Südtirol", "Trentino-Alto Adige", inplace=True)
-dfRegions['Territorio'].replace("Friuli-Venezia Giulia", "Friuli Venezia Giulia", inplace=True)
+dfRegions['Territorio'].replace("Valle d'Aosta / Vallée d'Aoste", "Valle d'Aosta/Vallée d'Aoste", inplace=True)
+dfRegions['Territorio'].replace("Trentino Alto Adige / Südtirol", "Trentino-Alto Adige/Südtirol", inplace=True)
+#dfRegions['Territorio'].replace("Friuli-Venezia Giulia", "Friuli Venezia Giulia", inplace=True)
 
 print(dfRegions['Territorio'].unique()) 
 

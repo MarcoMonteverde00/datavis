@@ -38,12 +38,12 @@ ITC1,Piemonte,Y15-29,2020,117.639
 ITC1,Piemonte,Y15-29,2021,112.874
 ITC1,Piemonte,Y15-29,2022,90.615
 ITC1,Piemonte,Y15-29,2023,69.5
-ITC2,Valle d'Aosta,Y15-29,2018,2.843
-ITC2,Valle d'Aosta,Y15-29,2019,2.579
-ITC2,Valle d'Aosta,Y15-29,2020,3.01
-ITC2,Valle d'Aosta,Y15-29,2021,3.162
-ITC2,Valle d'Aosta,Y15-29,2022,2.71
-ITC2,Valle d'Aosta,Y15-29,2023,1.756
+ITC2,Valle d'Aosta/Vallée d'Aoste,Y15-29,2018,2.843
+ITC2,Valle d'Aosta/Vallée d'Aoste,Y15-29,2019,2.579
+ITC2,Valle d'Aosta/Vallée d'Aoste,Y15-29,2020,3.01
+ITC2,Valle d'Aosta/Vallée d'Aoste,Y15-29,2021,3.162
+ITC2,Valle d'Aosta/Vallée d'Aoste,Y15-29,2022,2.71
+ITC2,Valle d'Aosta/Vallée d'Aoste,Y15-29,2023,1.756
 ITC3,Liguria,Y15-29,2018,38.926
 ITC3,Liguria,Y15-29,2019,34.773
 ITC3,Liguria,Y15-29,2020,39.938
@@ -56,24 +56,24 @@ ITC4,Lombardia,Y15-29,2020,258.432
 ITC4,Lombardia,Y15-29,2021,266.157
 ITC4,Lombardia,Y15-29,2022,198.915
 ITC4,Lombardia,Y15-29,2023,156.854
-ITDA,Trentino-Alto Adige,Y15-29,2018,21.486
-ITDA,Trentino-Alto Adige,Y15-29,2019,18.824
-ITDA,Trentino-Alto Adige,Y15-29,2020,23.352
-ITDA,Trentino-Alto Adige,Y15-29,2021,26.823
-ITDA,Trentino-Alto Adige,Y15-29,2022,18.23
-ITDA,Trentino-Alto Adige,Y15-29,2023,15.359
+ITDA,Trentino-Alto Adige/Südtirol,Y15-29,2018,21.486
+ITDA,Trentino-Alto Adige/Südtirol,Y15-29,2019,18.824
+ITDA,Trentino-Alto Adige/Südtirol,Y15-29,2020,23.352
+ITDA,Trentino-Alto Adige/Südtirol,Y15-29,2021,26.823
+ITDA,Trentino-Alto Adige/Südtirol,Y15-29,2022,18.23
+ITDA,Trentino-Alto Adige/Südtirol,Y15-29,2023,15.359
 ITD3,Veneto,Y15-29,2018,103.538
 ITD3,Veneto,Y15-29,2019,87.417
 ITD3,Veneto,Y15-29,2020,104.429
 ITD3,Veneto,Y15-29,2021,98.606
 ITD3,Veneto,Y15-29,2022,93.972
 ITD3,Veneto,Y15-29,2023,75.28
-ITD4,Friuli Venezia Giulia,Y15-29,2018,22.839
-ITD4,Friuli Venezia Giulia,Y15-29,2019,21.877
-ITD4,Friuli Venezia Giulia,Y15-29,2020,21.903
-ITD4,Friuli Venezia Giulia,Y15-29,2021,26.104
-ITD4,Friuli Venezia Giulia,Y15-29,2022,22.102
-ITD4,Friuli Venezia Giulia,Y15-29,2023,18.008
+ITD4,Friuli-Venezia Giulia,Y15-29,2018,22.839
+ITD4,Friuli-Venezia Giulia,Y15-29,2019,21.877
+ITD4,Friuli-Venezia Giulia,Y15-29,2020,21.903
+ITD4,Friuli-Venezia Giulia,Y15-29,2021,26.104
+ITD4,Friuli-Venezia Giulia,Y15-29,2022,22.102
+ITD4,Friuli-Venezia Giulia,Y15-29,2023,18.008
 ITD5,Emilia-Romagna,Y15-29,2018,91.519
 ITD5,Emilia-Romagna,Y15-29,2019,85.083
 ITD5,Emilia-Romagna,Y15-29,2020,97.731
