@@ -118,7 +118,7 @@ nav {
 
 .italy-tooltip {
   position: absolute;
-  top: 50px;
+  top: 0px;
   right: 0px;
   width: fit-content;
   background-color: rgb(230, 255, 255);
@@ -128,6 +128,10 @@ nav {
   font-size: medium;
   font-family: sans-serif;
   visibility: hidden;
+}
+
+p.description {
+  max-width: 100%;
 }
 
 .unzoom {
