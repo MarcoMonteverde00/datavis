@@ -152,6 +152,10 @@ p.description {
   stroke-opacity: 0.1;
 }
 
+.smaller-header {
+  font-size: max(2.0vw, 2.0vh);
+}
+
 @media screen and (max-width: 650px) {
   .gradient-legend-ramp {
     top: 75px;
