@@ -25,31 +25,103 @@ const rates = await FileAttachment("./final/italy_employment_vs_neet_rate.csv").
 
 console.log(rates);
 
-const y2 = d3.scaleLinear(d3.extent(rates, d => Number(d["Neet_Rate"])), [52, 68]);
+//const y2 = d3.scaleLinear(d3.extent(rates, d => Number(d["Neet_Rate"])), [52, 68]);
+
+// Function to create a custom legend
+function createLegend(svg, options) {
+	const {
+		x,          // X position of the legend
+		y,          // Y position of the legend
+		label1,     // First label text
+		color1,     // Color for the first label
+		label2,     // Second label text
+		color2      // Color for the second label
+	} = options;
+
+	// Create a group for the legend
+	const legendGroup = svg.append("g")
+		.attr("class", "custom-legend")
+		.attr("transform", `translate(${x}, ${y})`);
+
+	// Add first legend item
+	const legendItem1 = legendGroup.append("g").attr("class", "legend-item");
+	legendItem1.append("rect")
+		.attr("x", 0)
+		.attr("y", 4)
+		.attr("width", 20)
+		.attr("height", 20)
+		.attr("fill", color1);
+	legendItem1.append("text")
+		.attr("x", 30)
+		.attr("y", 15)
+		.text(label1)
+		.style("font-size", "14px")
+		.attr("alignment-baseline", "middle");
+
+	// Add second legend item
+	const legendItem2 = legendGroup.append("g").attr("class", "legend-item");
+	legendItem2.append("rect")
+		.attr("x", 0)
+		.attr("y", 34)
+		.attr("width", 20)
+		.attr("height", 20)
+		.attr("fill", color2);
+	legendItem2.append("text")
+		.attr("x", 30)
+		.attr("y", 45)
+		.text(label2)
+		.style("font-size", "14px")
+		.attr("alignment-baseline", "middle");
+}
+
+// Example usage
+const svg = d3.select("body").append("svg")
+	.attr("width", 200)
+	.attr("height", 100);
+
+createLegend(svg, {
+	x: 10,
+	y: 10,
+	label1: "Employment Rate",
+	color1: "#000000",
+	label2: "Neet Rate",
+	color2: "steelblue"
+});
+
+view(svg.node());
 
 display(
 	Plot.plot({
-		x: {label: "year", type: "point"},
-		y: {axis: "left", label: "employment rate", domain: [50,70]},
+		x: {label: "", type: "point"},
+		y: {label: "employment/neet rate (%)", domain: [50,70]},
 		
 		marks: [
-			Plot.axisY(y2.ticks(), {
+			/*Plot.axisY(y2.ticks(), {
 				color: "steelblue", 
 				anchor: "right", 
 				label: "neet rate", 
 				y: y2, 
 				tickFormat: y2.tickFormat()
-			}),
+			}),*/
 			Plot.lineY(rates, {
 				x: "Year",
 				y: d => Number(d["Employment_Rate"]),
-				tip: {
-					format: {
-						y: d => `${d}%`
+				channels: {
+					employment_rate: {
+						value: "Employment_Rate",
+						label: "employment rate"
 					}
 				},
+				tip: {
+					format: {
+						y: false,
+						employment_rate: d => `${d}%`
+					}
+						
+				}
+
 			}),
-			Plot.lineY(rates, 
+			/*Plot.lineY(rates, 
 				Plot.mapY((D) => D.map(y2), {
 					x: "Year", 
 					y: d => Number(d["Neet_Rate"]), 
@@ -68,8 +140,55 @@ display(
 							
 					}
 				})
+			),*/
+			Plot.axisX({ticks: []}),
+		]
+	})
+);
+
+```
+
+<span>&nbsp; &nbsp; &nbsp; ...</span>
+
+
+```js
+
+
+display(
+	Plot.plot({
+		x: {label: "year", type: "point"},
+		y: {label: "", domain: [10,30]},
+		
+		marks: [
+			/*Plot.axisY(y2.ticks(), {
+				color: "steelblue", 
+				anchor: "right", 
+				label: "neet rate", 
+				y: y2, 
+				tickFormat: y2.tickFormat()
+			}),*/
+			Plot.lineY(rates, 
+				{
+					x: "Year", 
+					y: d => Number(d["Neet_Rate"]), 
+					stroke: "steelblue", 
+					channels: {
+						neet_rate: {
+							value: "Neet_Rate",
+							label: "neet rate"
+						}
+					},
+					tip: {
+						format: {
+							y: false,
+							neet_rate: d => `${d}%`
+						}
+							
+					}
+				}
 			),
-			Plot.ruleY([50])
+			Plot.ruleY([10])
+
 		]
 	})
 );
@@ -83,8 +202,9 @@ display(
 
 <p class="description">
 	The trends show that in the last 2 years we've been experiencing an improvement in terms of increase of 
-	the employment rate and reduction of the neet rate. However, do not be fooled: you may notice that neither 
-	axis on the previous chart starts at y = 0. While the neet rate seems to have followed, with inverted 
+	the employment rate and reduction of the neet rate. However, do not be fooled: you may notice that in the
+	previous chart the y axis starts at 10% (and there is a hidden gap between 30% and 50% that has been cut 
+	to facilitate the reading of the chart). While the neet rate seems to have followed, with inverted 
 	proportionality, the employment trend we must be aware that we barely moved from 1 young person unwilling 
 	to work every 4, to 1 every 6 in 2023; while this is indeed a respectable achievement that amount is still 
 	way to high to consider the problem close to be solved. The worst part? The economy recover after the covid 
