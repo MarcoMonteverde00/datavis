@@ -1,0 +1,1 @@
+we decided, for now, to only visualize the top 20 polluters, reason being we mostly care about them.

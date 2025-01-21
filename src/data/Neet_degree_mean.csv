@@ -1,0 +1,19 @@
+Sex,Degree,Year,Value,Prop
+Male,None,2021,399.5,20.91
+Female,None,2021,427.0,25.64
+Male,High School Diploma,2021,455.5,22.95
+Female,High School Diploma,2021,487.5,26.91
+Male,Degree/Post-degree,2021,74.0,15.19
+Female,Degree/Post-degree,2021,145.0,18.87
+Male,None,2022,318.0,17.28
+Female,None,2022,341.75,21.88
+Male,High School Diploma,2022,418.25,19.47
+Female,High School Diploma,2022,411.75,21.25
+Male,Degree/Post-degree,2022,64.0,11.99
+Female,Degree/Post-degree,2022,115.25,15.48
+Male,None,2023,237.75,13.15
+Female,None,2023,259.0,16.98
+Male,High School Diploma,2023,354.5,16.34
+Female,High School Diploma,2023,392.0,20.09
+Male,Degree/Post-degree,2023,57.75,10.69
+Female,Degree/Post-degree,2023,104.0,13.78

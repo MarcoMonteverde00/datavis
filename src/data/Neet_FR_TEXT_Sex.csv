@@ -1,0 +1,37 @@
+Sex,Citizenship,Family Role,Year,Value,Sum1,Index
+Male,Italian,Son/Daughter,2021,791.273,865.91,Sex
+Male,Foreigner,Son/Daughter,2021,74.636,865.91,Sex
+Female,Italian,Son/Daughter,2021,648.527,706.49,Sex
+Female,Foreigner,Son/Daughter,2021,57.962,706.49,Sex
+Male,Italian,Son/Daughter,2022,657.139,717.78,Sex
+Male,Foreigner,Son/Daughter,2022,60.642,717.78,Sex
+Female,Italian,Son/Daughter,2022,513.121,559.78,Sex
+Female,Foreigner,Son/Daughter,2022,46.664,559.78,Sex
+Male,Italian,Son/Daughter,2023,528.162,571.45,Sex
+Male,Foreigner,Son/Daughter,2023,43.284,571.45,Sex
+Female,Italian,Son/Daughter,2023,427.877,462.0,Sex
+Female,Foreigner,Son/Daughter,2023,34.121,462.0,Sex
+Male,Italian,Parent,2021,20.834,28.27,Sex
+Male,Foreigner,Parent,2021,7.439,28.27,Sex
+Female,Italian,Parent,2021,156.525,255.69,Sex
+Female,Foreigner,Parent,2021,99.162,255.69,Sex
+Male,Italian,Parent,2022,13.424,17.34,Sex
+Male,Foreigner,Parent,2022,3.914,17.34,Sex
+Female,Italian,Parent,2022,131.477,220.51,Sex
+Female,Foreigner,Parent,2022,89.03,220.51,Sex
+Male,Italian,Parent,2023,11.772,15.26,Sex
+Male,Foreigner,Parent,2023,3.485,15.26,Sex
+Female,Italian,Parent,2023,131.459,214.23,Sex
+Female,Foreigner,Parent,2023,82.775,214.23,Sex
+Male,Italian,Single/Partner without children/Other,2021,45.997,67.97,Sex
+Male,Foreigner,Single/Partner without children/Other,2021,21.978,67.97,Sex
+Female,Italian,Single/Partner without children/Other,2021,76.087,107.29,Sex
+Female,Foreigner,Single/Partner without children/Other,2021,31.206,107.29,Sex
+Male,Italian,Single/Partner without children/Other,2022,44.837,65.34,Sex
+Male,Foreigner,Single/Partner without children/Other,2022,20.503,65.34,Sex
+Female,Italian,Single/Partner without children/Other,2022,62.536,88.8,Sex
+Female,Foreigner,Single/Partner without children/Other,2022,26.264,88.8,Sex
+Male,Italian,Single/Partner without children/Other,2023,41.821,63.65,Sex
+Male,Foreigner,Single/Partner without children/Other,2023,21.832,63.65,Sex
+Female,Italian,Single/Partner without children/Other,2023,55.074,78.44,Sex
+Female,Foreigner,Single/Partner without children/Other,2023,23.37,78.44,Sex
