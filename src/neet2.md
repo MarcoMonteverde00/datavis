@@ -217,10 +217,10 @@ the result would confirm that the NEETs are mainly people between 25 and 29 year
 			className: "heatmap",
 			  color: {
 				type: "linear",
-				n: 9,
+				//n: 9,
 				domain: [minHeatmap-100, maxHeatmap],
-				scheme: "blues",
-				label: "NEET (k)",
+				scheme: "greens",
+				label: "NEETs (k)",
 				legend: true
 			  },
 			  marks: [
@@ -645,5 +645,5 @@ Another worrying result is that more than the <b>60%</b> of young women that has
 
 *To summarise:*
 
-NEETS are mainly <b>women</b>, whose age is in <b>25-29</b> and which have an <b>high school diploma</b>,
-and they are particularly influenced by the <b>citizenship</b> and the <b>family role</b>. 
+NEETs in Italy are mainly <b>women</b>, with an <b>high school diploma</b> and whose age is between <b>25-29</b> years old,
+which are particularly influenced by the <b>citizenship</b> and the <b>family role</b>. 
