@@ -1,0 +1,25 @@
+sex,age,unit,geo,Geopolitical entity (reporting),TIME_PERIOD,OBS_VALUE
+F,Y15-29,PC_POP,CH,Switzerland,2014,8.0
+F,Y15-29,PC_POP,CH,Switzerland,2015,7.7
+F,Y15-29,PC_POP,CH,Switzerland,2016,7.8
+F,Y15-29,PC_POP,CH,Switzerland,2017,7.1
+F,Y15-29,PC_POP,CH,Switzerland,2018,6.5
+F,Y15-29,PC_POP,CH,Switzerland,2019,6.0
+F,Y15-29,PC_POP,CH,Switzerland,2020,5.9
+F,Y15-29,PC_POP,CH,Switzerland,2023,7.9
+M,Y15-29,PC_POP,CH,Switzerland,2014,7.4
+M,Y15-29,PC_POP,CH,Switzerland,2015,7.0
+M,Y15-29,PC_POP,CH,Switzerland,2016,7.3
+M,Y15-29,PC_POP,CH,Switzerland,2017,7.3
+M,Y15-29,PC_POP,CH,Switzerland,2018,6.6
+M,Y15-29,PC_POP,CH,Switzerland,2019,6.5
+M,Y15-29,PC_POP,CH,Switzerland,2020,6.6
+M,Y15-29,PC_POP,CH,Switzerland,2023,7.5
+T,Y15-29,PC_POP,CH,Switzerland,2014,7.7
+T,Y15-29,PC_POP,CH,Switzerland,2015,7.3
+T,Y15-29,PC_POP,CH,Switzerland,2016,7.5
+T,Y15-29,PC_POP,CH,Switzerland,2017,7.2
+T,Y15-29,PC_POP,CH,Switzerland,2018,6.6
+T,Y15-29,PC_POP,CH,Switzerland,2019,6.2
+T,Y15-29,PC_POP,CH,Switzerland,2020,6.3
+T,Y15-29,PC_POP,CH,Switzerland,2023,7.7
