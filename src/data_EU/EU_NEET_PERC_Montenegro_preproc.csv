@@ -1,0 +1,22 @@
+sex,age,unit,geo,Geopolitical entity (reporting),TIME_PERIOD,OBS_VALUE
+F,Y15-29,PC_POP,ME,Montenegro,2014,22.5
+F,Y15-29,PC_POP,ME,Montenegro,2015,24.1
+F,Y15-29,PC_POP,ME,Montenegro,2016,23.1
+F,Y15-29,PC_POP,ME,Montenegro,2017,22.6
+F,Y15-29,PC_POP,ME,Montenegro,2018,20.8
+F,Y15-29,PC_POP,ME,Montenegro,2019,21.5
+F,Y15-29,PC_POP,ME,Montenegro,2020,26.9
+M,Y15-29,PC_POP,ME,Montenegro,2014,22.5
+M,Y15-29,PC_POP,ME,Montenegro,2015,22.8
+M,Y15-29,PC_POP,ME,Montenegro,2016,21.6
+M,Y15-29,PC_POP,ME,Montenegro,2017,20.3
+M,Y15-29,PC_POP,ME,Montenegro,2018,21.2
+M,Y15-29,PC_POP,ME,Montenegro,2019,21.0
+M,Y15-29,PC_POP,ME,Montenegro,2020,26.2
+T,Y15-29,PC_POP,ME,Montenegro,2014,22.5
+T,Y15-29,PC_POP,ME,Montenegro,2015,23.4
+T,Y15-29,PC_POP,ME,Montenegro,2016,22.3
+T,Y15-29,PC_POP,ME,Montenegro,2017,21.4
+T,Y15-29,PC_POP,ME,Montenegro,2018,21.0
+T,Y15-29,PC_POP,ME,Montenegro,2019,21.3
+T,Y15-29,PC_POP,ME,Montenegro,2020,26.6

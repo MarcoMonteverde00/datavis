@@ -12,8 +12,9 @@ toc: false
 
 ---
 <br>
+<h2><a href="neet1">The NEET phenomenon in Italy</a></h2>
 <h2><a href="neet2">Who are the NEETs in Italy?</a></h2>
-
+<h2><a href="neet3">Italy vs Europe</a></h2>
 
 <style>
 
