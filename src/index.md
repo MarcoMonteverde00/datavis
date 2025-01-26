@@ -3,7 +3,11 @@ toc: false
 ---
 
 <div class="hero">
-  <h1>Data Visualization by Shadow Wizards Money Gang</h1>
+  <h1>NEET in Italy </h1>
+  <br>
+  <h2> a Data Visualization Project</h2>
+  <h2>by Shadow Wizards Money Gang </h2>
+  <br>
   <h2>We love casting spells</h2>
 </div>
 
@@ -11,15 +15,19 @@ toc: false
 
 
 ---
-<br>
-<h2><a href="lab1">CO2 Emissions: an Overview</a></h2>
+The term <b>NEET</b> (Not in Education, Employment, or Training) refers to those individuals who are not engaged in any 
+employment, educational, or training activities.
+This phenomenon, relatively new, has gained significant attention over the past fifteen years and represents a challenge
+for the societies.
 
-<br>
-<h2><a href="lab2">Which Countries are the Worst Polluters</a></h2>
+This report aims to analyze the phenomenon in <b>Italy</b> focusing specifically on:
 
-<br>
-<h2><a href="lab3">Global Pollution by Country: How CO2 Shapes the World</a></h2>
+* describing its <b>development</b>:<h2><a href="neet1">The NEET phenomenon in Italy</a></h2>
+* understanding the <b>categories</b> of individuals most affected:<h2><a href="neet2">Who are the NEETs in Italy?</a></h2>
+* showing a comparison with the <b>European</b> situation: <h2><a href="neet3">Italy vs Europe</a></h2>
 
+Tha analysis will provide an overall picture of the phenomenon in Italy, offering some insights 
+into the challenges posed by NEETs.
 
 <style>
 
