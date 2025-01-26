@@ -1,0 +1,37 @@
+Sex,Citizenship,Family Role,Year,Value,Prop
+Male,Italian,Son/Daughter,2021,791.273,21.67
+Male,Italian,Son/Daughter,2022,657.139,18.06
+Male,Italian,Son/Daughter,2023,528.162,14.44
+Female,Italian,Son/Daughter,2021,648.527,20.55
+Female,Italian,Son/Daughter,2022,513.121,16.18
+Female,Italian,Son/Daughter,2023,427.877,13.25
+Male,Italian,Parent,2021,20.834,23.28
+Male,Italian,Parent,2022,13.424,16.47
+Male,Italian,Parent,2023,11.772,13.57
+Female,Italian,Parent,2021,156.525,64.83
+Female,Italian,Parent,2022,131.477,62.04
+Female,Italian,Parent,2023,131.459,61.71
+Male,Italian,Single/Partner without children/Other,2021,45.997,16.2
+Male,Italian,Single/Partner without children/Other,2022,44.837,14.67
+Male,Italian,Single/Partner without children/Other,2023,41.821,14.13
+Female,Italian,Single/Partner without children/Other,2021,76.087,24.44
+Female,Italian,Single/Partner without children/Other,2022,62.536,20.66
+Female,Italian,Single/Partner without children/Other,2023,55.074,19.83
+Male,Foreigner,Son/Daughter,2021,74.636,21.67
+Male,Foreigner,Son/Daughter,2022,60.642,18.06
+Male,Foreigner,Son/Daughter,2023,43.284,14.44
+Female,Foreigner,Son/Daughter,2021,57.962,20.55
+Female,Foreigner,Son/Daughter,2022,46.664,16.18
+Female,Foreigner,Son/Daughter,2023,34.121,13.25
+Male,Foreigner,Parent,2021,7.439,23.28
+Male,Foreigner,Parent,2022,3.914,16.47
+Male,Foreigner,Parent,2023,3.485,13.57
+Female,Foreigner,Parent,2021,99.162,64.83
+Female,Foreigner,Parent,2022,89.03,62.04
+Female,Foreigner,Parent,2023,82.775,61.71
+Male,Foreigner,Single/Partner without children/Other,2021,21.978,16.2
+Male,Foreigner,Single/Partner without children/Other,2022,20.503,14.67
+Male,Foreigner,Single/Partner without children/Other,2023,21.832,14.13
+Female,Foreigner,Single/Partner without children/Other,2021,31.206,24.44
+Female,Foreigner,Single/Partner without children/Other,2022,26.264,20.66
+Female,Foreigner,Single/Partner without children/Other,2023,23.37,19.83

@@ -1,0 +1,11 @@
+EU_NEET_PERC:
+source: Eurostat [Young people neither in employment nor in education and training (NEET), by sex and age - annual data] as 12/12/2024
+
+EU_poverty_risk_total_PERC:
+source: Eurostat [At-risk-of poverty rate by detailed age group - EU-SILC survey] as 06/12/2024
+
+EU_fatal_accidents_total_IR (incidence rate):
+source: Eurostat [Fatal accidents at work per 100 000 workers, by sex] as 19/11/2024
+
+EU_outside_labour_4_caring_total_PERC:
+source Eurostat [Persons outside the labour force due to caring responsibilities by sex] as 12/12/2024
